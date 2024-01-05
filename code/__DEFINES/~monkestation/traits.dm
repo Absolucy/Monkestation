@@ -17,6 +17,14 @@
 /// Station trait for when the clown has bridge access *shudders*
 #define STATION_TRAIT_CLOWN_BRIDGE "clown_bridge"
 
+// Holoara-specific traits
+#define TRAIT_HOLOPARA_BYSTANDER "holopara_bystander"
+#define TRAIT_HOLOPARA_ATTACHED "holopara_attached"
+
+#define HOLOPARASITE_STAT_TRAIT "holoparasite_stat"
+#define HOLOPARASITE_SCOUT_TRAIT "holoparasite_scout"
+#define HOLOPARASITE_CLOAK_TRAIT "holoparasite_cloak"
+
 // /obj/item
 /// Whether a storage item can be compressed by the bluespace compression kit, without the usual storage limitation.
 #define TRAIT_BYPASS_COMPRESS_CHECK "can_compress_anyways"
