@@ -5677,6 +5677,7 @@
 #include "monkestation\code\datums\status_effects\buffs.dm"
 #include "monkestation\code\datums\status_effects\disorient.dm"
 #include "monkestation\code\datums\status_effects\food_buffs.dm"
+#include "monkestation\code\datums\status_effects\one_way_road.dm"
 #include "monkestation\code\datums\wires\particle_accelerator.dm"
 #include "monkestation\code\game\atom.dm"
 #include "monkestation\code\game\sound.dm"
