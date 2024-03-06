@@ -1,6 +1,5 @@
 GLOBAL_VAR(dj_broadcast)
-GLOBAL_VAR(dj_booth)
-
+GLOBAL_DATUM(dj_booth, /obj/machinery/cassette/dj_station)
 
 /obj/item/clothing/ears
 	//can we be used to listen to radio?
@@ -8,40 +7,55 @@ GLOBAL_VAR(dj_booth)
 
 /obj/machinery/cassette/dj_station
 	name = "Cassette Player"
-	desc = "Plays Space Music Board approved cassettes for anyone in the station to listen to "
+	desc = "Plays Space Music Board approved cassettes for anyone in the station to listen to!"
 
 	icon = 'monkestation/code/modules/cassettes/icons/radio_station.dmi'
 	icon_state = "cassette_player"
 
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION
 
-	resistance_flags = INDESTRUCTIBLE
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
 	density = TRUE
+	move_resist = MOVE_FORCE_OVERPOWERING
 	var/broadcasting = FALSE
 	var/obj/item/device/cassette_tape/inserted_tape
-	var/time_left = 0
-	var/current_song_duration = 0
 	var/list/people_with_signals = list()
 	var/list/active_listeners = list()
-	var/waiting_for_yield = FALSE
 
 	//tape stuff goes here
 	var/pl_index = 0
 	var/list/current_playlist = list()
 	var/list/current_namelist = list()
 
-	COOLDOWN_DECLARE(next_song_timer)
+	/// The yt-dlp data of the current song being played.
+	var/datum/yt_dlp_info/current_song
+	/// The world time where the current song started playing.
+	var/song_start_time
+
+	var/last_hud_fraction
+	var/mutable_appearance/hover_appearance
+	var/datum/atom_hud/alternate_appearance/basic/music_cooldown/hover_popup
+
+	/// How long before another song can be played, after the previous song ends.
+	var/cooldown = 4 MINUTES
+	/// Whether the cassette player is ready for another interaction at the moment.
+	var/doing_a_thing = FALSE
+	// The cooldown timer for when a song can be played again.
+	COOLDOWN_DECLARE(song_cooldown)
 
 /obj/machinery/cassette/dj_station/Initialize(mapload)
 	. = ..()
-	GLOB.dj_booth = src
+	if(QDELETED(GLOB.dj_booth))
+		GLOB.dj_booth = src
 	register_context()
 
 /obj/machinery/cassette/dj_station/Destroy()
-	. = ..()
-	GLOB.dj_booth = null
+	if(GLOB.dj_booth == src)
+		GLOB.dj_booth = null
 	STOP_PROCESSING(SSprocessing, src)
+	QDEL_NULL(hover_popup)
+	return ..()
 
 /obj/machinery/cassette/dj_station/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
@@ -53,26 +67,18 @@ GLOBAL_VAR(dj_booth)
 
 /obj/machinery/cassette/dj_station/examine(mob/user)
 	. = ..()
-	if(time_left > 0 || next_song_timer)
-		. += span_notice("It seems to be cooling down, you estimate it will take about [time_left ? DisplayTimeText(((time_left * 10) + 6000)) : DisplayTimeText(COOLDOWN_TIMELEFT(src, next_song_timer))].")
+	if(!COOLDOWN_FINISHED(src, song_cooldown))
+		. += span_notice("It seems to be cooling down, you estimate it will take about [DisplayTimeText(COOLDOWN_TIMELEFT(src, song_cooldown))].")
 
 /obj/machinery/cassette/dj_station/process(seconds_per_tick)
-	if(waiting_for_yield)
-		return
-	time_left -= round(seconds_per_tick)
-	if(time_left < 0)
-		time_left = 0
-		if(COOLDOWN_FINISHED(src, next_song_timer) && broadcasting)
-			COOLDOWN_START(src, next_song_timer, 10 MINUTES)
-		broadcasting = 0
-
+	manage_hud_as_needed()
 /obj/machinery/cassette/dj_station/attack_hand(mob/user)
 	. = ..()
-	if(!inserted_tape)
+	if(QDELETED(inserted_tape))
 		return
-	if((!COOLDOWN_FINISHED(src, next_song_timer)) && !broadcasting)
-		to_chat(user, span_notice("The [src] feels hot to the touch and needs time to cooldown."))
-		to_chat(user, span_info("You estimate it will take about [time_left ? DisplayTimeText(((time_left * 10) + 6000)) : DisplayTimeText(COOLDOWN_TIMELEFT(src, next_song_timer))] to cool down."))
+	if((!COOLDOWN_FINISHED(src, song_cooldown)) && !broadcasting)
+		//to_chat(user, span_notice("The [src] feels hot to the touch and needs time to cooldown."))
+		//to_chat(user, span_info("You estimate it will take about [time_left ? DisplayTimeText(((time_left * 10) + 6000)) : DisplayTimeText(COOLDOWN_TIMELEFT(src, song_cooldown))] to cool down."))
 		return
 	message_admins("[src] started broadcasting [inserted_tape] interacted with by [user]")
 	logger.Log(LOG_CATEGORY_MUSIC, "[src] started broadcasting [inserted_tape]")
@@ -130,6 +136,86 @@ GLOBAL_VAR(dj_booth)
 			if(broadcasting)
 				stop_broadcast(TRUE)
 
+/obj/machinery/cassette/dj_station/MouseEntered(location, control, params)
+	. = ..()
+	if(!QDELETED(usr) && !COOLDOWN_FINISHED(src, song_cooldown))
+		manage_hud_as_needed()
+		hover_popup?.show_to(usr)
+
+/obj/machinery/cassette/dj_station/MouseExited(location, control, params)
+	. = ..()
+	if(!QDELETED(usr) && !QDELETED(hover_popup) && !COOLDOWN_FINISHED(src, song_cooldown))
+		hover_popup.hide_from(usr)
+		manage_hud_as_needed(cleanup = TRUE)
+
+/obj/machinery/cassette/dj_station/proc/get_current_progress_fraction()
+	if(COOLDOWN_FINISHED(src, song_cooldown))
+		return null
+	return get_visual_timer_fraction(world.time - (song_cooldown - cooldown), cooldown)
+
+/obj/machinery/cassette/dj_station/proc/manage_hud_as_needed(cleanup = FALSE)
+	if(COOLDOWN_FINISHED(src, song_cooldown) || (cleanup && !QDELETED(hover_popup) && !length(hover_popup.hud_users_all_z_levels)))
+		// don't bother keeping the hud around if it isn't needed
+		QDEL_NULL(hover_popup)
+		last_hud_fraction = null
+		return
+	if(!isnull(last_hud_fraction) && !QDELETED(hover_popup) && last_hud_fraction == get_current_progress_fraction())
+		// nothing's changed, don't waste time updating the circle thingymajig, just update the text
+		refresh_cooldown_maptext()
+		return
+	setup_hud()
+
+/obj/machinery/cassette/dj_station/proc/setup_hud()
+	// delete old hud if it exists and collect a list of its users
+	var/list/mob/old_users
+	if(!QDELETED(hover_popup))
+		old_users = hover_popup.hud_users_all_z_levels.Copy()
+		QDEL_NULL(hover_popup)
+
+	// setup new hover appearance
+	var/fraction = get_current_progress_fraction()
+	hover_appearance = image(visual_timer(fraction))
+	hover_appearance.pixel_y = 32
+	hover_appearance.loc = src
+	SET_PLANE_EXPLICIT(hover_appearance, HUD_PLANE, src)
+	hover_appearance.plane = HUD_PLANE
+	hover_appearance.appearance_flags = RESET_COLOR
+
+	// now setup the actual hud
+	hover_popup = add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/music_cooldown, "music_cooldown", hover_appearance)
+	// and the cooldown maptext
+	refresh_cooldown_maptext()
+
+	for(var/mob/old_user as anything in old_users)
+		if(QDELETED(old_user))
+			continue
+		hover_popup.show_to(old_user)
+
+/obj/machinery/cassette/dj_station/proc/refresh_cooldown_maptext()
+	if(!hover_popup)
+		return
+	if(!hover_popup.cooldown_maptext)
+		hover_popup.cooldown_maptext = image(loc = src, layer = CHAT_LAYER)
+		SET_PLANE_EXPLICIT(hover_popup.cooldown_maptext, HUD_PLANE, src)
+		hover_popup.cooldown_maptext.plane = HUD_PLANE
+		hover_popup.cooldown_maptext.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA | KEEP_APART
+		hover_popup.cooldown_maptext.maptext_width = world.icon_size
+		hover_popup.cooldown_maptext.maptext_height = world.icon_size / 2
+		hover_popup.cooldown_maptext.maptext_y = world.icon_size / 2
+	var/maptext
+	if(COOLDOWN_FINISHED(src, song_cooldown))
+		maptext = "ready!"
+	else
+		var/cooldown_in_seconds = round(COOLDOWN_TIMELEFT(src, song_cooldown) * 0.1)
+		var/minutes = FLOOR(cooldown_in_seconds / 60, 1)
+		if(minutes > 0)
+			var/seconds = round(cooldown_in_seconds % 60)
+			maptext = "[minutes]m [seconds]s"
+		else
+			maptext = "[cooldown_in_seconds]s"
+	hover_popup.cooldown_maptext.maptext = MAPTEXT_TINY_UNICODE("<span style='text-align: center'>[maptext]</span>")
+	hover_popup.give_cooldowns()
+
 /obj/machinery/cassette/dj_station/proc/insert_tape(obj/item/device/cassette_tape/CTape)
 	if(inserted_tape || !istype(CTape))
 		return
@@ -165,9 +251,7 @@ GLOBAL_VAR(dj_booth)
 		for(var/mob/living/carbon/anything as anything in people_with_signals)
 			if(!istype(anything))
 				continue
-			UnregisterSignal(anything, COMSIG_CARBON_UNEQUIP_EARS)
-			UnregisterSignal(anything, COMSIG_CARBON_EQUIP_EARS)
-			UnregisterSignal(anything, COMSIG_MOVABLE_Z_CHANGED)
+			UnregisterSignal(anything, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_CARBON_UNEQUIP_EARS, COMSIG_CARBON_EQUIP_EARS))
 		people_with_signals = list()
 
 /obj/machinery/cassette/dj_station/proc/start_broadcast()
@@ -191,8 +275,7 @@ GLOBAL_VAR(dj_booth)
 					continue
 
 				RegisterSignal(anything, COMSIG_CARBON_UNEQUIP_EARS, PROC_REF(stop_solo_broadcast))
-				RegisterSignal(anything, COMSIG_CARBON_EQUIP_EARS, PROC_REF(check_solo_broadcast))
-				RegisterSignal(anything, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(check_solo_broadcast))
+				RegisterSignals(anything, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_CARBON_EQUIP_EARS), PROC_REF(check_solo_broadcast))
 				people_with_signals |= anything
 
 			if(!(anything.client in active_listeners))
@@ -259,6 +342,7 @@ GLOBAL_VAR(dj_booth)
 	GLOB.youtube_exempt["dj-station"] -= source.client
 	source.client.tgui_panel?.stop_music()
 
+/*
 /obj/machinery/cassette/dj_station/proc/start_playing(list/clients)
 	if(!inserted_tape)
 		if(broadcasting)
@@ -335,12 +419,26 @@ GLOBAL_VAR(dj_booth)
 			GLOB.youtube_exempt["dj-station"] |= anything
 		broadcasting = TRUE
 	waiting_for_yield = FALSE
+*/
+
+/obj/machinery/cassette/dj_station/proc/ready()
+	return !doing_a_thing && COOLDOWN_FINISHED(src, song_cooldown)
+
+/obj/machinery/cassette/dj_station/proc/play_to_clients(list/clients)
+	if(isnull(current_song))
+		return FALSE
+	if(!islist(clients))
+		clients = list(clients)
+	for(var/client/client as anything in clients)
+		if(!istype(client))
+			continue
+		current_song.play(client)
+
 
 /obj/machinery/cassette/dj_station/proc/add_new_player(mob/living/carbon/new_player)
 	if(!(new_player in people_with_signals))
 		RegisterSignal(new_player, COMSIG_CARBON_UNEQUIP_EARS, PROC_REF(stop_solo_broadcast))
-		RegisterSignal(new_player, COMSIG_CARBON_EQUIP_EARS, PROC_REF(check_solo_broadcast))
-		RegisterSignal(new_player, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(check_solo_broadcast))
+		RegisterSignals(new_player, list(COMSIG_MOVABLE_Z_CHANGED, COMSIG_CARBON_EQUIP_EARS), PROC_REF(check_solo_broadcast))
 		people_with_signals |= new_player
 
 	if(!broadcasting)

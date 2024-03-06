@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(parsed_audio, list())
+//GLOBAL_LIST_INIT(parsed_audio, list())
 
 GLOBAL_LIST_INIT(youtube_exempt, list(
 	"walkman" = list(),

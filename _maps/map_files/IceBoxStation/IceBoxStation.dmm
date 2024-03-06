@@ -11969,6 +11969,13 @@
 /obj/machinery/air_sensor/ordnance_freezer_chamber,
 /turf/open/floor/iron/dark/airless,
 /area/station/science/ordnance/freezerchamber)
+"dJY" = (
+/obj/effect/turf_decal/tile/blue/half/contrasted{
+	dir = 1
+	},
+/obj/machinery/atm,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central)
 "dJZ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -14364,88 +14371,6 @@
 	},
 /turf/open/floor/plating,
 /area/station/medical/pathology)
-"ezF" = (
-/obj/structure/table/wood,
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/friday{
-	pixel_y = 2;
-	pixel_x = 9
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/turf/open/floor/glass,
-/area/station/service/library)
 "ezJ" = (
 /obj/machinery/light/directional/east,
 /turf/open/floor/glass/reinforced,
@@ -20620,6 +20545,46 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
+"gBT" = (
+/obj/structure/table/wood,
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/turf/open/floor/glass,
+/area/station/service/library)
 "gBX" = (
 /obj/structure/cable,
 /obj/effect/spawner/structure/window/hollow/reinforced/middle{
@@ -25717,14 +25682,6 @@
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/iron/white,
 /area/station/science/ordnance)
-"inm" = (
-/obj/structure/table/wood,
-/obj/structure/cassette_rack{
-	pixel_x = -5;
-	pixel_y = 12
-	},
-/turf/open/floor/glass,
-/area/station/service/library)
 "inw" = (
 /obj/machinery/door/airlock/engineering{
 	name = "Port Bow Solar Access"
@@ -33883,13 +33840,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden,
 /turf/open/floor/iron/showroomfloor,
 /area/station/engineering/atmos)
-"kRB" = (
-/obj/effect/turf_decal/tile/blue/half/contrasted{
-	dir = 1
-	},
-/obj/machinery/atm,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central)
 "kRE" = (
 /obj/machinery/computer/mech_bay_power_console{
 	dir = 8
@@ -38644,6 +38594,13 @@
 /obj/item/clothing/ears/earmuffs,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/range)
+"mya" = (
+/obj/structure/table/wood,
+/obj/structure/cassette_rack/prefilled{
+	pixel_y = 8
+	},
+/turf/open/floor/glass,
+/area/station/service/library)
 "mye" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/structure/disposalpipe/segment,
@@ -234065,7 +234022,7 @@ cpm
 cpm
 cpm
 cpm
-kRB
+dJY
 iuv
 dnq
 paM
@@ -252798,7 +252755,7 @@ spW
 kVE
 goi
 iQQ
-inm
+mya
 feW
 dbj
 hUD
@@ -253056,7 +253013,7 @@ hUD
 hUD
 hUD
 qWd
-ezF
+gBT
 wgh
 hUD
 gEE

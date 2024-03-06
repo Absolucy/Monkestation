@@ -478,9 +478,15 @@ GLOBAL_VAR(restart_counter)
 		CRASH("Error initializing byond-tracy: [init_result]")
 
 /world/proc/init_debugger()
-	var/dll = GetConfig("env", "AUXTOOLS_DEBUG_DLL")
+	var/dll = "C:\\Users\\Lucy\\Documents\\Code\\auxtools\\target\\i686-pc-windows-msvc\\release\\debug_server.dll"
 	if (dll)
-		call_ext(dll, "auxtools_init")()
+		world.log << "Initializing auxtools with [dll]..."
+		if (fexists(dll))
+			var/string = call_ext(dll, "auxtools_init")();
+			if(!findtext(string, "SUCCESS"))
+				CRASH("Failed to initialize auxtools: [string]")
+		else
+			CRASH("No file named [dll] found!")
 		enable_debugging()
 
 /world/Profile(command, type, format)

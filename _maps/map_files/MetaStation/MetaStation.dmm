@@ -2682,88 +2682,6 @@
 /obj/effect/landmark/start/botanist,
 /turf/open/floor/iron,
 /area/station/service/hydroponics)
-"aWj" = (
-/obj/structure/table/wood,
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/walkman{
-	pixel_y = 7;
-	pixel_x = -8
-	},
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/blank,
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/friday{
-	pixel_y = 2;
-	pixel_x = 9
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/obj/item/device/cassette_tape/random{
-	pixel_y = 8
-	},
-/turf/open/floor/iron/vaporwave,
-/area/station/service/library)
 "aWl" = (
 /obj/effect/spawner/random/structure/grille,
 /turf/open/floor/plating/airless,
@@ -4952,6 +4870,46 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
+"bKQ" = (
+/obj/structure/table/wood,
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/obj/item/device/walkman{
+	pixel_y = 7;
+	pixel_x = -8
+	},
+/turf/open/floor/iron/vaporwave,
+/area/station/service/library)
 "bKT" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Prison Forestry"
@@ -6861,6 +6819,15 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/general,
 /turf/open/floor/iron/white,
 /area/station/medical/abandoned)
+"czo" = (
+/obj/structure/sign/poster/random/directional/east,
+/obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
+/obj/structure/cable,
+/obj/machinery/door/airlock/research/glass{
+	name = "Artifact Experimentation Science Lab"
+	},
+/turf/open/floor/plating,
+/area/station/science/explab)
 "czs" = (
 /obj/structure/easel,
 /obj/effect/mapping_helpers/broken_floor,
@@ -16187,15 +16154,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
-"gfh" = (
-/obj/structure/sign/poster/random/directional/east,
-/obj/effect/mapping_helpers/airlock/access/any/science/maintenance,
-/obj/structure/cable,
-/obj/machinery/door/airlock/research/glass{
-	name = "Artifact Experimentation Science Lab"
-	},
-/turf/open/floor/plating,
-/area/station/science/explab)
 "gfk" = (
 /obj/structure/table/wood,
 /obj/item/phone{
@@ -18825,18 +18783,6 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/pharmacy,
 /turf/open/floor/plating,
 /area/station/maintenance/aft/greater)
-"haA" = (
-/obj/structure/table/wood,
-/obj/item/paper_bin{
-	pixel_x = 10
-	},
-/obj/item/pen/invisible,
-/obj/structure/cassette_rack{
-	pixel_x = -5;
-	pixel_y = 12
-	},
-/turf/open/floor/iron/vaporwave,
-/area/station/service/library)
 "haE" = (
 /obj/structure/mirror/directional/east,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -43978,6 +43924,17 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/hallway/primary/port)
+"pKF" = (
+/obj/structure/table/wood,
+/obj/item/paper_bin{
+	pixel_x = 10
+	},
+/obj/item/pen/invisible,
+/obj/structure/cassette_rack/prefilled{
+	pixel_y = 8
+	},
+/turf/open/floor/iron/vaporwave,
+/area/station/service/library)
 "pKP" = (
 /turf/closed/wall,
 /area/station/command/heads_quarters/cmo)
@@ -89162,7 +89119,7 @@ fUM
 sVY
 ils
 ymh
-aWj
+bKQ
 sVY
 pOa
 sQY
@@ -89419,7 +89376,7 @@ wih
 sVY
 maB
 mda
-haA
+pKF
 sVY
 vXH
 sQY
@@ -101030,7 +100987,7 @@ naE
 naE
 naE
 kyo
-gfh
+czo
 ekD
 mrR
 woR

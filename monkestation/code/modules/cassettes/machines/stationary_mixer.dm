@@ -20,10 +20,10 @@
 		return ..()
 	if(!tape)
 		insert_tape(cassette)
-		playsound(src,'sound/weapons/handcuffs.ogg',20,1)
-		to_chat(user,"You insert \the [cassette] into \the [src]")
+		playsound(src, 'sound/weapons/handcuffs.ogg', vol = 20, vary = TRUE)
+		to_chat(user, span_notice("You insert [cassette] into [src]"))
 	else
-		to_chat(user,"Remove a tape first!")
+		to_chat(user, span_warning("Remove a tape first!"))
 
 /obj/machinery/cassette/adv_cassette_deck/proc/insert_tape(obj/item/device/cassette_tape/CTape)
 	if(tape || !istype(CTape))
@@ -39,11 +39,11 @@
 
 /obj/machinery/cassette/adv_cassette_deck/ui_status(mob/user)
 	if(!anchored)
-		to_chat(user,"<span class='warning'>This device must be anchored by a wrench!</span>")
+		to_chat(user, span_warning("This device must be anchored by a wrench!"))
 		return UI_CLOSE
 	if(!allowed(user) && !isobserver(user))
-		to_chat(user,"<span class='warning'>Error: Access Denied.</span>")
-		user.playsound_local(src, 'sound/misc/compiler-failure.ogg', 25, TRUE)
+		to_chat(user, span_warning("Error: Access Denied."))
+		user.playsound_local(src, 'sound/misc/compiler-failure.ogg', vol = 25, vary = TRUE)
 		return UI_CLOSE
 	return ..()
 
@@ -86,21 +86,21 @@
 			return TRUE
 		if("eject")
 			if(!tape)
-				to_chat(usr,"Error: No Cassette Inserted Please Insert a Cassette!")
+				to_chat(usr, span_warning("Error: No cassette Inserted, please insert a cassette!"))
 				return
 			eject_tape(usr)
 			return
 		if("url")
 			///the input of the videos ID
-			var/url = stripped_input(usr, "Insert the ID of the video in question (characters after the =):", no_trim = TRUE)
+			var/url = tgui_input_text(usr, "Insert the YouTube URL or ID of the video in question", "Mixtape Crafting", encode = FALSE)
 			var/list/data
 			///the REGEX used for determining if its a valid ID or not
-			var/static/regex/link_check = regex(@"^[a-zA-Z0-9_.-]{11}$")
-			if(!link_check.Find(url))
+			var/static/regex/youtube_id_extract = regex(@"((\w|-){11})")
+			if(!youtube_id_extract.Find(url) || !length(youtube_id_extract.group?[1]))
 				to_chat(usr, "Error: Bad ID!")
 				return
 			///The Finished url to add to the song list
-			var/url_stuck = "https://www.youtube.com/watch?v=[url]"
+			var/url_stuck = "https://www.youtube.com/watch?v=[youtube_id_extract.group[1]]"
 			///invoking youtube-dl
 			var/ytdl = CONFIG_GET(string/invoke_youtubedl)
 			/// all the extra data youtube-dl gives us we are only interested in the title however
@@ -137,7 +137,7 @@
 					return
 				tape.songs["side2"] += url_stuck
 				tape.song_names["side2"] += data["title"]
-			to_chat(usr, span_notice("The [src] makes a clicking noise as the song is added to the cassette."))
+			to_chat(usr, span_notice("\The [src] makes a clicking noise as the song is added to the cassette."))
 			tape.approved_tape = FALSE
 			if(ishuman(usr))
 				var/mob/living/carbon/human/user = usr
@@ -145,11 +145,11 @@
 				tape.ckey_author = user.client?.ckey
 			tape.update_appearance()
 
-			playsound(src,'sound/weapons/handcuffs.ogg',20,1)
+			playsound(src, 'sound/weapons/handcuffs.ogg', vol = 20, vary = TRUE)
 
 		if("design")
 			if(!tape)
-				to_chat(usr,"Error: No Cassette Inserted Please Insert a Cassette!")
+				to_chat(usr, span_warning("Error: No cassette Inserted, please insert a cassette!"))
 				return
 			///design paths for the designer used to add a sticker to cassettes
 			var/list/design_path = list("cassette_flip",\
