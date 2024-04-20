@@ -48,10 +48,12 @@
 	if(being_reset)
 		return
 	being_reset = TRUE
-	var/list/mob/dead/observer/candidates = poll_ghost_candidates(
+	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(
 		"Do you want to play as [summoner.name]'s [real_name], a [theme.name]?",
-		jobban_type = ROLE_HOLOPARASITE,
-		poll_time = 30 SECONDS
+		check_jobban = ROLE_HOLOPARASITE,
+		poll_time = 30 SECONDS,
+		ignore_category = POLL_IGNORE_HOLOPARASITE,
+		role_name_text = "[theme.name || "holoparasite"]"
 	)
 	being_reset = FALSE
 	if(!length(candidates))

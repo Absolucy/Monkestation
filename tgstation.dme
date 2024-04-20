@@ -416,6 +416,7 @@
 #include "code\__DEFINES\~monkestation\power.dm"
 #include "code\__DEFINES\~monkestation\projectiles.dm"
 #include "code\__DEFINES\~monkestation\robots.dm"
+#include "code\__DEFINES\~monkestation\say.dm"
 #include "code\__DEFINES\~monkestation\slimes.dm"
 #include "code\__DEFINES\~monkestation\smoothing.dm"
 #include "code\__DEFINES\~monkestation\span.dm"
