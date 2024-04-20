@@ -101,46 +101,8 @@
  * Heals a living mob.
  */
 /datum/holoparasite_ability/major/healing/proc/heal_living(mob/living/target)
-	var/actual_heal_amt = heal_amt
-	var/actual_effect_heal_amt = effect_heal_amt
-	var/actual_purge_amt = purge_amt
-	if(!owner.is_manifested())
-		actual_heal_amt = CEILING(max(heal_amt * 0.5, 2), 0.5)
-		actual_effect_heal_amt = CEILING(max(effect_heal_amt * 0.45, 1), 1)
-		actual_purge_amt = CEILING(max(purge_amt * 0.5, 1), 0.5)
-	else if(target.stat && !owner.has_matching_summoner(target))
-		actual_heal_amt = CEILING(heal_amt * 1.25, 0.5)
-		actual_effect_heal_amt = CEILING(heal_amt * 1.25, 1)
-		actual_purge_amt = CEILING(purge_amt * 1.25, 0.5)
-	target.heal_overall_damage(brute = actual_heal_amt, burn = actual_heal_amt, updating_health = FALSE)
-	target.adjustOxyLoss(-actual_heal_amt, updating_health = FALSE)
-	target.adjustToxLoss(-actual_heal_amt, updating_health = FALSE, forced = TRUE)
-
-	if(iscarbon(target))
-		var/mob/living/carbon/carbon_target = target
-		if(!HAS_TRAIT(carbon_target, TRAIT_NOBLOOD))
-			carbon_target.blood_volume = min(carbon_target.blood_volume + actual_heal_amt, HOLOPARA_MAX_BLOOD_VOLUME_HEAL)
-			for(var/obj/item/bodypart/bodypart in carbon_target.bodyparts)
-				bodypart.adjustBleedStacks(-actual_heal_amt)
-
-	if(purge_toxins)
-		var/list/reagents_purged = list()
-		for(var/datum/reagent/reagent in target.reagents.reagent_list)
-			var/remove = FALSE
-			if(istype(reagent, /datum/reagent/toxin))
-				var/datum/reagent/toxin/toxin_reagent = reagent
-				// Don't remove toxins from toxin lovers.
-				if(toxin_reagent.toxpwr > 0 && HAS_TRAIT(target, TRAIT_TOXINLOVER))
-					continue
-				remove = TRUE
-			if(reagent.overdosed)
-				remove = TRUE
-			if(remove)
-				reagents_purged |= "[reagent.type]"
-				target.reagents.remove_reagent(reagent.type, actual_purge_amt)
-	if(heal_clone)
-		target.adjustCloneLoss(-max(CEILING(actual_heal_amt * 0.75, 0.5), 1), updating_health = FALSE)
-	target.updatehealth()
+	// TODO: deshittify this lol
+	return
 
 /**
  * Heals an object.
