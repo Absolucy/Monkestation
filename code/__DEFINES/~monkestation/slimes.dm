@@ -78,3 +78,8 @@
 
 
 #define TRAIT_RAINBOWED "rainbowed"
+
+/// How many units of slime ooze are required for a normal extract recipe.
+#define EXTRACT_RECIPE_OOZE_AMOUNT		20
+/// How many units of slime ooze (of each color) are required for a crossbreed recipe.
+#define CROSSBREED_RECIPE_OOZE_AMOUNT	250
