@@ -384,8 +384,7 @@
 			continue
 		if(random && listed.syringe_blocked)
 			continue
-		valid_choices += listed
-		valid_choices[listed] = listed.weight
+		valid_choices[listed] = GLOB.unlocked_slime_colors[listed.type] ? listed.weight : round(listed.weight * 1.5) // slimes that haven't been unlocked yet are more likely to be picked
 	if(!length(valid_choices))
 		return FALSE
 

@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(unlocked_slime_colors, list())
+GLOBAL_LIST_EMPTY(unlocked_slime_colors)
 
 /datum/slime_color
 	///the name of the slime color
@@ -17,9 +17,9 @@ GLOBAL_LIST_INIT(unlocked_slime_colors, list())
 
 /datum/slime_color/New()
 	. = ..()
-	if(!(type in GLOB.unlocked_slime_colors))
+	if(!GLOB.unlocked_slime_colors[type])
 		on_first_unlock()
-		GLOB.unlocked_slime_colors |= type
+		GLOB.unlocked_slime_colors[type] = TRUE
 
 /datum/slime_color/proc/on_first_unlock()
 	return
