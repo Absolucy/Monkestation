@@ -75,6 +75,7 @@
 
 #define COMSIG_FRIENDSHIP_CHECK_LEVEL "friendship_check_level"
 #define COMSIG_FRIENDSHIP_CHANGE "friendship_change"
+#define COMSIG_SLIME_SPLIT "slime_split" // (mob/living/basic/slime/new_slime)
 
 
 #define TRAIT_RAINBOWED "rainbowed"

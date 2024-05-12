@@ -6873,7 +6873,7 @@
 #include "monkestation\code\modules\slimecore\assets\xenobiology.dm"
 #include "monkestation\code\modules\slimecore\components\basic_scared_of_item.dm"
 #include "monkestation\code\modules\slimecore\components\emotion_buffer.dm"
-#include "monkestation\code\modules\slimecore\components\friendship_tracker.dm"
+#include "monkestation\code\modules\slimecore\components\friendship_container.dm"
 #include "monkestation\code\modules\slimecore\components\generic_mob_hunger.dm"
 #include "monkestation\code\modules\slimecore\components\latch_feeding.dm"
 #include "monkestation\code\modules\slimecore\components\liquid_secretion.dm"

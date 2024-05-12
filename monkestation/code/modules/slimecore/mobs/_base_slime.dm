@@ -325,6 +325,7 @@
 	new_slime.mutation_chance = mutation_chance
 	for(var/datum/slime_trait/trait as anything in slime_traits)
 		new_slime.add_trait(trait.type)
+	SEND_SIGNAL(src, COMSIG_SLIME_SPLIT, new_slime)
 
 /mob/living/basic/slime/proc/start_mutating(random = FALSE)
 	if(!pick_mutation(random))

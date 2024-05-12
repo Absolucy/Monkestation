@@ -20,10 +20,10 @@
 /datum/component/friendship_container/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_FRIENDSHIP_CHECK_LEVEL, PROC_REF(check_friendship_level))
 	RegisterSignal(parent, COMSIG_FRIENDSHIP_CHANGE, PROC_REF(change_friendship))
+	RegisterSignal(parent, COMSIG_SLIME_SPLIT, PROC_REF(on_slime_split))
 
 /datum/component/friendship_container/UnregisterFromParent()
-	UnregisterSignal(parent, COMSIG_FRIENDSHIP_CHECK_LEVEL)
-	UnregisterSignal(parent, COMSIG_FRIENDSHIP_CHANGE)
+	UnregisterSignal(parent, list(COMSIG_FRIENDSHIP_CHECK_LEVEL, COMSIG_FRIENDSHIP_CHANGE, COMSIG_SLIME_SPLIT))
 
 /datum/component/friendship_container/proc/change_friendship(mob/living/source, atom/target, amount)
 	for(var/datum/weakref/ref as anything in weakrefed_friends)
@@ -54,3 +54,16 @@
 				return TRUE
 			return FALSE
 	return FALSE
+
+/datum/component/friendship_container/proc/on_slime_split(mob/living/basic/slime/source, mob/living/basic/slime/new_slime)
+	SIGNAL_HANDLER
+	if(!istype(source) || !istype(new_slime))
+		return
+	for(var/datum/weakref/ref as anything in weakrefed_friends)
+		var/amount = weakrefed_friends[ref]
+		var/atom/friend = ref.resolve()
+		if(!amount || QDELETED(friend))
+			continue
+		var/multiplier = rand(50, 95) * 0.01
+		SEND_SIGNAL(new_slime, COMSIG_FRIENDSHIP_CHANGE, friend, round(amount * multiplier))
+
