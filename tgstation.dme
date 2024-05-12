@@ -6887,6 +6887,7 @@
 #include "monkestation\code\modules\slimecore\corral\upgrades\obliteration_upgrade.dm"
 #include "monkestation\code\modules\slimecore\crossbreeding\__corecross.dm"
 #include "monkestation\code\modules\slimecore\crossbreeding\industrial.dm"
+#include "monkestation\code\modules\slimecore\crossbreeding\stabilized.dm"
 #include "monkestation\code\modules\slimecore\items\mutation_syringe.dm"
 #include "monkestation\code\modules\slimecore\items\vacuum_pack.dm"
 #include "monkestation\code\modules\slimecore\machines\biomass_recycler.dm"
