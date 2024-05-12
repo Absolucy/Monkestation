@@ -799,7 +799,7 @@
 		to_chat(user, span_warning("The slime is already producing too much ooze!"))
 		return
 	to_chat(user, span_notice("You feed the slime the steroid. It will now produce more ooze."))
-	M.ooze_production++
+	M.ooze_production = min(M.ooze_production + 10, 50) // monkestation edit: xenobio rework
 	qdel(src)
 
 /obj/item/slimepotion/enhancer

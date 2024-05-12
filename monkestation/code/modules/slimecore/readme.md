@@ -13,7 +13,7 @@ This PR trys to rework slimes into the cool little blobs they always should have
 ### TG Proc/File Changes:
 
 <!-- If you had to edit, or append to any core procs in the process of making this PR, list them here. APPEND: Also, please include any files that you've changed. .DM files that is. -->
-	- N/A
+	- code\modules\research\xenobiology\xenobiology.dm
 
 ### Defines:
 
