@@ -47,6 +47,9 @@
 	var/obj/machinery/biomass_recycler/linked
 	var/give_choice = TRUE //If set to true the pack will give the owner a radial selection to choose which object they want to shoot
 	var/check_backpack = TRUE //If it can only be used while worn on the back
+	/// The matter bin the pack uses. Determines how many slimes it can store.
+	/// If set to a path, said path will be used to create the matter bin on init.
+	var/obj/item/stock_parts/matter_bin/matter_bin = /obj/item/stock_parts/matter_bin
 	var/static/list/storable_objects = typecacheof(list(/mob/living/basic/slime,
 														/mob/living/basic/cockroach/rockroach,
 														))
@@ -59,6 +62,11 @@
 /obj/item/vacuum_pack/Initialize(mapload)
 	. = ..()
 	nozzle = new nozzle_type(src)
+	if(ispath(matter_bin, /obj/item/stock_parts/matter_bin))
+		matter_bin = new matter_bin(src)
+	else
+		matter_bin = null
+	calculate_parts()
 
 /obj/item/vacuum_pack/Destroy()
 	QDEL_NULL(nozzle)
@@ -95,24 +103,44 @@
 		return ..()
 
 	if(istype(item, /obj/item/disk/vacuum_upgrade))
-		var/obj/item/disk/vacuum_upgrade/upgrade = item
-
-		if(illegal)
-			to_chat(user, span_warning("[src] has no slot to insert [upgrade] into!"))
-			return
-
-		if(upgrade.upgrade_type in upgrades)
-			to_chat(user, span_warning("[src] already has a [upgrade.upgrade_type] upgrade!"))
-			return
-
-		upgrades += upgrade.upgrade_type
-		upgrade.on_upgrade(src)
-		to_chat(user, span_notice("You install a [upgrade.upgrade_type] upgrade into [src]."))
-		playsound(user, 'sound/machines/click.ogg', 30, TRUE)
-		qdel(upgrade)
+		install_upgrade(user, item)
+		return
+	else if(istype(item, /obj/item/stock_parts/matter_bin))
+		swap_part(user, &src.matter_bin, item)
 		return
 
 	return ..()
+
+/obj/item/vacuum_pack/proc/install_upgrade(mob/living/user, obj/item/disk/vacuum_upgrade/upgrade)
+	if(illegal)
+		to_chat(user, span_warning("[src] has no slot to insert [upgrade] into!"))
+		return
+
+	if(upgrade.upgrade_type in upgrades)
+		to_chat(user, span_warning("[src] already has a [upgrade.upgrade_type] upgrade!"))
+		return
+
+	upgrades += upgrade.upgrade_type
+	upgrade.on_upgrade(src)
+	to_chat(user, span_notice("You install a [upgrade.upgrade_type] upgrade into [src]."))
+	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
+	qdel(upgrade)
+
+/obj/item/vacuum_pack/proc/swap_part(mob/living/user, part_ptr, obj/item/new_part)
+	var/obj/item/old_part = *part_ptr
+	if(!user.transferItemToLoc(new_part, src))
+		return
+	*part_ptr = new_part
+	if(!QDELETED(old_part))
+		old_part.forceMove(drop_location())
+		user.put_in_hands(old_part)
+		to_chat(user, span_notice("You swap \the [old_part] in [src] with \the [new_part]."))
+	else
+		to_chat(user, span_notice("You insert \the [new_part] into [src]."))
+	calculate_parts()
+
+/obj/item/vacuum_pack/proc/calculate_parts()
+	capacity = QDELETED(matter_bin) ? 0 : clamp(src::capacity + (matter_bin.rating - 1), NORMAL_VACUUM_PACK_CAPACITY, ILLEGAL_VACUUM_PACK_CAPACITY)
 
 /obj/item/vacuum_pack/ui_action_click(mob/user)
 	toggle_nozzle(user)
@@ -173,6 +201,12 @@
 /obj/item/vacuum_pack/dropped(mob/user)
 	..()
 	remove_nozzle()
+
+/obj/item/vacuum_pack/empty
+	matter_bin = null
+
+/obj/item/vacuum_pack/upgraded
+	matter_bin = /obj/item/stock_parts/matter_bin/bluespace
 
 /obj/item/vacuum_nozzle
 	name = "vacuum pack nozzle"
