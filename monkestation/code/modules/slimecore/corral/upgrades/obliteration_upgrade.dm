@@ -6,9 +6,13 @@
 
 /datum/corral_upgrade/obliteration_upgrade/on_add(datum/corral_data/parent)
 	for(var/mob/living/basic/slime/slime as anything in parent.managed_slimes)
+		if(slime.ckey)
+			continue
 		parent.managed_slimes -= slime
 		qdel(slime)
 
 /datum/corral_upgrade/obliteration_upgrade/on_slime_entered(mob/living/basic/slime/slime, datum/corral_data/parent)
+	if(slime.ckey)
+		return
 	parent.managed_slimes -= slime
 	qdel(slime)
