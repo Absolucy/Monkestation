@@ -36,6 +36,11 @@
 	max_integrity = 200
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
+	/// The matter bin (will be initialized from the path) the pack uses. Determines how many slimes it can store.
+	var/obj/item/stock_parts/matter_bin/matter_bin = /obj/item/stock_parts/matter_bin
+	/// The capacitor (will be initialized from the path) the pack uses. Determines the speed of the nozzle.
+	var/obj/item/stock_parts/capacitor/capacitor = /obj/item/stock_parts/capacitor
+
 	var/obj/item/vacuum_nozzle/nozzle
 	var/nozzle_type = /obj/item/vacuum_nozzle
 	var/list/stored = list()
@@ -47,9 +52,6 @@
 	var/obj/machinery/biomass_recycler/linked
 	var/give_choice = TRUE //If set to true the pack will give the owner a radial selection to choose which object they want to shoot
 	var/check_backpack = TRUE //If it can only be used while worn on the back
-	/// The matter bin the pack uses. Determines how many slimes it can store.
-	/// If set to a path, said path will be used to create the matter bin on init.
-	var/obj/item/stock_parts/matter_bin/matter_bin = /obj/item/stock_parts/matter_bin
 	var/static/list/storable_objects = typecacheof(list(/mob/living/basic/slime,
 														/mob/living/basic/cockroach/rockroach,
 														))
@@ -62,11 +64,16 @@
 /obj/item/vacuum_pack/Initialize(mapload)
 	. = ..()
 	nozzle = new nozzle_type(src)
-	if(ispath(matter_bin, /obj/item/stock_parts/matter_bin))
-		matter_bin = new matter_bin(src)
-	else
-		matter_bin = null
+	initialize_part(/obj/item/stock_parts/matter_bin, "matter_bin")
+	initialize_part(/obj/item/stock_parts/capacitor, "capacitor")
 	calculate_parts()
+
+/obj/item/vacuum_pack/proc/initialize_part(base_path, var_name)
+	var/initial_path = vars[var_name]
+	if(ispath(initial_path, base_path))
+		vars[var_name] = new initial_path(src)
+	else
+		vars[var_name] = null
 
 /obj/item/vacuum_pack/Destroy()
 	QDEL_NULL(nozzle)
@@ -81,7 +88,7 @@
 
 /obj/item/vacuum_pack/process(delta_time)
 	if(!(VACUUM_PACK_UPGRADE_HEALING in upgrades))
-		STOP_PROCESSING(SSobj, src)
+		return PROCESS_KILL
 
 	for(var/mob/living/basic/animal in stored)
 		animal.adjustBruteLoss(-5 * delta_time)
@@ -93,6 +100,14 @@
 	if(LAZYLEN(upgrades))
 		for(var/upgrade in upgrades)
 			. += span_notice("It has [upgrade] upgrade installed.")
+	if(!QDELETED(matter_bin))
+		. += span_notice("It has a [icon2html(matter_bin, user)] [span_bold("[matter_bin]")] installed[matter_bin.rating > 1 ? ", boosting its capacity by [matter_bin.rating - 1]" : ""].")
+	else
+		. += span_warning("It does not have a matter bin installed!")
+	if(!QDELETED(capacitor))
+		. += span_notice("It has a [icon2html(capacitor, user)] [span_bold("[capacitor]")] installed[capacitor.rating > 1 ? ", boosting its speed by [capacitor.rating - 1]" : ""].")
+	else
+		. += span_warning("It does not have a capacitor installed!")
 
 /obj/item/vacuum_pack/attackby(obj/item/item, mob/living/user, params)
 	if(item == nozzle)
@@ -106,7 +121,10 @@
 		install_upgrade(user, item)
 		return
 	else if(istype(item, /obj/item/stock_parts/matter_bin))
-		swap_part(user, &src.matter_bin, item)
+		swap_part(user, item, "matter_bin")
+		return
+	else if(istype(item, /obj/item/stock_parts/capacitor))
+		swap_part(user, item, "capacitor")
 		return
 
 	return ..()
@@ -126,11 +144,11 @@
 	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
 	qdel(upgrade)
 
-/obj/item/vacuum_pack/proc/swap_part(mob/living/user, part_ptr, obj/item/new_part)
-	var/obj/item/old_part = *part_ptr
+/obj/item/vacuum_pack/proc/swap_part(mob/living/user, obj/item/new_part, var_name)
+	var/obj/item/old_part = vars[var_name]
 	if(!user.transferItemToLoc(new_part, src))
 		return
-	*part_ptr = new_part
+	vars[var_name] = new_part
 	if(!QDELETED(old_part))
 		old_part.forceMove(drop_location())
 		user.put_in_hands(old_part)
@@ -141,6 +159,7 @@
 
 /obj/item/vacuum_pack/proc/calculate_parts()
 	capacity = QDELETED(matter_bin) ? 0 : clamp(src::capacity + (matter_bin.rating - 1), NORMAL_VACUUM_PACK_CAPACITY, ILLEGAL_VACUUM_PACK_CAPACITY)
+	speed = QDELETED(capacitor) ? 20 : clamp(src::speed - (capacitor.rating - 1), ILLEGAL_VACUUM_PACK_SPEED, NORMAL_VACUUM_PACK_SPEED)
 
 /obj/item/vacuum_pack/ui_action_click(mob/user)
 	toggle_nozzle(user)
@@ -207,6 +226,7 @@
 
 /obj/item/vacuum_pack/upgraded
 	matter_bin = /obj/item/stock_parts/matter_bin/bluespace
+	capacitor =  /obj/item/stock_parts/capacitor/quadratic
 
 /obj/item/vacuum_nozzle
 	name = "vacuum pack nozzle"
