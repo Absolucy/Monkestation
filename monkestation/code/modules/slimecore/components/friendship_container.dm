@@ -64,6 +64,6 @@
 		var/atom/friend = ref.resolve()
 		if(!amount || QDELETED(friend))
 			continue
-		var/multiplier = rand(50, 95) * 0.01
+		var/multiplier = rand(50, 75) * 0.01
 		SEND_SIGNAL(new_slime, COMSIG_FRIENDSHIP_CHANGE, friend, round(amount * multiplier))
 

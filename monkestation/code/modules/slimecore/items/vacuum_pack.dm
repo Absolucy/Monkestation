@@ -13,8 +13,6 @@
 #define VACUUM_PACK_UPGRADE_STASIS "stasis"
 #define VACUUM_PACK_UPGRADE_HEALING "healing"
 #define VACUUM_PACK_UPGRADE_CAPACITY "capacity"
-#define VACUUM_PACK_UPGRADE_RANGE "range"
-#define VACUUM_PACK_UPGRADE_SPEED "speed"
 #define VACUUM_PACK_UPGRADE_PACIFY "pacification"
 #define VACUUM_PACK_UPGRADE_BIOMASS "biomass printer"
 
@@ -218,15 +216,16 @@
 	return ..()
 
 /obj/item/vacuum_pack/dropped(mob/user)
-	..()
+	. = ..()
 	remove_nozzle()
 
 /obj/item/vacuum_pack/empty
 	matter_bin = null
+	capacitor = null
 
 /obj/item/vacuum_pack/upgraded
 	matter_bin = /obj/item/stock_parts/matter_bin/bluespace
-	capacitor =  /obj/item/stock_parts/capacitor/quadratic
+	capacitor = /obj/item/stock_parts/capacitor/quadratic
 
 /obj/item/vacuum_nozzle
 	name = "vacuum pack nozzle"
@@ -568,30 +567,6 @@
 /obj/item/disk/vacuum_upgrade/healing/on_upgrade(obj/item/vacuum_pack/pack)
 	START_PROCESSING(SSobj, pack)
 
-/obj/item/disk/vacuum_upgrade/capacity
-	name = "vacuum pack capacity upgrade disk"
-	desc = "An upgrade disk for a backpack vacuum xenofauna storage that expands it's internal slime storage."
-	upgrade_type = VACUUM_PACK_UPGRADE_CAPACITY
-
-/obj/item/disk/vacuum_upgrade/capacity/on_upgrade(obj/item/vacuum_pack/pack)
-	pack.capacity = UPGRADED_VACUUM_PACK_CAPACITY
-
-/obj/item/disk/vacuum_upgrade/range
-	name = "vacuum pack range upgrade disk"
-	desc = "An upgrade disk for a backpack vacuum xenofauna storage that strengthens it's pump and allows it to reach further."
-	upgrade_type = VACUUM_PACK_UPGRADE_RANGE
-
-/obj/item/disk/vacuum_upgrade/range/on_upgrade(obj/item/vacuum_pack/pack)
-	pack.range = UPGRADED_VACUUM_PACK_RANGE
-
-/obj/item/disk/vacuum_upgrade/speed
-	name = "vacuum pack speed upgrade disk"
-	desc = "An upgrade disk for a backpack vacuum xenofauna storage that upgrades it's motor and allows it to suck slimes up faster."
-	upgrade_type = VACUUM_PACK_UPGRADE_SPEED
-
-/obj/item/disk/vacuum_upgrade/speed/on_upgrade(obj/item/vacuum_pack/pack)
-	pack.speed = UPGRADED_VACUUM_PACK_SPEED
-
 /obj/item/disk/vacuum_upgrade/pacification
 	name = "vacuum pack pacification upgrade disk"
 	desc = "An upgrade disk for a backpack vacuum xenofauna storage that allows it to pacify all stored slimes."
@@ -636,8 +611,5 @@
 
 #undef VACUUM_PACK_UPGRADE_STASIS
 #undef VACUUM_PACK_UPGRADE_HEALING
-#undef VACUUM_PACK_UPGRADE_CAPACITY
-#undef VACUUM_PACK_UPGRADE_RANGE
-#undef VACUUM_PACK_UPGRADE_SPEED
 #undef VACUUM_PACK_UPGRADE_PACIFY
 #undef VACUUM_PACK_UPGRADE_BIOMASS
