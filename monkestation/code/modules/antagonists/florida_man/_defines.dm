@@ -150,3 +150,5 @@ GLOBAL_LIST_INIT(florida_man_objective_suffix, list(
 	"because the voices are telling you to",
 	"because the meth needs you to."
 ))
+
+#define FLORIDA_MAN_TRAIT "florida_man"
