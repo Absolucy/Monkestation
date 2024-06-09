@@ -34,6 +34,7 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 		list("Mute", "Soft-Spoken"),
 		list("Stormtrooper Aim", "Big Hands"),
 		list("Bilingual", "Foreigner"),
+		list("Cold-Blooded", "Hot-Blooded"), // monkestation edit: add Cold-Blooded and Hot-Blooded
 	)
 
 /datum/controller/subsystem/processing/quirks/Initialize()

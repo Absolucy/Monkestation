@@ -115,3 +115,48 @@
 /datum/quirk/voracious/remove()
 	var/mob/living/carbon/human/holder = quirk_holder
 	holder.max_food_buffs --
+
+/datum/quirk/temperature
+	name = "Cold-Blooded"
+	desc = "Your body is adapted to cold environments, resulting in a lower body temperature and more resistance to being hurt by colder temperatures, albeit at the cost of being more vulnerable to heat."
+	icon = FA_ICON_SNOWFLAKE
+	value = 3
+	gain_text = span_notice("The cold never bothered you anyways")
+	lose_text = span_danger("You feel bothered by the cold once again.")
+	var/cold_mul = 0.8
+	var/heat_mul = 1.2
+	var/core_temp_mul = 0.75
+	var/cold_temp_mul = 0.7
+	var/hot_temp_mul = 0.7
+
+/datum/quirk/temperature/add()
+	var/mob/living/carbon/human/holder = quirk_holder
+	if(!istype(holder) || QDELING(holder))
+		return
+	holder.physiology?.cold_mod *= cold_mul
+	holder.physiology?.heat_mod *= heat_mul
+	holder.dna?.species.bodytemp_normal *= core_temp_mul
+	holder.dna?.species.bodytemp_cold_damage_limit *= cold_temp_mul
+	holder.dna?.species.bodytemp_heat_damage_limit *= hot_temp_mul
+
+/datum/quirk/temperature/remove()
+	var/mob/living/carbon/human/holder = quirk_holder
+	if(!istype(holder) || QDELING(holder))
+		return
+	holder.physiology?.cold_mod /= cold_mul
+	holder.physiology?.heat_mod /= heat_mul
+	holder.dna?.species.bodytemp_normal /= core_temp_mul
+	holder.dna?.species.bodytemp_cold_damage_limit /= cold_temp_mul
+	holder.dna?.species.bodytemp_heat_damage_limit /= hot_temp_mul
+
+/datum/quirk/temperature/hot
+	name = "Hot-Blooded"
+	desc = "Your body is adapted to warmer environments, resulting in a higher body temperature and more resistance to being hurt by higher temperatures, albeit at the cost of being more vulnerable to the cold."
+	icon = FA_ICON_THERMOMETER_THREE_QUARTERS
+	gain_text = span_notice("You feel comfortable in the heat.")
+	lose_text = span_danger("You feel bothered by the heat once again.")
+	cold_mul = 1.2
+	heat_mul = 0.8
+	core_temp_mul = 0.75
+	cold_temp_mul = 1.2
+	hot_temp_mul = 1.2
