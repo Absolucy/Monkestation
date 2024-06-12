@@ -18,12 +18,13 @@
 
 /datum/nanite_program/regenerative/active_effect()
 	if(iscarbon(host_mob))
-		var/mob/living/carbon/C = host_mob
-		var/list/parts = C.get_damaged_bodyparts(TRUE,TRUE, required_bodytype = BODYTYPE_ORGANIC)
-		if(!parts.len)
+		var/mob/living/carbon/host_carbon = host_mob
+		var/list/parts = host_carbon.get_damaged_bodyparts(TRUE,TRUE, required_bodytype = BODYTYPE_ORGANIC)
+		var/part_count = length(parts)
+		if(!part_count)
 			return
-		for(var/obj/item/bodypart/L in parts)
-			if(L.heal_damage(0.5/parts.len, 0.5/parts.len, null, BODYTYPE_ORGANIC))
+		for(var/obj/item/bodypart/bodypart in parts)
+			if(bodypart.heal_damage(0.5 / part_count, 0.5 / part_count, null, BODYTYPE_ORGANIC))
 				host_mob.update_damage_overlays()
 	else
 		host_mob.adjustBruteLoss(-0.5, TRUE)

@@ -419,15 +419,14 @@
 	. = ..()
 	var/datum/nanite_extra_setting/bn_name = extra_settings[NES_BUTTON_NAME]
 	var/datum/nanite_extra_setting/bn_icon = extra_settings[NES_ICON]
-	if(!button)
+	if(QDELETED(button))
 		button = new(src, bn_name.get_value(), bn_icon.get_value())
 	button.target = host_mob
 	button.Grant(host_mob)
 
 /datum/nanite_program/dermal_button/disable_passive_effect()
 	. = ..()
-	if(button)
-		button.Remove(host_mob)
+	button?.Remove(host_mob)
 
 /datum/nanite_program/dermal_button/on_mob_remove()
 	. = ..()

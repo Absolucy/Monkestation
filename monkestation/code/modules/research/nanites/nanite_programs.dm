@@ -70,8 +70,7 @@
 		if(passive_enabled)
 			disable_passive_effect()
 		on_mob_remove()
-	if(nanites)
-		nanites.programs -= src
+	nanites?.programs -= src
 	for(var/datum/nanite_rule/rule as anything in rules)
 		rule.remove()
 	rules.Cut()
@@ -326,9 +325,9 @@
 /datum/nanite_program/proc/send_code_any(setting)
 	if (!activated)
 		return
-
 	var/datum/nanite_extra_setting/code_setting = extra_settings[setting]
-	SEND_SIGNAL(host_mob, COMSIG_NANITE_SIGNAL, code_setting.get_value(), "a [name] program")
+	if(code_setting)
+		SEND_SIGNAL(host_mob, COMSIG_NANITE_SIGNAL, code_setting.get_value(), "a [name] program")
 
 /datum/nanite_program/proc/send_code()
 	send_code_any(NES_SENT_CODE)
