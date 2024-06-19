@@ -23,11 +23,8 @@
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if(!COOLDOWN_FINISHED(src, locator_timer))
 		return
-	if(QDELETED(hunter))
-		to_chat(user,span_warning("It's just a normal playing card!"))
-		return
-	if(hunter.owner.current != user)
-		to_chat(user,span_warning("It's just a normal playing card!"))
+	if(QDELETED(hunter) || hunter.owner.current != user)
+		to_chat(user, span_warning("It's just a normal playing card!"))
 		return
 	var/turf/user_turf = get_turf(user)
 	if(QDELETED(user_turf) || !is_station_level(user_turf.z))
@@ -35,29 +32,32 @@
 		return
 	var/obj/effect/bnuuy = get_nearest_rabbit(user)
 	if(QDELETED(bnuuy))
+		user.balloon_alert(user, "no rabbits")
 		to_chat(user, span_warning("Can't feel any hints..."))
 		return
 	var/turf/bnuuy_turf = get_turf(bnuuy)
-	var/distance = get_dist(user_turf, bnuuy_turf)
 	var/sound_value
-	if(distance >= 50)
-		sound_value = 0
-		to_chat(user,span_warning("Too far away..."))
-	if(distance >= 40 && distance < 50)
-		sound_value = 20
-		to_chat(user,span_warning("You feel the slightest hint..."))
-	if(distance >=30 && distance < 40)
-		sound_value = 40
-		to_chat(user,span_warning("You feel a mild hint..."))
-	if(distance >=20 && distance < 30)
-		sound_value = 60
-		to_chat(user,span_warning("You feel a strong hint..."))
-	if(distance >= 10 && distance < 20)
-		sound_value = 80
-		to_chat(user,span_warning("You feel a VERY strong hint..."))
-	if(distance < 10)
-		sound_value = 100
-		to_chat(user, span_warning("Here... the white rabbit is definitely here!"))
+	var/direction = get_dir(user_turf, bnuuy_turf)
+	user.balloon_alert(user, "rabbit [dir2text(direction)]!")
+	switch(get_dist(user_turf, bnuuy_turf))
+		if(0 to 9)
+			sound_value = 100
+			to_chat(user, span_warning("Here... the white rabbit is definitely here, in \the [span_hypnophrase("[get_area(bnuuy_turf)]")]!"))
+		if(10 to 19)
+			sound_value = 80
+			to_chat(user, span_warning("You feel a VERY strong hint..."))
+		if(20 to 29)
+			sound_value = 60
+			to_chat(user, span_warning("You feel a strong hint..."))
+		if(30 to 39)
+			sound_value = 40
+			to_chat(user, span_warning("You feel a mild hint..."))
+		if(40 to 49)
+			sound_value = 20
+			to_chat(user, span_warning("You feel the slightest hint..."))
+		else
+			sound_value = 0
+			to_chat(user, span_warning("Too far away..."))
 	user.playsound_local(bnuuy_turf, 'monkestation/sound/bloodsuckers/rabbitlocator.ogg', vol = sound_value, pressure_affected = FALSE)
 	COOLDOWN_START(src, locator_timer, 7 SECONDS)
 
@@ -74,5 +74,7 @@
 		return
 	var/z_difference = abs(selected_bunny.z - user.z)
 	if(dist < 50 && z_difference != 0)
-		to_chat(user, span_warning("[z_difference] [z_difference == 1 ? "floor" : "floors"] [selected_bunny.z > user.z ? "above" : "below"]..."))
+		var/floor_msg = "[z_difference] [z_difference == 1 ? "floor" : "floors"] [selected_bunny.z > user.z ? "above" : "below"]"
+		user.balloon_alert(user, "[floor_msg]!")
+		to_chat(user, span_warning("[floor_msg]..."))
 	return selected_bunny

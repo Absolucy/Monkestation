@@ -33,18 +33,14 @@
 	. = ..()
 	if(!.)
 		return
-
 	var/count = 0
 	for(var/datum/antagonist/monster as anything in GLOB.antagonists)
 		if(QDELETED(monster?.owner?.current) || monster.owner.current.stat == DEAD)
 			continue
-
 		if(is_type_in_typecache(monster, GLOB.monster_hunter_prey_antags))
 			count++
-
 	if(MINIMUM_MONSTERS_REQUIRED > count)
 		return FALSE
-
 	return ..()
 
 #undef MINIMUM_MONSTERS_REQUIRED
