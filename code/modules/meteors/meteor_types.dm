@@ -123,10 +123,11 @@
 	else
 		. = ..()
 
-/obj/effect/meteor/proc/make_debris()
+// monkestation edit: return created debris, and add a return type
+/obj/effect/meteor/proc/make_debris() as /list/obj
 	for(var/throws = dropamt, throws > 0, throws--)
 		var/thing_to_spawn = pick(meteordrop)
-		new thing_to_spawn(get_turf(src))
+		LAZYADD(., new thing_to_spawn(get_turf(src)))
 
 /obj/effect/meteor/proc/meteor_effect()
 	if(heavy)
