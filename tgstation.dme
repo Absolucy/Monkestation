@@ -7403,6 +7403,8 @@
 #include "monkestation\code\modules\smithing\oozelings\species.dm"
 #include "monkestation\code\modules\smithing\oozelings\body\bodyparts.dm"
 #include "monkestation\code\modules\smithing\oozelings\body\organs.dm"
+#include "monkestation\code\modules\smithing\oozelings\subspecies\slimeperson.dm"
+#include "monkestation\code\modules\smithing\oozelings\subspecies\actions\swap_body.dm"
 #include "monkestation\code\modules\smithing\research\circuits_and_research.dm"
 #include "monkestation\code\modules\smithing\TEG\circulators.dm"
 #include "monkestation\code\modules\smithing\TEG\reagents.dm"

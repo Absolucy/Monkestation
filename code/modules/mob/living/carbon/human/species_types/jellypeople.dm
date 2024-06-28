@@ -330,7 +330,7 @@
 		span_notice("...and after a moment of disorentation, you're besides yourself!"),
 	)
 
-
+/*
 /datum/action/innate/swap_body
 	name = "Swap Body"
 	check_flags = NONE
@@ -474,6 +474,7 @@
 	dupe.visible_message("<span class='notice'>[dupe] blinks and looks \
 		around.</span>",
 		span_notice("...and move this one instead."))
+*/
 
 
 ///////////////////////////////////LUMINESCENTS//////////////////////////////////////////
