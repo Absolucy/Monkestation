@@ -10,8 +10,7 @@
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION
 	circuit = /obj/item/circuitboard/machine/slime_extract_requestor
 	var/obj/machinery/computer/slime_market/console
-	var/list/current_requests = list()
-
+	var/list/current_requests
 	var/static/list/extracts = list()
 	var/static/list/name_to_path = list()
 
@@ -28,6 +27,13 @@
 			extracts |= list("[new_extract.name]" = image(icon = new_extract.icon, icon_state = new_extract.icon_state))
 			name_to_path |= list("[new_extract.name]" = new_extract.type)
 			qdel(new_extract)
+
+/obj/machinery/slime_extract_requestor/Destroy()
+	if(console?.request_pad == src)
+		console.request_pad = null
+	console = null
+	QDEL_LAZYLIST(current_requests)
+	return ..()
 
 /obj/machinery/slime_extract_requestor/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
@@ -73,7 +79,7 @@
 			var/obj/item/storage/box/box = new(loc)
 			for(var/i in 1 to listed_request.extracts_needed)
 				new listed_request.extract_path(box)
-			current_requests -= listed_request
+			LAZYREMOVE(current_requests, listed_request)
 			listed_request.finish_request(console)
 			qdel(listed_request)
 			return TRUE
@@ -83,7 +89,7 @@
 	for(var/datum/extract_request_data/listed_request as anything in current_requests)
 		if(!(listed_request.host_card == card))
 			continue
-		current_requests -= listed_request
+		LAZYREMOVE(current_requests, listed_request)
 		listed_request.cancel_request_early(console)
 		qdel(listed_request)
 
@@ -114,7 +120,7 @@
 	var/obj/item/slime_extract/request_extract = name_to_path[choice]
 	request.radial_data = list("[request.request_name]" = image(icon = initial(request_extract.icon), icon_state = initial(request_extract.icon_state)))
 
-	current_requests += request
+	LAZYADD(current_requests, request)
 	console.say("A new request has been made.")
 
 /datum/extract_request_data

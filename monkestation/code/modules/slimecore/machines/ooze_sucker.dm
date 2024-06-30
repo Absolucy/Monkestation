@@ -42,27 +42,34 @@ GLOBAL_LIST_EMPTY_TYPED(ooze_suckers, /obj/machinery/plumbing/ooze_sucker)
 	/// Whether draining was performed last process or not.
 	var/drained_last_process = FALSE
 
-	var/list/upgrade_disks = list()
+	var/list/obj/item/disk/sucker_upgrade/upgrade_disks
 	var/list/upgrades = list()
 
 /obj/machinery/plumbing/ooze_sucker/Initialize(mapload, bolt, layer)
-	. = ..()
+	..()
 	GLOB.ooze_suckers += src
 	AddComponent(/datum/component/plumbing/simple_supply, bolt, layer)
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/plumbing/ooze_sucker/LateInitialize()
-	. = ..()
 	locate_machinery()
 
 /obj/machinery/plumbing/ooze_sucker/Destroy()
+	if(linked_controller?.linked_sucker == src)
+		linked_controller.linked_sucker = null
+	linked_controller = null
 	GLOB.ooze_suckers -= src
+	for(var/obj/item/disk/sucker_upgrade/disk as anything in upgrade_disks)
+		if(QDELETED(disk))
+			continue
+		disk.forceMove(drop_location())
+	LAZYNULL(upgrade_disks)
 	return ..()
 
 /obj/machinery/plumbing/ooze_sucker/locate_machinery(multitool_connection)
 	if(!mapping_id)
 		return
-	for(var/obj/machinery/slime_pen_controller/main in GLOB.machines)
+	for(var/obj/machinery/slime_pen_controller/main as anything in GLOB.slime_pen_controllers)
 		if(main.mapping_id != mapping_id)
 			continue
 		linked_controller = main
@@ -72,7 +79,7 @@ GLOBAL_LIST_EMPTY_TYPED(ooze_suckers, /obj/machinery/plumbing/ooze_sucker)
 /obj/machinery/plumbing/ooze_sucker/examine(mob/user)
 	. = ..()
 	. += span_notice("It's currently turned [turned_on ? "ON" : "OFF"]. Right-click to toggle.")
-	if(length(upgrade_disks))
+	if(LAZYLEN(upgrade_disks))
 		. += span_notice("Ctrl-click to remove an installed upgrade.")
 	for(var/obj/item/disk/sucker_upgrade/upgrade as anything in upgrade_disks)
 		. += span_notice(upgrade.notice)
@@ -103,7 +110,7 @@ GLOBAL_LIST_EMPTY_TYPED(ooze_suckers, /obj/machinery/plumbing/ooze_sucker)
 		balloon_alert(user, "already installed!")
 		return
 
-	for(var/obj/item/disk/sucker_upgrade/upgrade_disk as anything in upgrade_disks.Copy())
+	for(var/obj/item/disk/sucker_upgrade/upgrade_disk as anything in upgrade_disks)
 		if(upgrade_disk.upgrade_type in upgrade.override_types)
 			remove_upgrade(upgrade_disk)
 
@@ -115,14 +122,14 @@ GLOBAL_LIST_EMPTY_TYPED(ooze_suckers, /obj/machinery/plumbing/ooze_sucker)
 /obj/machinery/plumbing/ooze_sucker/proc/add_upgrade(obj/item/disk/sucker_upgrade/upgrade)
 	upgrades += upgrade.upgrade_type
 	upgrades += upgrade.additional_types
-	upgrade_disks += upgrade
+	LAZYADD(upgrade_disks, upgrade)
 	upgrade.forceMove(src)
 	upgrade.on_upgrade(src)
 
 /obj/machinery/plumbing/ooze_sucker/proc/remove_upgrade(obj/item/disk/sucker_upgrade/upgrade)
 	upgrades -= upgrade.upgrade_type
 	upgrades -= upgrade.additional_types
-	upgrade_disks -= upgrade
+	LAZYREMOVE(upgrade_disks, upgrade)
 	upgrade.forceMove(drop_location())
 	upgrade.on_remove(src)
 

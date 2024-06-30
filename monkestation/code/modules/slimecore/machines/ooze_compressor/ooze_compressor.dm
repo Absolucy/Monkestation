@@ -32,7 +32,7 @@
 	var/compressing = FALSE
 	var/repeat_recipe = FALSE
 
-	var/list/reagents_for_recipe = list()
+	var/list/reagents_for_recipe
 	var/datum/compressor_recipe/current_recipe
 
 	var/static/list/recipe_choices = list()
@@ -73,6 +73,11 @@
 	AddComponent(/datum/component/plumbing/ooze_compressor, bolt, layer)
 	register_context()
 
+/obj/machinery/plumbing/ooze_compressor/Destroy()
+	LAZYNULL(reagents_for_recipe)
+	current_recipe = null
+	return ..()
+
 /obj/machinery/plumbing/ooze_compressor/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
 	if(current_recipe)
@@ -107,7 +112,7 @@
 
 /obj/machinery/plumbing/ooze_compressor/update_overlays()
 	. = ..()
-	if(length(reagents.reagent_list) >= 1 && length(reagents_for_recipe) >= 1)
+	if(length(reagents.reagent_list) >= 1 && LAZYLEN(reagents_for_recipe) >= 1)
 		var/needed_reagents = reagents_for_recipe[1]
 		var/datum/reagent/first_reagent = reagents.reagent_list[1]
 		var/filled_precent = first_reagent.volume / reagents_for_recipe[needed_reagents]
@@ -123,7 +128,7 @@
 		right_side.color = first_reagent.color
 		. += right_side
 
-	if(length(reagents.reagent_list) >= 2 && length(reagents_for_recipe) >= 2)
+	if(length(reagents.reagent_list) >= 2 && LAZYLEN(reagents_for_recipe) >= 2)
 		var/needed_reagents = reagents_for_recipe[2]
 		var/datum/reagent/first_reagent = reagents.reagent_list[2]
 		var/filled_precent = first_reagent.volume / reagents_for_recipe[needed_reagents]
@@ -160,7 +165,7 @@
 	compressing = TRUE
 	update_appearance()
 	if(!repeat_recipe)
-		reagents_for_recipe = list()
+		LAZYNULL(reagents_for_recipe)
 	manage_hud_as_needed()
 	update_power_usage()
 	addtimer(CALLBACK(src, PROC_REF(finish_compressing)), 3 SECONDS)
@@ -235,8 +240,7 @@
 		return
 
 	current_recipe = choice_to_datum[choice]
-	reagents_for_recipe = list()
-	reagents_for_recipe += current_recipe.required_oozes
+	reagents_for_recipe = current_recipe.required_oozes.Copy()
 	balloon_alert_to_viewers("set extract recipe")
 	manage_hud_as_needed()
 	update_power_usage()

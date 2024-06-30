@@ -31,6 +31,12 @@
 		return
 	link_console()
 
+/obj/machinery/slime_market_pad/Destroy()
+	if(console?.market_pad == src)
+		console.market_pad = null
+	console = null
+	return ..()
+
 /obj/machinery/slime_market_pad/proc/link_console()
 	if(console)
 		return

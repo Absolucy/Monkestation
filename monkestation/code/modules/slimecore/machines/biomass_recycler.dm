@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(biomass_unlocks, list())
+GLOBAL_LIST_EMPTY(biomass_unlocks)
 
 /obj/machinery/biomass_recycler
 	name = "biomass recycler"
@@ -129,7 +129,7 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 		balloon_alert(user, "not enough biomass")
 		return
 
-	var/spawned = new spawn_type(user.loc)
+	var/spawned = new spawn_type(user.drop_location())
 	to_chat(user, span_notice("The machine hisses loudly as it condenses the biomass. After a moment, it dispenses a brand new [spawned]."))
 	playsound(src.loc, 'sound/machines/hiss.ogg', 50, TRUE)
 	stored_matter -= printable_types[spawn_type]

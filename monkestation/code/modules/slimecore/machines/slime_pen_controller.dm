@@ -32,12 +32,15 @@ GLOBAL_LIST_EMPTY_TYPED(slime_pen_controllers, /obj/machinery/slime_pen_controll
 	locate_machinery()
 
 /obj/machinery/slime_pen_controller/Destroy()
+	if(linked_sucker?.linked_controller == src)
+		linked_sucker.linked_controller = null
+	linked_sucker = null
+	QDEL_NULL(linked_data)
 	GLOB.slime_pen_controllers -= src
 	return ..()
 
 /obj/machinery/slime_pen_controller/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
-
 	if(linked_sucker)
 		context[SCREENTIP_CONTEXT_RMB] = "Toggle Linked Scrubber"
 		return CONTEXTUAL_SCREENTIP_SET

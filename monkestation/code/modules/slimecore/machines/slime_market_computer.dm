@@ -28,16 +28,15 @@ GLOBAL_DATUM(default_slime_market, /obj/machinery/computer/slime_market)
 	if(GLOB.default_slime_market == src)
 		GLOB.default_slime_market = null
 
-	if(market_pad)
+	if(market_pad?.console == src)
 		market_pad.console = null
-	if(request_pad)
+	if(request_pad?.console == src)
 		request_pad.console = null
-
 	request_pad = null
 	market_pad = null
 
 /obj/machinery/computer/slime_market/proc/link_market_pad()
-	if(market_pad)
+	if(!QDELETED(market_pad))
 		return
 
 	for(var/direction in GLOB.cardinals)
