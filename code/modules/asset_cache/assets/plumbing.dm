@@ -36,6 +36,15 @@
 			"synthesizer_booze",
 			"tap_output",
 		),
+		// monkestation edit: xenobio plumbing stuff
+		'monkestation/code/modules/slimecore/icons/machinery.dmi' = list(
+			"ooze_sucker",
+			"cross_compressor",
+		),
+		'monkestation/code/modules/slimecore/icons/slime_grinder.dmi' = list(
+			"slime_grinder_backdrop",
+		),
+		// monkestation end
 	)
 
 	for(var/icon_file as anything in essentials)
