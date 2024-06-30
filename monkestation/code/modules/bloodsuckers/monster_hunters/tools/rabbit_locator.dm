@@ -18,15 +18,13 @@
 /obj/item/rabbit_locator/Destroy()
 	if(hunter?.locator == src)
 		hunter.locator = null
+	hunter = null
 	return ..()
 
 /obj/item/rabbit_locator/attack_self(mob/user, modifiers)
 	if(!COOLDOWN_FINISHED(src, locator_timer))
 		return
-	if(QDELETED(hunter))
-		to_chat(user,span_warning("It's just a normal playing card!"))
-		return
-	if(hunter.owner.current != user)
+	if(QDELETED(hunter) || hunter.owner.current != user)
 		to_chat(user,span_warning("It's just a normal playing card!"))
 		return
 	var/turf/user_turf = get_turf(user)
@@ -38,28 +36,27 @@
 		to_chat(user, span_warning("Can't feel any hints..."))
 		return
 	var/turf/bnuuy_turf = get_turf(bnuuy)
-	var/distance = get_dist(user_turf, bnuuy_turf)
-	var/sound_value
-	if(distance >= 50)
-		sound_value = 0
-		to_chat(user,span_warning("Too far away..."))
-	if(distance >= 40 && distance < 50)
-		sound_value = 20
-		to_chat(user,span_warning("You feel the slightest hint..."))
-	if(distance >=30 && distance < 40)
-		sound_value = 40
-		to_chat(user,span_warning("You feel a mild hint..."))
-	if(distance >=20 && distance < 30)
-		sound_value = 60
-		to_chat(user,span_warning("You feel a strong hint..."))
-	if(distance >= 10 && distance < 20)
-		sound_value = 80
-		to_chat(user,span_warning("You feel a VERY strong hint..."))
-	if(distance < 10)
-		sound_value = 100
-		to_chat(user, span_warning("Here... the white rabbit is definitely here!"))
-	user.playsound_local(bnuuy_turf, 'monkestation/sound/bloodsuckers/rabbitlocator.ogg', vol = sound_value, pressure_affected = FALSE)
+	user.balloon_alert(user, get_balloon_message(user_turf, bnuuy_turf))
+	user.playsound_local(bnuuy_turf, 'monkestation/sound/bloodsuckers/rabbitlocator.ogg', vol = 75, vary = TRUE, pressure_affected = FALSE)
 	COOLDOWN_START(src, locator_timer, 7 SECONDS)
+
+/obj/item/rabbit_locator/proc/get_balloon_message(turf/user, turf/bnuuy)
+	. = "error text!"
+	if(user.z == bnuuy.z)
+		var/dist = get_dist(user, bnuuy)
+		var/dir = get_dir(user, bnuuy)
+		switch(dist)
+			if(0 to 15)
+				return "very near, [dir2text(dir)]!"
+			if(16 to 31)
+				return "near, [dir2text(dir)]!"
+			if(32 to 127)
+				return "far, [dir2text(dir)]!"
+			else
+				return "very far!"
+	else
+		var/z_difference = abs(bnuuy.z - user.z)
+		return "[z_difference] [z_difference == 1 ? "floor" : "floors"] [bnuuy.z > user.z ? "above" : "below"]"
 
 /obj/item/rabbit_locator/proc/get_nearest_rabbit(mob/user)
 	var/dist = 1000
@@ -73,6 +70,4 @@
 	if(QDELETED(selected_bunny))
 		return
 	var/z_difference = abs(selected_bunny.z - user.z)
-	if(dist < 50 && z_difference != 0)
-		to_chat(user, span_warning("[z_difference] [z_difference == 1 ? "floor" : "floors"] [selected_bunny.z > user.z ? "above" : "below"]..."))
 	return selected_bunny

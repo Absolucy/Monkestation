@@ -13,6 +13,7 @@
 	attack_sound = 'sound/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	speak_emote = list("roars")
+	speech_span = SPAN_REALLYBIG
 
 	armour_penetration = 40
 	melee_damage_upper = 40
@@ -51,6 +52,13 @@
 	cards_power = new
 	spear_power = new
 	cards_power.Grant(src)
-	hole_power.Grant(src)
 	rabbit_power.Grant(src)
+	hole_power.Grant(src)
 	spear_power.Grant(src)
+
+/mob/living/basic/red_rabbit/Destroy()
+	QDEL_NULL(hole_power)
+	QDEL_NULL(rabbit_power)
+	QDEL_NULL(cards_power)
+	QDEL_NULL(spear_power)
+	return ..()

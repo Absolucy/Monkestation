@@ -57,16 +57,20 @@
 	alert_type = null
 	tick_interval = -1
 	var/datum/component/glitching_state/wondershift
+	/// Traits given to the user when the mask is worn.
+	var/static/list/given_traits = list(TRAIT_UNKNOWN)
 
 /datum/status_effect/bnuuy_mask/on_apply()
 	. = ..()
 	if(!ishuman(owner) || !IS_MONSTERHUNTER(owner) || !istype(owner.get_item_by_slot(ITEM_SLOT_MASK), /obj/item/clothing/mask/cursed_rabbit))
 		return FALSE
 	wondershift = owner.AddComponent(/datum/component/glitching_state)
+	owner.add_traits(given_traits, id)
 
 /datum/status_effect/bnuuy_mask/on_remove()
 	. = ..()
 	QDEL_NULL(wondershift)
+	owner.remove_traits(given_traits, id)
 
 /datum/status_effect/bnuuy_mask/get_examine_text()
 	return span_warning("[owner.p_they(TRUE)] seem[owner.p_s()] out-of-place, as if [owner.p_they()] were partially detached from reality.")

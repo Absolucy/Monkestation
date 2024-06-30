@@ -33,16 +33,17 @@
 	if(QDELETED(bunny))
 		return
 	owner.forceMove(land_mark) ///the user remains safe in the wonderland
-	var/mob/living/master = owner
+	bunny.name = bunny.real_name = owner.mind.name
+	bunny.set_name()
 	owner.mind.transfer_to(bunny)
 	playsound(bunny, 'monkestation/sound/bloodsuckers/paradoxskip.ogg', vol = 100)
-	addtimer(CALLBACK(src, PROC_REF(return_to_station), master, bunny, theplace), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(return_to_station), owner, bunny, theplace), 5 SECONDS)
 	StartCooldown()
 
 /datum/action/cooldown/paradox/proc/return_to_station(mob/user, mob/bunny, turf/mark)
 	var/new_x = bunny.x - mark.x
 	var/new_y = bunny.y - mark.y
-	var/turf/new_location = locate((original_loc.x + new_x) , (original_loc.y + new_y) , original_loc.z)
+	var/turf/new_location = locate((original_loc.x + new_x) , (original_loc.y + new_y), original_loc.z)
 	user.forceMove(new_location)
 	bunny.mind.transfer_to(user)
 	playsound(user, 'monkestation/sound/bloodsuckers/paradoxskip.ogg', vol = 100)

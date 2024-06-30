@@ -48,7 +48,7 @@
 /datum/antagonist/monsterhunter/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	REMOVE_TRAITS_IN(current_mob, HUNTER_TRAIT)
+	current_mob.remove_traits(granted_traits, HUNTER_TRAIT)
 	current_mob.faction -= FACTION_RABBITS
 	current_mob.update_sight()
 
@@ -101,14 +101,10 @@
 	summon_contract.Grant(owner.current)
 
 /datum/antagonist/monsterhunter/on_removal()
-	UnregisterSignal(src, COMSIG_GAIN_INSIGHT)
-	UnregisterSignal(src, COMSIG_BEASTIFY)
-	REMOVE_TRAITS_IN(owner, HUNTER_TRAIT)
-	for(var/obj/effect/client_image_holder/white_rabbit/white as anything in rabbits)
-		rabbits -= white
-		qdel(white)
-	if(locator)
-		locator.hunter = null
+	UnregisterSignal(src, list(COMSIG_GAIN_INSIGHT, COMSIG_BEASTIFY))
+	owner.remove_traits(mind_traits, HUNTER_TRAIT)
+	QDEL_LIST(rabbits)
+	locator?.hunter = null
 	locator = null
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	return ..()

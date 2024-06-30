@@ -10,7 +10,7 @@
 
 /datum/action/cooldown/wonderland_drop/New(Target)
 	..()
-	landmark =  GLOB.wonderland_marks["Wonderland landmark"]
+	landmark = GLOB.wonderland_marks["Wonderland landmark"]
 
 /datum/action/cooldown/wonderland_drop/Activate()
 	StartCooldown(360 SECONDS, 360 SECONDS)
