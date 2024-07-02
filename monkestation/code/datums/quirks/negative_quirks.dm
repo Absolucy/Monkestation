@@ -214,3 +214,9 @@
 	if(isipc(quirk_holder)) //monkestation addition
 		to_chat(quirk_holder, span_boldnotice("Your chassis feels frail."))
 
+/datum/quirk/claustrophobia/process(seconds_per_tick)
+	// bloodsuckers should feel comfortable in their coffins, and they shouldn't freak out in general if they're hiding from the sun
+	if(IS_BLOODSUCKER(quirk_holder) && (SSsunlight.sunlight_active || istype(quirk_holder.loc, /obj/structure/closet/crate/coffin)))
+		quirk_holder.clear_mood_event("claustrophobia")
+		return
+	return ..()
