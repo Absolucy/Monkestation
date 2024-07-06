@@ -24,6 +24,9 @@
 // /datum/mind
 /// Prevents any sort of antagonist/brainwashing conversion.
 #define TRAIT_UNCONVERTABLE "unconvertable"
+/// Marks a mind as having entered cryogenic storage..
+#define TRAIT_CRYOSLEEP	"cryosleep"
+#define CRYOSLEEP_TRAIT	"entered_cryosleep"
 
 
 #define TRAIT_SENSOR_HUD "sensor_hud"

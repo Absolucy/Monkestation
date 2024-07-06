@@ -336,6 +336,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		if(current_highpriest?.resolve() == mob_occupant)
 			reset_religion()
 
+	ADD_TRAIT(mob_occupant.mind, TRAIT_CRYOSLEEP, CRYOSLEEP_TRAIT)
+
 	// Delete them from datacore and ghost records.
 	var/datum/record/crew/crewfile = mob_occupant.mind?.crewfile
 	var/datum/record/locked/lockfile = mob_occupant.mind?.lockfile
@@ -410,6 +412,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 					listed_item.forceMove(get_turf(newmob))
 				control_computer.frozen_item -= listed_item
 
+		REMOVE_TRAIT(newmob.mind, TRAIT_CRYOSLEEP, CRYOSLEEP_TRAIT)
 		var/datum/record/crew/crewfile = listed["crewfile"]
 		if(crewfile)
 			GLOB.manifest.general += crewfile

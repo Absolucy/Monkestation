@@ -22,6 +22,7 @@
 #define span_blob(str) ("<span class='blob'>" + str + "</span>")
 #define span_blobannounce(str) ("<span class='blobannounce'>" + str + "</span>")
 #define span_blue(str) ("<span class='blue'>" + str + "</span>")
+#define span_bluetext(str) ("<span class='bluetext'>" + str + "</span>")
 #define span_blueteamradio(str) ("<span class='blueteamradio'>" + str + "</span>")
 #define span_bold(str) ("<span class='bold'>" + str + "</span>")
 #define span_boldannounce(str) ("<span class='boldannounce'>" + str + "</span>")

@@ -756,6 +756,10 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 				text += " while [span_redtext("fleeing the station")]"
 		if(ply.current.real_name != ply.name)
 			text += " as <b>[ply.current.real_name]</b>"
+	// monkestation edit: cryo
+	else if(HAS_TRAIT(ply, TRAIT_CRYOSLEEP))
+		text += " [span_bluetext("entered cryosleep")]"
+	// monkestation end
 	else
 		text += " [span_redtext("had their body destroyed")]"
 	return text
