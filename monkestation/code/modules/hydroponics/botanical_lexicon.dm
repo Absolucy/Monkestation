@@ -5,15 +5,20 @@
 	icon_state = "chicken_book"
 
 /obj/item/botanical_lexicon/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user,src,ui)
+	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user,src,"BotanicalLexicon")
+		ui = new(user, src, "BotanicalLexicon")
+		ui.set_autoupdate(FALSE)
 		ui.open()
 
-/obj/item/botanical_lexicon/ui_act(action,list/params)
+/obj/item/botanical_lexicon/ui_act(action, list/params)
 	if(..())
 		return
 
+/obj/item/botanical_lexicon/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/spritesheet/seeds/botanical_lexicon)
+	)
 
 /obj/item/botanical_lexicon/ui_static_data(mob/user)
 	var/list/data = list()
@@ -29,48 +34,40 @@
 		details["name"] = created_seed.name
 		details["desc"] = created_seed.desc
 
-		if(listed_mutation.required_potency.len)
+		if(length(listed_mutation.required_potency))
 			details["potency_low"] = listed_mutation.required_potency[1]
 			details["potency_high"] = listed_mutation.required_potency[2]
-		if(listed_mutation.required_yield.len)
+		if(length(listed_mutation.required_yield))
 			details["yield_low"] = listed_mutation.required_yield[1]
 			details["yield_high"] = listed_mutation.required_yield[2]
-		if(listed_mutation.required_production.len)
+		if(length(listed_mutation.required_production))
 			details["production_low"] = listed_mutation.required_production[1]
 			details["production_high"] = listed_mutation.required_production[2]
-		if(listed_mutation.required_endurance.len)
+		if(length(listed_mutation.required_endurance))
 			details["endurance_low"] = listed_mutation.required_endurance[1]
 			details["endurance_high"] = listed_mutation.required_endurance[2]
-		if(listed_mutation.required_lifespan.len)
+		if(length(listed_mutation.required_lifespan))
 			details["lifespan_low"] = listed_mutation.required_lifespan[1]
 			details["lifespan_high"] = listed_mutation.required_lifespan[2]
 
-		if(listed_mutation.mutates_from.len)
+		if(length(listed_mutation.mutates_from))
 			var/list/parents = list()
-			for(var/item in listed_mutation.mutates_from)
-				var/obj/item/seeds/linked_seeds = item
-				parents += initial(linked_seeds.name)
-
-			details["mutates_from"] = parents.Join(",")
+			for(var/obj/item/seeds/linked_seed as anything in listed_mutation.mutates_from)
+				parents += linked_seed::name
+			details["mutates_from"] = english_list(parents)
 
 		if(istype(listed_mutation, /datum/hydroponics/plant_mutation/infusion))
 			var/datum/hydroponics/plant_mutation/infusion/infused_type = listed_mutation
 			var/list/reagent_names = list()
 			for(var/datum/reagent/listed_reagent as anything in infused_type.reagent_requirement)
-				reagent_names += initial(listed_reagent.name)
-			details["required_reagents"] = reagent_names.Join(",")
+				reagent_names += listed_reagent::name
+			details["required_reagents"] = english_list(reagent_names)
 
+		details["plant_icon"] = sanitize_css_class_name("[created_seed.icon][created_seed.icon_state]")
 
-		var/icon/plant_icon = getFlatIcon(created_seed)
-		var/md5 = md5(fcopy_rsc(plant_icon))
-		if(!SSassets.cache["photo_[md5]_[created_seed.name]_icon.png"])
-			SSassets.transport.register_asset("photo_[md5]_[created_seed.name]_icon.png", plant_icon)
-		SSassets.transport.send_assets(user, list("photo_[md5]_[created_seed.name]_icon.png" = plant_icon))
-		details["plant_icon"] = SSassets.transport.get_asset_url("photo_[md5]_[created_seed.name]_icon.png")
-
-		qdel(created_seed)
+		QDEL_NULL(created_seed)
 		plant_list += list(details)
-		qdel(listed_mutation)
+		QDEL_NULL(listed_mutation)
 
 	data["plant_list"] = plant_list
 
