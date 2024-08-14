@@ -83,22 +83,8 @@ export class LuaEditor extends Component {
       showGlobalTable,
       page,
       pageCount,
-      auxtools_enabled,
       ss_lua_init,
     } = data;
-
-    if (!auxtools_enabled) {
-      return (
-        <Window>
-          <Window.Content>
-            <NoticeBox danger>
-              Auxtools is not enabled. Please ask your server administrator to
-              enable it in the server configuration.
-            </NoticeBox>
-          </Window.Content>
-        </Window>
-      );
-    }
 
     if (!ss_lua_init) {
       return (
