@@ -7381,6 +7381,7 @@
 #include "monkestation\code\modules\reagents\recipes\fun.dm"
 #include "monkestation\code\modules\reagents\recipes\medical.dm"
 #include "monkestation\code\modules\religion\maint_god.dm"
+#include "monkestation\code\modules\religion\rites.dm"
 #include "monkestation\code\modules\replays\hooks\generic_hooks.dm"
 #include "monkestation\code\modules\replays\subsystem\replay.dm"
 #include "monkestation\code\modules\research\designs\biogenerator_designs.dm"

@@ -125,6 +125,7 @@
 	invoke_msg = "The end of flesh is near!"
 	favor_cost = 2000
 
+/* monkestation edit: replaced in [monkestation\code\modules\religion\rites.dm]
 /datum/religion_rites/machine_blessing/invoke_effect(mob/living/user, atom/movable/religious_tool)
 	..()
 	var/altar_turf = get_turf(religious_tool)
@@ -138,6 +139,7 @@
 	)
 	new blessing(altar_turf)
 	return TRUE
+monkestation end */
 
 /*********Greedy God**********/
 
