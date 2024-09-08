@@ -367,10 +367,11 @@ CREATE TABLE `player` (
   `lastadminrank` varchar(32) NOT NULL DEFAULT 'Player',
   `accountjoindate` DATE DEFAULT NULL,
   `flags` smallint(5) unsigned DEFAULT '0' NOT NULL,
-	`antag_tokens` tinyint(4) unsigned DEFAULT '0',
   `metacoins` int(10) unsigned NOT NULL DEFAULT '0',
   `patreon_key` VARCHAR(32) NOT NULL DEFAULT 'None',
   `patreon_rank` VARCHAR(32) NOT NULL DEFAULT 'None',
+	`antag_token_month` tinyint NOT NULL DEFAULT '0',
+	`event_token_month` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`ckey`),
   KEY `idx_player_cid_ckey` (`computerid`,`ckey`),
   KEY `idx_player_ip_ckey` (`ip`,`ckey`)
@@ -494,6 +495,7 @@ CREATE TABLE `round` (
   `shuttle_name` VARCHAR(64) NULL,
   `map_name` VARCHAR(32) NULL,
   `station_name` VARCHAR(80) NULL,
+	`log_directory` VARCHAR(255) NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -706,6 +708,9 @@ CREATE TABLE `telemetry_connections` (
     UNIQUE INDEX `unique_constraints` (`ckey` , `telemetry_ckey` , `address` , `computer_id`)
 );
 
+--
+-- Table structure for table `tutorial_completions`
+--
 DROP TABLE IF EXISTS `tutorial_completions`;
 CREATE TABLE `tutorial_completions` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -713,6 +718,19 @@ CREATE TABLE `tutorial_completions` (
   `tutorial_key` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `ckey_tutorial_unique` (`ckey`, `tutorial_key`));
+
+--
+-- Table structure for table `antag_tokens`
+--
+DROP TABLE IF EXISTS `antag_tokens`;
+CREATE TABLE `antag_tokens` (
+  `ckey` varchar(32) NOT NULL,
+  `tier` ENUM('high', 'medium', 'low', 'event') NOT NULL,
+  `amount` tinyint NOT NULL DEFAULT '0',
+  FOREIGN KEY (`ckey`) REFERENCES `player`(`ckey`) ON DELETE CASCADE,
+  PRIMARY KEY (`ckey`, `amount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

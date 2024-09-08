@@ -79,7 +79,7 @@ GLOBAL_LIST_INIT(stored_codes, list())
 /proc/generate_antag_token_code(no_logs = FALSE)
 	if(!check_rights(R_FUN))
 		return
-	var/choice = tgui_input_list(usr, "Please choose an antag token level to award", "Token Choice", list(HIGH_THREAT, MEDIUM_THREAT, LOW_THREAT))
+	var/choice = tgui_input_list(usr, "Please choose an antag token level to award", "Token Choice", assoc_to_keys(GLOB.token_names_to_tiers))
 	if(!choice)
 		return
 	var/string = generate_code_string()

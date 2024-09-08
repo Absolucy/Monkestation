@@ -1,3 +1,4 @@
-#define HIGH_THREAT "High Threat"
-#define MEDIUM_THREAT "Medium Threat"
-#define LOW_THREAT "Low Threat"
+#define TOKEN_ANTAG_HIGH	"high"
+#define TOKEN_ANTAG_MEDIUM	"medium"
+#define TOKEN_ANTAG_LOW		"low"
+#define TOKEN_EVENT			"event"

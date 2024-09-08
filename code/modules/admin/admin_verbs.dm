@@ -114,7 +114,6 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/admin_away,
 	/client/proc/add_mob_ability,
 	/client/proc/adjust_players_antag_tokens, //monkestation edit
-	/client/proc/adjust_players_event_tokens, //monkestation edit
 	/client/proc/adjust_players_metacoins, //monkestation edit
 	/client/proc/admin_change_sec_level,
 	/client/proc/change_ocean, //monkestation addition

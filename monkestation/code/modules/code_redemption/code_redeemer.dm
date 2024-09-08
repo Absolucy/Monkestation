@@ -26,9 +26,10 @@ GLOBAL_LIST_INIT(redeemed_codes, list())
 
 	if(isnum(path))
 		usr.client.prefs.adjust_metacoins(usr.ckey, path, "Redeemed a Giveaway Code", donator_multipler = FALSE)
-	else if(path == HIGH_THREAT || path == MEDIUM_THREAT || path == LOW_THREAT)
-		usr.client.client_token_holder.adjust_antag_tokens(path, 1)
-		to_chat(usr, span_boldnotice("You have successfully redeemed a giveaway code for: [path] Antag Token."))
+	else if(is_token_tier_or_name(path))
+		var/tier = sanitize_token_tier(path)
+		usr.client.client_token_holder.adjust_tokens(tier, 1)
+		to_chat(usr, span_boldnotice("You have successfully redeemed a giveaway code for: [GLOB.token_tiers_to_names[tier]] [tier == TOKEN_EVENT ? "Token" : "Antag Token"]."))
 	else if(list_path["unusual_path"])
 		var/obj/item/unusual = text2path(list_path["unusual_path"])
 		unusual = new unusual
