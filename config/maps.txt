@@ -39,7 +39,7 @@ map tramstation
 	votable
 endmap
 
-map northstar
+#map northstar
 	minplayers 50
 	votable
 endmap

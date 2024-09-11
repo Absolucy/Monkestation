@@ -7,11 +7,15 @@
 		#include "map_files\Mining\Lavaland.dmm"
 		#include "map_files\debug\runtimestation.dmm"
 		#include "map_files\debug\multiz.dmm"
+		#include "map_files\Blueshift\Blueshift.dmm" // monkestation addition
+		#include "map_files\BoxStation\BoxStation.dmm" // monkestation addition
 		#include "map_files\Deltastation\DeltaStation2.dmm"
+		#include "map_files\IceBoxStation\IceBoxStation.dmm"
 		#include "map_files\KiloStation\KiloStation.dmm"
 		#include "map_files\MetaStation\MetaStation.dmm"
-		#include "map_files\NorthStar\north_star.dmm"
-		#include "map_files\IceBoxStation\IceBoxStation.dmm"
+		// #include "map_files\NorthStar\north_star.dmm"
+		#include "map_files\Ouroboros\Ouroboros.dmm" // monkestation addition
+		#include "map_files\Voidraptor\VoidRaptor.dmm" // monkestation addition
 		#include "map_files\tramstation\tramstation.dmm"
 
 		#ifdef CIBUILDING
