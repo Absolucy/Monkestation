@@ -257,6 +257,10 @@
 	if(isobj(burn_target))
 		if(burn_target.throwing) // to avoid gulag prisoners easily escaping, throwing only works for objects.
 			return LAVA_BE_IGNORING
+		// monkestation start: railing fix
+		if((burn_target.flags_1 & ON_BORDER_1) && !islava(get_step(src, burn_target.dir)))
+			return LAVA_BE_IGNORING
+		// monkestation end
 		var/obj/burn_obj = burn_target
 		if((burn_obj.resistance_flags & immunity_resistance_flags))
 			return LAVA_BE_PROCESSING

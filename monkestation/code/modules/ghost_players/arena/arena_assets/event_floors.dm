@@ -12,5 +12,14 @@
 /turf/open/misc/ashplanet/rocky/arena
 	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
 
+/turf/open/misc/ashplanet/wateryrock/arena
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+
 /turf/open/water/arena
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+
+/turf/open/misc/basalt/safe/arena
+	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
+
+/turf/open/floor/plating/snowed/smoothed/arena
 	initial_gas_mix = OPENTURF_DEFAULT_ATMOS

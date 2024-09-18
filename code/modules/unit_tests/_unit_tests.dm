@@ -88,6 +88,7 @@
 #include "anonymous_themes.dm"
 #include "antag_moodlets.dm"
 #include "area_contents.dm"
+#include "arena_active_turfs.dm"
 #include "armor_verification.dm"
 #include "autowiki.dm"
 #include "barsigns.dm"

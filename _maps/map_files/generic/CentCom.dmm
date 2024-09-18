@@ -19911,7 +19911,7 @@
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/evacuation)
 "cxr" = (
-/turf/open/misc/dirt,
+/turf/open/misc/dirt/planet,
 /area/centcom/central_command_areas/retirement_yard)
 "cyj" = (
 /obj/machinery/suit_storage_unit/industrial/assault_operative,
@@ -19977,7 +19977,7 @@
 /obj/effect/turf_decal/siding/white{
 	dir = 4
 	},
-/turf/open/misc/dirt,
+/turf/open/misc/dirt/planet,
 /area/centcom/central_command_areas/retirement_yard)
 "diV" = (
 /obj/structure/closet/abductor{
@@ -20833,7 +20833,7 @@
 /area/centcom/central_command_areas/evacuation)
 "jUj" = (
 /obj/structure/fake_stairs/wood/directional/north,
-/turf/open/misc/dirt,
+/turf/open/misc/dirt/planet,
 /area/centcom/central_command_areas/retirement_yard)
 "kch" = (
 /obj/structure/closet/cabinet{
@@ -21086,7 +21086,7 @@
 /area/centcom/central_command_areas/admin)
 "nbv" = (
 /obj/effect/turf_decal/siding/white,
-/turf/open/misc/dirt,
+/turf/open/misc/dirt/planet,
 /area/centcom/central_command_areas/retirement_yard)
 "ncQ" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark/corner,
