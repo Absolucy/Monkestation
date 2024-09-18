@@ -153,7 +153,8 @@ GLOBAL_LIST_EMPTY(gravity_generators)
 
 /obj/machinery/gravity_generator/main/Initialize(mapload)
 	. = ..()
-	soundloop = new(src, start_immediately = FALSE)
+	if(!shut_up) // monkestation edit: allow gravgens to stfu
+		soundloop = new(src, start_immediately = FALSE)
 	setup_parts()
 	if(on)
 		enable()
@@ -310,7 +311,7 @@ GLOBAL_LIST_EMPTY(gravity_generators)
 	on = TRUE
 	update_use_power(ACTIVE_POWER_USE)
 
-	soundloop.start()
+	soundloop?.start() // monkestation edit: allow gravgens to stfu
 	var/old_gravity = gravity_in_level()
 	complete_state_update()
 	gravity_field = new(src, 2, TRUE, 6)
@@ -327,7 +328,7 @@ GLOBAL_LIST_EMPTY(gravity_generators)
 	on = FALSE
 	update_use_power(IDLE_POWER_USE)
 
-	soundloop.stop()
+	soundloop?.stop() // monkestation edit: allow gravgens to stfu
 	QDEL_NULL(gravity_field)
 	var/old_gravity = gravity_in_level()
 	complete_state_update()

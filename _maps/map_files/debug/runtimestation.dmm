@@ -1890,12 +1890,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/explab)
-"nq" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 8
-	},
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "ny" = (
 /obj/structure/table,
 /obj/item/storage/toolbox/syndicate,
@@ -2013,9 +2007,6 @@
 /obj/item/stack/ducts/fifty,
 /turf/open/floor/plating,
 /area/station/construction)
-"rZ" = (
-/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
-/area/station/commons/storage/primary)
 "sr" = (
 /obj/machinery/door/airlock/shell,
 /turf/open/floor/iron/dark,
@@ -2440,7 +2431,9 @@
 /turf/open/floor/plating,
 /area/station/construction)
 "Jp" = (
-/obj/machinery/gravity_generator/main,
+/obj/machinery/gravity_generator/main{
+	shut_up = 1
+	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/station/engineering/gravity_generator)
@@ -2787,7 +2780,7 @@
 /area/station/science)
 "Yz" = (
 /obj/machinery/light/directional/west,
-/turf/open/floor/iron/kitchen_coldroom/freezerfloor,
+/turf/open/floor/iron,
 /area/station/commons/storage/primary)
 "YL" = (
 /obj/effect/turf_decal/stripes/line{
@@ -7348,12 +7341,12 @@ dl
 Id
 GS
 dE
-dB
-rZ
-rZ
-rZ
+dJ
+dJ
+dJ
+dJ
 Yz
-dE
+dJ
 cS
 Tt
 bL
@@ -7440,12 +7433,12 @@ GB
 dC
 dC
 eW
-nq
-dC
-dC
-dC
-dC
-eW
+dJ
+dJ
+dJ
+dJ
+dJ
+dJ
 vv
 Tt
 bL
