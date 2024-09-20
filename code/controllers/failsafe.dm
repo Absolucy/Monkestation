@@ -85,10 +85,12 @@ GLOBAL_REAL(Failsafe, /datum/controller/failsafe)
 							--defcon
 
 						if(3)
+							SSdemo?.flush() // monkestation edit: replays 2.0 (attempt to ensure we don't lose the replay if the server goes down)
 							message_admins(span_adminnotice("Notice: DEFCON [defcon_pretty()]. The Master Controller has not fired in the last [(5-defcon) * processing_interval] ticks."))
 							--defcon
 
 						if(2)
+							SSdemo?.flush() // monkestation edit: replays 2.0 (attempt to ensure we don't lose the replay if the server goes down)
 							to_chat(GLOB.admins, span_boldannounce("Warning: DEFCON [defcon_pretty()]. The Master Controller has not fired in the last [(5-defcon) * processing_interval] ticks. Automatic restart in [processing_interval] ticks."))
 							--defcon
 

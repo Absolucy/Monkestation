@@ -220,6 +220,7 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		if(speed_round && was_forced != ADMIN_FORCE_END_ROUND)
 			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
 		HandleRandomHardcoreScore(C)
+	SSdemo.flush() // monkestation edit: replays 2.0
 
 	var/popcount = gather_roundend_feedback()
 	display_report(popcount)

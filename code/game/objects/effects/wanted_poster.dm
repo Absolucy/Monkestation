@@ -72,6 +72,8 @@
 
 	icon = the_icon
 
+	SSdemo.embed_resource(icon) // monkestation edit: replays 2.0
+
 /*
 	This proc will write "WANTED" or MISSING" at the top of the poster.
 

@@ -62,6 +62,7 @@ SUBSYSTEM_DEF(title)
 			continue
 		var/atom/movable/screen/splash/S = new(thing, FALSE)
 		S.Fade(FALSE,FALSE)
+	SSdemo.flush() // monkestation edit: replays 2.0
 
 /datum/controller/subsystem/title/Recover()
 	icon = SStitle.icon

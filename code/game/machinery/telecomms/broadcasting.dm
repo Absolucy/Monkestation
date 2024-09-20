@@ -196,6 +196,11 @@
 		if(ghost.client?.prefs.chat_toggles & CHAT_GHOSTRADIO)
 			receive |= ghost
 
+	// monkestation start: replays 2.0
+	if(SSdemo.dummy_observer)
+		receive |= SSdemo.dummy_observer
+	// monkestation end
+
 	// Render the message and have everybody hear it.
 	// Always call this on the virtualspeaker to avoid issues.
 	var/spans = data["spans"]

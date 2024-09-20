@@ -356,6 +356,7 @@ GLOBAL_VAR(tracy_log)
 
 /world/Del()
 	auxcleanup()
+	SSdemo?.Shutdown() // monkestation edit: replays 2.0
 	. = ..()
 
 /world/proc/update_status()

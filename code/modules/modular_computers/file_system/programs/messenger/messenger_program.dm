@@ -616,6 +616,7 @@
 		if(isobserver(player_mob) && (player_mob.client?.prefs.chat_toggles & CHAT_GHOSTPDA))
 			to_chat(player_mob, "[FOLLOW_LINK(player_mob, sender)] [ghost_message]")
 
+	to_chat(SSdemo, "[FOLLOW_LINK(SSdemo, sender)] [ghost_message]") // monkestation edit: replays 2.0
 	to_chat(sender, span_info("PDA message sent to [signal.format_target()]: \"[message]\""))
 
 	if (alert_able && !alert_silenced)
