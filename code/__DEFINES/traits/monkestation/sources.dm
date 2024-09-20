@@ -32,3 +32,5 @@
 #define FRENZY_TRAIT "frenzy_trait"
 /// Source trait for slashers.
 #define TRAIT_SLASHER "slasher_trait"
+/// Source trait for cryopods.
+#define CRYOPOD_TRAIT "cryopod"

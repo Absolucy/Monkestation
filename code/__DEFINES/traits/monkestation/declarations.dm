@@ -63,6 +63,8 @@
 // /datum/mind
 /// Indicates that the user has been removed from the crew manifest. Used to track if multiple antags have removed the same person.
 #define TRAIT_REMOVED_FROM_MANIFEST	"removed_from_manifest"
+/// Indicates that the user has enter cryogenic storage
+#define TRAIT_CRYOED				"cryoed"
 
 // Traits related to food
 /// Trait for Fire Burps

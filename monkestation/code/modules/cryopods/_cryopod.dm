@@ -268,6 +268,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 /obj/machinery/cryopod/proc/handle_objectives()
 	var/mob/living/mob_occupant = occupant
+
 	// Update any existing objectives involving this mob.
 	for(var/datum/objective/objective in GLOB.objectives)
 		// We don't want revs to get objectives that aren't for heads of staff. Letting
@@ -387,7 +388,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	GLOB.joined_player_list -= stored_ckey
 	GLOB.manifest.general -= crewfile
 
-	handle_objectives()
+	if(mob_occupant.mind)
+		ADD_TRAIT(mob_occupant.mind, TRAIT_CRYOED, CRYOPOD_TRAIT)
 	mob_occupant.ghostize()
 	QDEL_NULL(occupant)
 	open_machine()
