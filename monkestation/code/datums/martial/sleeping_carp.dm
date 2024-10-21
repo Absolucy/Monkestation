@@ -1,7 +1,8 @@
-/* monkestation removal: reimplemented in [monkestation\code\datums\martial\sleeping_carp.dm]
-#define STRONG_PUNCH_COMBO "HH"
-#define LAUNCH_KICK_COMBO "HD"
-#define DROP_KICK_COMBO "DD"
+#define STANCE_OFFENSIVE	"Offensive"
+#define STANCE_DEFENSIVE	"Defensive"
+#define STRONG_PUNCH_COMBO	"HH"
+#define LAUNCH_KICK_COMBO	"HD"
+#define DROP_KICK_COMBO 	"DD"
 
 /datum/martial_art/the_sleeping_carp
 	name = "The Sleeping Carp"
@@ -10,12 +11,29 @@
 	help_verb = /mob/living/proc/sleeping_carp_help
 	display_combos = TRUE
 	COOLDOWN_DECLARE(block_cooldown)
-	var/list/scarp_traits = list(TRAIT_NOGUNS, TRAIT_HARDLY_WOUNDED, TRAIT_NODISMEMBER, TRAIT_HEAVY_SLEEPER)
+	/// The action button for toggling the current stance.
+	var/datum/action/carp_toggle/toggle_action
+	/// The current stance of the user.
+	var/current_stance = STANCE_DEFENSIVE
+	/// Traits to grant to eepy carp users.
+	var/static/list/scarp_traits = list(
+		TRAIT_HARDLY_WOUNDED,
+		TRAIT_HEAVY_SLEEPER,
+		TRAIT_NODISMEMBER,
+		TRAIT_NOGUNS,
+	)
+
+/datum/martial_art/the_sleeping_carp/Destroy(force)
+	toggle_action = null // action handles deleting itself on its own, so we just need to avoid hard deletes
+	return ..()
 
 /datum/martial_art/the_sleeping_carp/teach(mob/living/target, make_temporary = FALSE)
 	. = ..()
 	if(!.)
 		return
+	if(QDELETED(toggle_action))
+		toggle_action = new(src)
+	toggle_action.Grant(target)
 	target.add_traits(scarp_traits, SLEEPING_CARP_TRAIT)
 	RegisterSignal(target, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
 	RegisterSignal(target, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(hit_by_projectile))
@@ -25,25 +43,40 @@
 	REMOVE_TRAITS_IN(target, SLEEPING_CARP_TRAIT)
 	UnregisterSignal(target, list(COMSIG_ATOM_ATTACKBY, COMSIG_ATOM_PRE_BULLET_ACT))
 	target.faction -= FACTION_CARP //:(
-	. = ..()
+	toggle_action?.Remove(target)
+	return ..()
+
+/datum/martial_art/the_sleeping_carp/proc/toggle_stance()
+	var/mob/living/user = holder?.resolve()
+	if(!istype(user) || QDELING(user))
+		return
+	switch(current_stance)
+		if(STANCE_OFFENSIVE)
+			current_stance = STANCE_DEFENSIVE
+			to_chat(user, span_info("You enter your [span_blue("DEFENSIVE")] stance, trading your enhanced combat techniques for the ability to reflect projectiles."), type = MESSAGE_TYPE_INFO)
+		if(STANCE_DEFENSIVE)
+			current_stance = STANCE_OFFENSIVE
+			to_chat(user, span_info("You enter your [span_ref("OFFENSIVE")] stance, trading your ability to reflect projectiles for enhanced combat techniques."), type = MESSAGE_TYPE_INFO)
+		else
+			CRASH("current_stance was invalid value ([current_stance])")
 
 /datum/martial_art/the_sleeping_carp/proc/check_streak(mob/living/attacker, mob/living/defender)
 	if(findtext(streak, STRONG_PUNCH_COMBO))
 		reset_streak()
-		strongPunch(attacker, defender)
+		strong_punch(attacker, defender)
 		return TRUE
 	if(findtext(streak, LAUNCH_KICK_COMBO))
 		reset_streak()
-		launchKick(attacker, defender)
+		launch_kick(attacker, defender)
 		return TRUE
 	if(findtext(streak, DROP_KICK_COMBO))
 		reset_streak()
-		dropKick(attacker, defender)
+		drop_kick(attacker, defender)
 		return TRUE
 	return FALSE
 
 ///Gnashing Teeth: Harm Harm, consistent 20 force punch on every second harm punch
-/datum/martial_art/the_sleeping_carp/proc/strongPunch(mob/living/attacker, mob/living/defender)
+/datum/martial_art/the_sleeping_carp/proc/strong_punch(mob/living/attacker, mob/living/defender)
 	///this var is so that the strong punch is always aiming for the body part the user is targeting and not trying to apply to the chest before deviating
 	var/obj/item/bodypart/affecting = defender.get_bodypart(defender.get_random_valid_zone(attacker.zone_selected))
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_PUNCH)
@@ -57,7 +90,7 @@
 	return
 
 ///Crashing Wave Kick: Harm Disarm combo, throws people seven tiles backwards
-/datum/martial_art/the_sleeping_carp/proc/launchKick(mob/living/attacker, mob/living/defender)
+/datum/martial_art/the_sleeping_carp/proc/launch_kick(mob/living/attacker, mob/living/defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_KICK)
 	defender.visible_message(span_warning("[attacker] kicks [defender] square in the chest, sending them flying!"), \
 					span_userdanger("You are kicked square in the chest by [attacker], sending you flying!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), COMBAT_MESSAGE_RANGE, attacker)
@@ -69,7 +102,7 @@
 	return
 
 ///Keelhaul: Disarm Disarm combo, knocks people down and deals substantial stamina damage, and also discombobulates them. Knocks objects out of their hands if they're already on the ground.
-/datum/martial_art/the_sleeping_carp/proc/dropKick(mob/living/attacker, mob/living/defender)
+/datum/martial_art/the_sleeping_carp/proc/drop_kick(mob/living/attacker, mob/living/defender)
 	attacker.do_attack_animation(defender, ATTACK_EFFECT_KICK)
 	playsound(get_turf(attacker), 'sound/effects/hit_kick.ogg', vol = 50, vary = TRUE, extrarange = -1)
 	if(defender.body_position == STANDING_UP)
@@ -87,7 +120,7 @@
 	return
 
 /datum/martial_art/the_sleeping_carp/grab_act(mob/living/attacker, mob/living/defender)
-	if(!can_deflect(attacker)) //allows for deniability
+	if(!can_deflect(attacker, STANCE_OFFENSIVE)) //allows for deniability
 		return ..()
 
 	add_to_streak("G", defender)
@@ -108,6 +141,8 @@
 	return ..()
 
 /datum/martial_art/the_sleeping_carp/harm_act(mob/living/attacker, mob/living/defender)
+	if(current_stance != STANCE_OFFENSIVE)
+		return ..()
 	if(attacker.grab_state == GRAB_KILL \
 		&& attacker.zone_selected == BODY_ZONE_HEAD \
 		&& attacker.pulling == defender \
@@ -147,7 +182,7 @@
 	return MARTIAL_ATTACK_SUCCESS
 
 /datum/martial_art/the_sleeping_carp/disarm_act(mob/living/attacker, mob/living/defender)
-	if(!can_deflect(attacker)) //allows for deniability
+	if(!can_deflect(attacker, STANCE_OFFENSIVE)) //allows for deniability
 		return ..()
 
 	add_to_streak("D", defender)
@@ -161,20 +196,18 @@
 
 	return ..()
 
-/datum/martial_art/the_sleeping_carp/proc/can_deflect(mob/living/carp_user)
-	if(!COOLDOWN_FINISHED(src, block_cooldown))
-		if(prob(50))
-			return FALSE
+/datum/martial_art/the_sleeping_carp/proc/can_deflect(mob/living/carp_user, check_stance)
+	if(check_stance && (current_stance != check_stance))
+		return FALSE
 	if(!can_use(carp_user))
 		return FALSE
-	if(!(carp_user.istate & ISTATE_HARM)) // monke edit: istates/intents
+	if(!(carp_user.istate & ISTATE_HARM))
 		return FALSE
 	if(carp_user.incapacitated(IGNORE_GRAB)) //NO STUN
 		return FALSE
 	if(!(carp_user.mobility_flags & MOBILITY_USE)) //NO UNABLE TO USE
 		return FALSE
-	var/datum/dna/dna = carp_user.has_dna()
-	if(dna?.check_mutation(/datum/mutation/human/hulk)) //NO HULK
+	if(carp_user.has_dna()?.check_mutation(/datum/mutation/human/hulk)) //NO HULK
 		return FALSE
 	if(!isturf(carp_user.loc)) //NO MOTHERFLIPPIN MECHS!
 		return FALSE
@@ -183,7 +216,7 @@
 /datum/martial_art/the_sleeping_carp/proc/hit_by_projectile(mob/living/carp_user, obj/projectile/hitting_projectile, def_zone)
 	SIGNAL_HANDLER
 
-	if(!can_deflect(carp_user))
+	if(!can_deflect(carp_user, STANCE_DEFENSIVE))
 		return NONE
 
 	carp_user.visible_message(
@@ -313,7 +346,36 @@
 		return ..()
 	return FALSE
 
-#undef STRONG_PUNCH_COMBO
-#undef LAUNCH_KICK_COMBO
+/datum/action/carp_toggle
+	name = "Change Carp Stance"
+	desc = "Change between the offensive and defense Sleeping Carp stances"
+	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
+	button_icon_state = "carp_toggle"
+	var/datum/martial_art/the_sleeping_carp/carp
+
+/datum/action/carp_toggle/New(Target)
+	. = ..()
+	if(!istype(Target, /datum/martial_art/the_sleeping_carp))
+		CRASH("/datum/action/carp_toggle should only ever have the carp martial art as the target!")
+	carp = Target
+
+/datum/action/carp_toggle/Destroy()
+	if(carp?.toggle_action == src)
+		carp.toggle_action = null
+	carp = null
+	return ..()
+
+/datum/action/carp_toggle/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
+
+/datum/action/carp_toggle/apply_button_overlay(atom/movable/screen/movable/action_button/current_button, force)
+	. = ..()
+	current_button?.button_overlay?.color = (carp.current_stance == STANCE_OFFENSIVE) ? COLOR_CARP_RED : COLOR_CARP_BLUE
+
 #undef DROP_KICK_COMBO
-monkestation end */
+#undef LAUNCH_KICK_COMBO
+#undef STRONG_PUNCH_COMBO
+#undef STANCE_DEFENSIVE
+#undef STANCE_OFFENSIVE
