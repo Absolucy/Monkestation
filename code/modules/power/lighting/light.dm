@@ -194,12 +194,14 @@
 	..()
 	UnregisterSignal(area_to_unregister, COMSIG_AREA_FIRE_CHANGED)
 
+/* monkestation edit: reimplemented in [monkestation\code\modules\power\lighting\light.dm]
 /obj/machinery/light/proc/handle_fire(area/source, new_fire)
 	SIGNAL_HANDLER
-	update()
+	update(force = TRUE)
+monkestation end */
 
 // update the icon_state and luminosity of the light depending on its state
-/obj/machinery/light/proc/update(trigger = TRUE)
+/obj/machinery/light/proc/update(trigger = TRUE, force = FALSE) // monkestation edit: "force" argument
 	switch(status)
 		if(LIGHT_BROKEN,LIGHT_BURNED,LIGHT_EMPTY)
 			on = FALSE
@@ -214,7 +216,7 @@
 			color_set = color
 		if(reagents)
 			START_PROCESSING(SSmachines, src)
-		var/area/local_area =get_room_area(src)
+		var/area/local_area = get_room_area(src)
 		if (local_area?.fire)
 			color_set = fire_colour
 			brightness_set = fire_brightness
@@ -229,11 +231,13 @@
 			color_set = bulb_low_power_colour
 			brightness_set = bulb_outer_range * bulb_major_emergency_brightness_mul
 		var/matching = light && brightness_set == light.light_outer_range && power_set == light.light_power && color_set == light.light_color && FC == light.light_falloff_curve && IR == light.light_inner_range
-		if(!matching)
-			switchcount++
-			if( prob( min(60, (switchcount**2)*0.01) ) )
-				if(trigger)
-					burn_out()
+		// monkestation start: "force" argument
+		if(!matching || force)
+			if(!force)
+				switchcount++
+			if(trigger && !force && prob(min(60, (switchcount ** 2) * 0.01)))
+		// monkestation end
+				burn_out()
 			else
 				use_power = ACTIVE_POWER_USE
 				set_light(
@@ -242,7 +246,7 @@
 					l_power = power_set,
 					l_falloff_curve = FC,
 					l_color = color_set
-					)
+				)
 	else if(has_emergency_power(LIGHT_EMERGENCY_POWER_USE) && !turned_off())
 		use_power = IDLE_POWER_USE
 		low_power_mode = TRUE
