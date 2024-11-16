@@ -4,22 +4,28 @@
 	regencore = null
 	return ..()
 
-/datum/status_effect/stabilized/rainbow/tick()
-	if(owner.health <= 0)
-		var/obj/item/slimecross/stabilized/rainbow/extract = linked_extract
-		if(!istype(extract) || QDELING(extract) || QDELETED(extract.regencore))
-			return
-		// bypasses cooldowns, but also removes any existing regen effects
-		owner.remove_status_effect(/datum/status_effect/regenerative_extract)
-		owner.remove_status_effect(/datum/status_effect/slime_regen_cooldown)
-		owner.visible_message(span_hypnophrase("[owner] flashes a rainbow of colors, and [owner.p_their()] skin is coated in a milky regenerative goo!"))
-		playsound(owner, 'sound/effects/splat.ogg', vol = 40, vary = TRUE)
-		apply_regen(extract.regencore)
-		QDEL_NULL(linked_extract)
-		qdel(src)
-		return
+/datum/status_effect/stabilized/rainbow/on_apply()
+	RegisterSignal(owner, COMSIG_LIVING_HEALTH_UPDATE, PROC_REF(check_and_apply))
+	return TRUE
+
+/datum/status_effect/stabilized/rainbow/on_remove()
+	UnregisterSignal(owner, COMSIG_LIVING_HEALTH_UPDATE)
 	return ..()
 
+/datum/status_effect/stabilized/rainbow/proc/check_and_apply()
+	if(owner.health > 0)
+		return
+	var/obj/item/slimecross/stabilized/rainbow/extract = linked_extract
+	if(!istype(extract) || QDELING(extract) || QDELETED(extract.regencore))
+		return
+	// bypasses cooldowns, but also removes any existing regen effects
+	owner.remove_status_effect(/datum/status_effect/regenerative_extract)
+	owner.remove_status_effect(/datum/status_effect/slime_regen_cooldown)
+	owner.visible_message(span_hypnophrase("[owner] flashes a rainbow of colors, and [owner.p_their()] skin is coated in a milky regenerative goo!"))
+	playsound(owner, 'sound/effects/splat.ogg', vol = 40, vary = TRUE)
+	apply_regen(extract.regencore)
+	QDEL_NULL(linked_extract)
+	qdel(src)
 
 /datum/status_effect/stabilized/rainbow/proc/apply_regen(obj/item/slimecross/regenerative/regen_core)
 	regen_core.core_effect_before(owner, owner)
