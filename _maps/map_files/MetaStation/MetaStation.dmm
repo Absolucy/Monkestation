@@ -4886,6 +4886,7 @@
 /obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/port)
 "bIH" = (
@@ -10552,6 +10553,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/library)
 "dRZ" = (
@@ -16610,6 +16612,8 @@
 	dir = 8
 	},
 /obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/station/maintenance/port)
 "gal" = (
@@ -58995,6 +58999,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/library)
 "utD" = (
@@ -63266,6 +63271,7 @@
 /obj/machinery/holopad,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light/directional/east,
+/obj/structure/cable,
 /turf/open/floor/wood,
 /area/station/service/library)
 "vWI" = (
@@ -89089,7 +89095,7 @@ rIa
 ahD
 wki
 jIY
-sXE
+mLS
 mjr
 rLm
 saN
@@ -89346,7 +89352,7 @@ mjr
 ahD
 mjr
 ahD
-sXE
+mLS
 mjr
 fZa
 eXA
@@ -89603,7 +89609,7 @@ acB
 acB
 qQd
 jXy
-kFM
+qqg
 kFM
 kFM
 kFM
