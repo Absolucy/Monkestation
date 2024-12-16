@@ -115,3 +115,40 @@
 
 /obj/item/gun/ballistic/fingergun_emote/eject_magazine()
 	return
+
+/datum/emote/living/carbon/sweatdrop
+	key = "sweatdrop"
+	key_third_person = "sweatdrops"
+	message = "sweats"
+	emote_type = EMOTE_VISIBLE
+	//sound_volume = 25
+	vary = TRUE
+	sound = 'monkestation/sound/effects/sweatdrop.ogg'
+
+/datum/emote/living/carbon/sweatdrop/run_emote(mob/living/carbon/human/user, params, type_override, intentional)
+	. = ..()
+	if(!ishuman(user))
+		return
+	var/image/emote_animation = image('monkestation/icons/mob/species/human/emote_visuals.dmi', user, "sweatdrop")
+	emote_animation.pixel_x = 10
+	emote_animation.pixel_y = 10
+	flick_overlay_global(user.apply_height_offsets(emote_animation, UPPER_BODY), GLOB.clients, 3 SECONDS)
+
+/datum/emote/living/carbon/sweatdrop/sweat //This is entirely the same as sweatdrop, however people might use either, so i'm adding this one instead of editing the other one.
+	key = "sweat"
+
+/datum/emote/living/carbon/annoyed
+	key = "annoyed"
+	emote_type = EMOTE_VISIBLE
+	//sound_volume = 25
+	vary = TRUE
+	sound = 'monkestation/sound/effects/annoyed.ogg'
+
+/datum/emote/living/carbon/annoyed/run_emote(mob/living/carbon/human/user, params, type_override, intentional)
+	. = ..()
+	if(!ishuman(user))
+		return
+	var/image/emote_animation = image('monkestation/icons/mob/species/human/emote_visuals.dmi', user, "annoyed")
+	emote_animation.pixel_x = 10
+	emote_animation.pixel_y = 10
+	flick_overlay_global(user.apply_height_offsets(emote_animation, UPPER_BODY), GLOB.clients, 5 SECONDS)
