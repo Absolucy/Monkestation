@@ -1223,7 +1223,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 		var/armor_block = target.run_armor_check(affecting, MELEE)
 
-		playsound(target.loc, attacking_bodypart.unarmed_attack_sound, 25, TRUE, -1)
+		//MONKESTATION EDIT START
+		var/feeble = HAS_TRAIT(user, TRAIT_FEEBLE)
+		if (feeble)
+			damage *= 0.5
+			atk_verb = "weakly [atk_verb]"
+		// playsound(target.loc, attacking_bodypart.unarmed_attack_sound, 25, TRUE, -1) - MONKESTATION EDIT ORIGINAL
+		playsound(target.loc, attacking_bodypart.unarmed_attack_sound, feeble ? 10 : 25, TRUE, -1)
+		//MONKESTATION EDIT END
 
 		target.visible_message(span_danger("[user] [atk_verb]ed [target]!"), \
 						span_userdanger("You're [atk_verb]ed by [user]!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), COMBAT_MESSAGE_RANGE, user)
@@ -1769,8 +1776,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		to_add += list(list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "tint",
-			SPECIES_PERK_NAME = initial(exotic_bloodtype.name),
-			SPECIES_PERK_DESC = "[name] blood is [initial(exotic_bloodtype.name)], which can make recieving medical treatment",
+			SPECIES_PERK_NAME = "[initial(exotic_bloodtype.name)] Blood",
+			SPECIES_PERK_DESC = "[name] blood is [initial(exotic_bloodtype.name)], which can make recieving medical treatment more difficult.",
 		))
 
 	return to_add
