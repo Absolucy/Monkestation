@@ -62,6 +62,8 @@
 #define GC_FAILURE_HARD_LOOKUP
 #endif // REFERENCE_DOING_IT_LIVE
 
+#define REFERENCE_TRACKING
+
 // If this is uncommented, we do a single run though of the game setup and tear down process with unit tests in between
 // #define UNIT_TESTS
 

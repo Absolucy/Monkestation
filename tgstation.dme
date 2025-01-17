@@ -7140,6 +7140,7 @@
 #include "monkestation\code\modules\client\preferences\species_features\monkey.dm"
 #include "monkestation\code\modules\client\preferences\species_features\secondary_mut_color.dm"
 #include "monkestation\code\modules\client\verbs\deadchat.dm"
+#include "monkestation\code\modules\client\verbs\list_tracker.dm"
 #include "monkestation\code\modules\client\verbs\looc.dm"
 #include "monkestation\code\modules\clothing\durathread_weave.dm"
 #include "monkestation\code\modules\clothing\accessories\accessories.dm"
