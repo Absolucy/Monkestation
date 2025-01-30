@@ -316,6 +316,8 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
  * * regenerate_existing - if TRUE, existing organs will be deleted and replaced with new ones
  */
 /mob/living/carbon/proc/regenerate_organs(regenerate_existing = FALSE)
+	if(QDELETED(src))
+		return
 
 	// Delegate to species if possible.
 	if(dna?.species)
