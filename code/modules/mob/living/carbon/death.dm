@@ -26,10 +26,15 @@
 /mob/living/carbon/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	add_memory_in_range(src, 7, /datum/memory/witness_gib, protagonist = src)
 	if(safe_gib) // If you want to keep all the mob's items and not have them deleted MONKESTATION EDIT
-		for(var/obj/item/W in src)
-			dropItemToGround(W, violent = TRUE)
-			if(prob(50))
-				step(W, pick(GLOB.alldirs))
+		var/list/all_items = get_equipped_items(include_pockets = TRUE)
+		all_items |= held_items
+		var/obj/item/bodypart/chest/target_chest = get_bodypart(BODY_ZONE_CHEST)
+		if(target_chest?.cavity_item)
+			all_items |= target_chest.cavity_item
+		for(var/obj/item/item in unique_list(all_items))
+			dropItemToGround(item, force = TRUE, violent = TRUE)
+			if(!QDELETED(item) && prob(50))
+				step(item, pick(GLOB.alldirs))
 		var/atom/Tsec = drop_location()
 		for(var/mob/M in src)
 			M.forceMove(Tsec)
