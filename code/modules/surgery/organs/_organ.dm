@@ -108,11 +108,6 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 	if(!iscarbon(receiver) || owner == receiver)
 		return FALSE
 
-	if(QDELETED(src))
-		stack_trace("setting owner while we're qdeleting!!!")
-	else if(QDELETED(receiver))
-		stack_trace("setting owner while it's qdeleting!!!")
-
 	var/obj/item/organ/replaced = receiver.get_organ_slot(slot)
 	if(replaced)
 		replaced.Remove(receiver, special = TRUE)
@@ -127,6 +122,12 @@ INITIALIZE_IMMEDIATE(/obj/item/organ)
 
 	// Apply unique side-effects. Return value does not matter.
 	on_insert(receiver, special)
+
+
+	if(QDELETED(src))
+		stack_trace("inserting organ while we're qdeleting!!!")
+	else if(QDELETED(receiver))
+		stack_trace("inserting organ while they're qdeleting!!!")
 
 	return TRUE
 
