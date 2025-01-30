@@ -20,9 +20,9 @@
 	return ..()
 
 /mob/living/carbon/human/species/monkey/dump_harddel_info()
-	if(harddel_deets_dumped || !(_new_info || _destroy_info))
+	if(/* harddel_deets_dumped || */ !(_new_info || _destroy_info))
 		return
-	harddel_deets_dumped = TRUE
+	// harddel_deets_dumped = TRUE
 	var/list/info = list()
 	if(_new_info)
 		info += "New() call stack: \n\t[replacetext_char(_new_info, "\n", "\n\t")]"
@@ -51,9 +51,9 @@
 	return ..()
 
 /obj/item/organ/internal/dump_harddel_info()
-	if(harddel_deets_dumped || !(_new_info || _destroy_info))
+	if(/* harddel_deets_dumped || */ !(_new_info || _destroy_info))
 		return
-	harddel_deets_dumped = TRUE
+	// harddel_deets_dumped = TRUE
 	var/list/info = list()
 	if(_new_info)
 		info += "New() call stack: \n\t[replacetext_char(_new_info, "\n", "\n\t")]"
