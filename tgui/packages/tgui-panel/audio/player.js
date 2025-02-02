@@ -90,6 +90,7 @@ export class AudioPlayer {
     }
     logger.log('stopping');
     this.playing = false;
+    this.node.pause();
     this.node.src = '';
   }
 
