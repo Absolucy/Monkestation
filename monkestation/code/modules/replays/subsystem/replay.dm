@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(demo)
 	var/list/pre_init_lines = list() // stuff like chat before the init
 	var/list/icon_cache = list()
 	var/list/icon_state_caches = list()
-	var/list/name_cache = list()
+	var/alist/name_cache = alist()
 
 	var/list/marked_dirty = list()
 	var/list/marked_new = list()

@@ -349,7 +349,7 @@
 		return
 
 	if(ispath(path))
-		. = list()
+		. = alist()
 		if(only_root_path)
 			.[path] = TRUE
 			return
@@ -361,7 +361,7 @@
 	if(!islist(path))
 		CRASH("Tried to create a typecache of [path] which is neither a typepath nor a list.")
 
-	. = list()
+	. = alist()
 	var/list/pathlist = path
 	if(only_root_path)
 		for(var/current_path in pathlist)
@@ -399,7 +399,7 @@
 		if (isnull(single_value))
 			return
 
-		. = list()
+		. = alist()
 		if(only_root_path)
 			.[path] = single_value
 			return
@@ -411,7 +411,7 @@
 	if(!islist(path))
 		CRASH("Tried to create a typecache of [path] which is neither a typepath nor a list.")
 
-	. = list()
+	. = alist()
 	var/list/pathlist = path
 	if(only_root_path)
 		for(var/current_path in pathlist)
