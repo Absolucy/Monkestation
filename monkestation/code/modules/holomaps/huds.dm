@@ -3,7 +3,6 @@
 
 /datum/hud/New(mob/owner)
 	. = ..()
-
 	holomap = new /atom/movable/screen/holomap()
 	holomap.name = "holomap"
 	holomap.icon = null
@@ -15,6 +14,11 @@
 	/// The owner. Used to get z-level data.
 	var/obj/machinery/station_map/used_station_map
 	var/image/used_base_map
+
+/atom/movable/screen/holomap/Destroy()
+	used_station_map = null
+	used_base_map = null
+	return ..()
 
 /atom/movable/screen/holomap/Click(location, control, params)
 	. = ..()
@@ -29,7 +33,7 @@
 	var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
 	var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
 
-	if(icon_x < HOLOMAP_LEGEND_X || icon_x > HOLOMAP_LEGEND_X + HOLOMAP_LEGEND_WIDTH || icon_y < HOLOMAP_LEGEND_Y || icon_y > used_station_map.holomap_datum.total_legend_y)
+	if(ISINRANGE_EX(icon_x, HOLOMAP_LEGEND_X, HOLOMAP_LEGEND_X + HOLOMAP_LEGEND_WIDTH) || ISINRANGE_EX(icon_y, HOLOMAP_LEGEND_Y, used_station_map.holomap_datum.total_legend_y))
 		return
 
 	var/selected_entry = round(icon_y / 10, 1) - 1 // Always round for a whole number, and subtract one cause I have no fucking idea what I'm doing

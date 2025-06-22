@@ -8,7 +8,7 @@
 /obj/machinery/station_map
 	name = "\improper station holomap"
 	desc = "A virtual map of the surrounding station."
-	icon = 'monkestation/code/modules/holomaps/icons/stationmap.dmi'
+	icon = 'icons/ui_icons/holomaps/stationmap.dmi'
 	icon_state = "station_map"
 	layer = ABOVE_WINDOW_LAYER
 	use_power = IDLE_POWER_USE
@@ -54,7 +54,7 @@
 
 	holomap_datum.initialize_holomap(current_turf, current_z_level, reinit_base_map = TRUE, extra_overlays = handle_overlays())
 
-	floor_markings = image('monkestation/code/modules/holomaps/icons/stationmap.dmi', "decal_station_map")
+	floor_markings = image('icons/ui_icons/holomaps/stationmap.dmi', "decal_station_map")
 	floor_markings.dir = src.dir
 
 	update_icon()
@@ -88,7 +88,7 @@
 
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/check_position)
 
-	playsound(src, 'monkestation/code/modules/holomaps/sounds/holomap_open.ogg', 125)
+	playsound(src, 'sounds/effects/holomap_open.ogg', 125)
 	animate(holomap_datum.base_map, alpha = 255, time = 5, easing = LINEAR_EASING)
 	icon_state = "station_map_active"
 	set_light(HOLOMAP_HIGH_LIGHT)
@@ -130,7 +130,7 @@
 		return
 
 	UnregisterSignal(watching_mob, COMSIG_MOVABLE_MOVED)
-	playsound(src, 'monkestation/code/modules/holomaps/sounds/holomap_close.ogg', 125)
+	playsound(src, 'sounds/effects/holomap_close.ogg', 125)
 	icon_state = initial(icon_state)
 	if(watching_mob?.client)
 		animate(holomap_datum.base_map, alpha = 0, time = 5, easing = LINEAR_EASING)
@@ -271,7 +271,7 @@
 			canvas.DrawBox(color, offset_x, offset_y)
 			z_has_coverage = TRUE
 		if(z_has_coverage)
-			legend["Meteor Shield"] = list("icon" = image('monkestation/code/modules/holomaps/icons/8x8.dmi', icon_state = "meteor_shield"), "markers" = list(image(canvas)))
+			legend["Meteor Shield"] = list("icon" = image('icons/ui_icons/holomaps/8x8.dmi', icon_state = "meteor_shield"), "markers" = list(image(canvas)))
 	return legend
 
 /obj/machinery/station_map/engineering
@@ -296,26 +296,26 @@
 	var/list/fire_alarms = list()
 	for(var/obj/machinery/firealarm/alarm as anything in GLOB.station_fire_alarms["[current_z_level]"])
 		if(alarm?.z == current_z_level && alarm?.my_area?.fire)
-			var/image/alarm_icon = image('monkestation/code/modules/holomaps/icons/8x8.dmi', icon_state = "fire_marker")
+			var/image/alarm_icon = image('icons/ui_icons/holomaps/8x8.dmi', icon_state = "fire_marker")
 			alarm_icon.pixel_x = alarm.x + HOLOMAP_CENTER_X - 1
 			alarm_icon.pixel_y = alarm.y + HOLOMAP_CENTER_Y
 			fire_alarms += alarm_icon
 
 	if(length(fire_alarms))
-		extra_overlays["Fire Alarms"] = list("icon" = image('monkestation/code/modules/holomaps/icons/8x8.dmi', icon_state = "fire_marker"), "markers" = fire_alarms)
+		extra_overlays["Fire Alarms"] = list("icon" = image('icons/ui_icons/holomaps/8x8.dmi', icon_state = "fire_marker"), "markers" = fire_alarms)
 
 	/*
 	var/list/air_alarms = list()
 	for(var/obj/machinery/airalarm/air_alarm in GLOB.machines)
 		var/area/alarms = get_area(air_alarm)
 		if(air_alarm?.z == current_z_level && alarms?.atmosalm) //Altered it to fire_alam since we don't have an area variable on air_alarms
-			var/image/alarm_icon = image('monkestation/code/modules/holomaps/icons/8x8.dmi', "atmos_marker")
+			var/image/alarm_icon = image('icons/ui_icons/holomaps/8x8.dmi', "atmos_marker")
 			alarm_icon.pixel_x = air_alarm.x + HOLOMAP_CENTER_X - 1
 			alarm_icon.pixel_y = air_alarm.y + HOLOMAP_CENTER_Y
 			air_alarms += alarm_icon
 
 	if(length(air_alarms))
-		extra_overlays["Air Alarms"] = list("icon" = image('monkestation/code/modules/holomaps/icons/8x8.dmi', "atmos_marker"), "markers" = air_alarms)
+		extra_overlays["Air Alarms"] = list("icon" = image('icons/ui_icons/holomaps/8x8.dmi', "atmos_marker"), "markers" = air_alarms)
 	*/
 
 	return extra_overlays
@@ -367,7 +367,7 @@
 
 /obj/machinery/station_map/strategic
 	name = "strategic station holomap"
-	icon = 'monkestation/code/modules/holomaps/icons/strategic_stationmap.dmi'
+	icon = 'icons/ui_icons/holomaps/strategic_stationmap.dmi'
 	icon_state = "strat_holomap"
 	pixel_x = -16
 	pixel_y = -16

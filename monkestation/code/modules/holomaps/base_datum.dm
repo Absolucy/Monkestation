@@ -14,7 +14,7 @@
 
 /datum/station_holomap/New()
 	. = ..()
-	cursor = image('monkestation/code/modules/holomaps/icons/8x8.dmi', "you")
+	cursor = image('icons/ui_icons/holomaps/8x8.dmi', "you")
 
 /datum/station_holomap/proc/initialize_holomap(turf/T, current_z_level, mob/user = null, reinit_base_map = FALSE, extra_overlays = list())
 	bogus = FALSE
@@ -51,7 +51,7 @@
 			overlay_data["[round(legend_y / 10)]"] = overlay_name
 
 		if(overlay_name in disabled_overlays)
-			var/image/disabled_marker = image('monkestation/code/modules/holomaps/icons/8x8.dmi', "legend_cross")
+			var/image/disabled_marker = image('icons/ui_icons/holomaps/8x8.dmi', "legend_cross")
 			disabled_marker.pixel_x = HOLOMAP_LEGEND_X
 			disabled_marker.pixel_y = legend_y
 			base_map.add_overlay(disabled_marker)
@@ -67,7 +67,7 @@
 	base_map.cut_overlays()
 
 	if(bogus)
-		var/image/legend = image('monkestation/code/modules/holomaps/icons/64x64.dmi', "notfound")
+		var/image/legend = image('icons/ui_icons/holomaps/64x64.dmi', "notfound")
 		legend.pixel_x = 192
 		legend.pixel_y = 224
 		base_map.add_overlay(legend)
@@ -79,7 +79,7 @@
 
 		base_map.add_overlay(cursor)
 		overlays_to_use["You are here"] = list(
-			"icon" = image('monkestation/code/modules/holomaps/icons/8x8.dmi', "you"),
+			"icon" = image('icons/ui_icons/holomaps/8x8.dmi', "you"),
 			"markers" = list()
 		)
 
@@ -97,6 +97,6 @@
 
 /datum/station_holomap/proc/initialize_holomap_bogus()
 	bogus = TRUE
-	base_map = image('monkestation/code/modules/holomaps/icons/480x480.dmi', "stationmap")
+	base_map = image('icons/ui_icons/holomaps/480x480.dmi', "stationmap")
 
 	update_map()
