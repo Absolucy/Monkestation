@@ -1,16 +1,8 @@
-/datum/hud
-	var/atom/movable/screen/holomap/holomap
-
-/datum/hud/New(mob/owner)
-	. = ..()
-	holomap = new /atom/movable/screen/holomap()
-	holomap.name = "holomap"
-	holomap.icon = null
-	holomap.screen_loc = ui_holomap
-	holomap.mouse_opacity = MOUSE_OPACITY_ICON
-
-
 /atom/movable/screen/holomap
+	name = "holomap"
+	icon = null
+	screen_loc = ui_holomap
+	mouse_opacity = MOUSE_OPACITY_ICON
 	/// The owner. Used to get z-level data.
 	var/obj/machinery/station_map/used_station_map
 	var/image/used_base_map

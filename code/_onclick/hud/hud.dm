@@ -103,6 +103,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	var/atom/movable/screen/vis_holder/vis_holder
 
+	var/atom/movable/screen/holomap/holomap
+
 	// subtypes can override this to force a specific UI style
 	var/ui_style
 
@@ -148,6 +150,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	update_sightflags(mymob, mymob.sight, NONE)
 
 	vis_holder = new(null, src)
+	holomap = new(null, src)
+
 
 /datum/hud/proc/client_refresh(datum/source)
 	SIGNAL_HANDLER
@@ -242,6 +246,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	throw_icon = null
 	QDEL_LIST(infodisplay)
 	QDEL_NULL(vis_holder)
+	QDEL_NULL(holomap)
 
 	healths = null
 	stamina = null
