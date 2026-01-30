@@ -35,6 +35,15 @@
 	voice_of_god_silence_power = 3
 	rpg_title = "Veteran Adventurer"
 
+/datum/job/curator/after_spawn(mob/living/spawned, client/player_client)
+	. = ..()
+	if(spawned.mind)
+		ADD_TRAIT(spawned.mind, TRAIT_OCCULTIST, JOB_TRAIT)
+		spawned.mind.teach_crafting_recipe(list(
+			/datum/crafting_recipe/hardened_stake,
+			/datum/crafting_recipe/silver_stake,
+		))
+
 /datum/outfit/job/curator
 	name = "Curator"
 	jobtype = /datum/job/curator
