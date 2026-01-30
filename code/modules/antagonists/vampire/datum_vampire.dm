@@ -740,6 +740,9 @@
 
 		examine_text += text
 
+	if(diablerie_count > 0 && HAS_TRAIT(examiner, TRAIT_SEE_DIABLERIE))
+		examine_text += span_cultlarge("<br><EM>You can see the corrupted marks of a diablerist in [owner.current.p_their()] aura!</EM>")
+
 /datum/antagonist/vampire/proc/on_moved(datum/source)
 	SIGNAL_HANDLER
 

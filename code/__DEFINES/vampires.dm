@@ -164,6 +164,8 @@
 #define TRAIT_FRENZY "frenzy"
 /// This vampire is currently in torpor.
 #define TRAIT_TORPOR "torpor"
+/// This vampire can tell if another vampire has committed diablere on examine.
+#define TRAIT_SEE_DIABLERIE "see_diablerie"
 
 // Trait sources
 /// Source trait for all vampire traits

@@ -27,7 +27,7 @@
 	desc = "Sense the vitae of any creature directly, and use your keen senses to widen your perception."
 	button_icon_state = "power_auspex"
 	power_explanation = "- Level 1: When Activated, you will see further. \n\
-					- Level 2: When Activated, you will see further, and be able to sense walls and the layout of rooms. \n\
+					- Level 2: When Activated, you will see further, be able to sense walls and the layout of rooms, and, upon examining a fellow Kindred, be able to tell if they have committed Diablerie. \n\
 					- Level 3: When Activated, You still have meson vision, same as level 3, but even more range. \n\
 					- Level 4: When Activated, you will see further, and be able to sense anything in sight, seeing through walls and barriers as if they were glass."
 	vampire_power_flags = BP_AM_TOGGLE | BP_AM_STATIC_COOLDOWN
@@ -39,6 +39,7 @@
 	var/add_xray = FALSE
 	var/zoom_out_amt = 2
 	var/zoom_amt = 6
+	var/see_diablerie = FALSE
 
 
 	var/looking = FALSE
@@ -51,6 +52,7 @@
 	zoom_out_amt = 4
 	zoom_amt = 7
 	add_meson = TRUE
+	see_diablerie = TRUE
 
 /datum/action/cooldown/vampire/auspex/three
 	name = "Auspex"
@@ -59,6 +61,7 @@
 	zoom_out_amt = 6
 	zoom_amt = 8
 	add_meson = TRUE
+	see_diablerie = TRUE
 
 /datum/action/cooldown/vampire/auspex/four
 	name = "Auspex"
@@ -67,6 +70,7 @@
 	zoom_out_amt = 10
 	zoom_amt = 10
 	add_xray = TRUE
+	see_diablerie = TRUE
 
 /datum/action/cooldown/vampire/auspex/activate_power()
 	. = ..()
@@ -105,6 +109,9 @@
 	client?.pixel_y = ICON_SIZE_Y * _y
 	looking = TRUE
 
+	if(see_diablerie)
+		ADD_TRAIT(owner, TRAIT_SEE_DIABLERIE, REF(src))
+
 	if(add_meson)
 		ADD_TRAIT(owner, TRAIT_MESON_VISION, REF(src))
 
@@ -121,7 +128,7 @@
 		listening_to = null
 
 	looking = FALSE
-	owner.remove_traits(list(TRAIT_MESON_VISION, TRAIT_XRAY_VISION), REF(src))
+	owner.remove_traits(list(TRAIT_SEE_DIABLERIE, TRAIT_MESON_VISION, TRAIT_XRAY_VISION), REF(src))
 	owner.update_sight()
 
 	// do this last in case weird client shit happens and runtimes
