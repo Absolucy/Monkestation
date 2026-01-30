@@ -27,6 +27,9 @@
 
 	RegisterSignal(current_mob, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(current_mob, COMSIG_MOB_LOGIN, PROC_REF(on_login))
+	RegisterSignal(current_mob, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(on_update_sight))
+
+	current_mob.update_sight()
 
 	// HUD
 	add_team_hud(current_mob)
@@ -41,7 +44,8 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EXAMINE, COMSIG_MOB_LOGIN))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EXAMINE, COMSIG_MOB_LOGIN, COMSIG_MOB_UPDATE_SIGHT))
+	current_mob.update_sight()
 
 	// Tracking
 	QDEL_NULL(monitor)
@@ -228,3 +232,10 @@
 	else if(vampiredatum || (master?.broke_masquerade && IS_VAMPIRE_HUNTER(examiner)) || IS_VASSAL(examiner))
 		text += span_cult("<EM>This is [master.return_full_name()]'s vassal</EM>")
 		examine_text += text
+
+// Vassals get night vision, so they can at least somewhat be useful to their masters in dark areas without revealing themselves with a flashlight or something.
+// The night vision is weaker than true night vision like a vampire has, but it's still better than mesons.
+/datum/antagonist/vassal/proc/on_update_sight(mob/user)
+	SIGNAL_HANDLER
+	user.lighting_cutoff = max(user.lighting_cutoff, (LIGHTING_CUTOFF_HIGH + LIGHTING_CUTOFF_MEDIUM) / 2)
+	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
