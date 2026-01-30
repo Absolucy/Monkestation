@@ -132,6 +132,7 @@
 		scourgedatum.scourgify()
 		target_ref = null
 		power_activated_sucessfully()
+		return
 	else
 		target_ref = WEAKREF(IS_VAMPIRE(living_target))
 
