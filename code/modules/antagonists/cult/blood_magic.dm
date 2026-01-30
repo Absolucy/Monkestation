@@ -533,6 +533,7 @@
 	ADD_TRAIT(user, TRAIT_HARDLY_WOUNDED, REF(src))
 	addtimer(TRAIT_CALLBACK_REMOVE(user, TRAIT_HARDLY_WOUNDED, REF(src)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
+
 	var/turf/user_turf = get_turf(user)
 	var/turf/target_turf = get_turf(target)
 
@@ -543,6 +544,10 @@
 	// this is gonna hurt for the both of them.
 	user.throw_at(get_edge_target_turf(user_turf, get_dir(target_turf, user_turf)), range = 200, speed = 5)
 	target.throw_at(get_edge_target_turf(target_turf, get_dir(user_turf, target_turf)), range = 200, speed = 5)
+
+	// they both get a bit of confusion too, as a treat
+	target.set_confusion_if_lower(8 SECONDS)
+	user.set_confusion_if_lower(8 SECONDS)
 
 // If this is gonna be a snowflake touch spell despite not being an actual touch spell, then we get to have snowflake code to ensure it behaves like it should.
 /obj/item/melee/blood_magic/stun/proc/snowflake_martial_arts_handler(mob/living/target, mob/living/carbon/user)
