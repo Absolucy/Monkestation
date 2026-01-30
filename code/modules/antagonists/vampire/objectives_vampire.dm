@@ -15,23 +15,21 @@
 //////////////////////////////////////////////////       Lair
 ////////////////////////////////////////////////////////////////////
 
-/datum/objective/vampire/ego/lair
-	name = "Claim a Lair"
+/datum/objective/vampire/ego/vassals
+	name = "Vassalize Mortals"
 
-/datum/objective/vampire/ego/lair/update_explanation_text()
+/datum/objective/vampire/ego/vassals/New()
+	target_amount = rand(1, 3)
+	return ..()
+
+/datum/objective/vampire/ego/vassals/update_explanation_text()
 	. = ..()
-	explanation_text = "[initial(explanation_text)] Establish a lair to rule from and hold it until the shift ends."
+	explanation_text = "[initial(explanation_text)] Vassalize [target_amount] mortal\s using a Vassalization Rack, and ensure they survive the shift."
 
 // WIN CONDITIONS?
-/datum/objective/vampire/ego/lair/check_completion()
-	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(owner.current)
-	if(!vampire_datum)
-		return FALSE
-
-	if(vampire_datum.coffin && vampire_datum.vampire_lair_area)
-		return TRUE
-
-	return FALSE
+/datum/objective/vampire/ego/vassals/check_completion()
+	var/datum/antagonist/vampire/vampire_datum = owner.has_antag_datum(/datum/antagonist/vampire)
+	return vampire_datum?.count_vassals(only_living = TRUE) >= target_amount
 
 
 ////////////////////////////////////////////////// Department Vassal
@@ -61,7 +59,7 @@
 	return ..()
 
 /datum/objective/vampire/ego/department_vassal/proc/get_vassal_occupations()
-	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(owner.current)
+	var/datum/antagonist/vampire/vampire_datum = owner.has_antag_datum(/datum/antagonist/vampire)
 	if(!length(vampire_datum?.vassals))
 		return FALSE
 
@@ -111,7 +109,7 @@
 
 // WIN CONDITIONS?
 /datum/objective/vampire/ego/bigplaces/check_completion()
-	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(owner.current)
+	var/datum/antagonist/vampire/vampire_datum = owner.has_antag_datum(/datum/antagonist/vampire)
 	if(!vampire_datum)
 		return FALSE
 
@@ -128,36 +126,6 @@
 /datum/objective/vampire/hedonism
 	name = "Hunger"
 	explanation_text = "You crave depravity, to sate your thirst on the mortals:"
-
-
-//////////////////////////////////////////////////     Heart Thief
-////////////////////////////////////////////////////////////////////
-
-/datum/objective/vampire/hedonism/heartthief
-	name = "Collect Hearts"
-
-/datum/objective/vampire/hedonism/heartthief/New()
-	target_amount = rand(2,3)
-	return ..()
-
-/datum/objective/vampire/hedonism/heartthief/update_explanation_text()
-	. = ..()
-	explanation_text = "[initial(explanation_text)] Keep [target_amount] organic hearts close at hand. They shall be symbols of your dominion."
-
-/datum/objective/vampire/hedonism/heartthief/check_completion()
-	if(!owner.current)
-		return FALSE
-
-	var/list/all_items = owner.current.get_contents()
-	var/heart_count = 0
-	for(var/obj/item/organ/internal/heart/current_hearts in all_items)
-		if(current_hearts.organ_flags & ORGAN_ROBOTIC) // No robo-hearts allowed
-			continue
-		heart_count++
-
-	if(heart_count >= target_amount)
-		return TRUE
-	return FALSE
 
 
 //////////////////////////////////////////////////     Gourmand
@@ -195,10 +163,7 @@
 
 /datum/objective/vampire/hedonism/thirster/check_completion()
 	var/datum/antagonist/vampire/vampiredatum = owner.has_antag_datum(/datum/antagonist/vampire)
-	if(!vampiredatum)
-		return FALSE
-
-	if(vampiredatum.thirster_objective)
+	if(vampiredatum?.thirster_objective)
 		return TRUE
 
 	return FALSE
@@ -219,5 +184,5 @@
 	explanation_text = "You crave the blood of your sire! Obey and protect them at all costs!"
 
 /datum/objective/vampire/vassal/check_completion()
-	var/datum/antagonist/vassal/vassal_datum = IS_VASSAL(owner.current)
+	var/datum/antagonist/vassal/vassal_datum = owner.has_antag_datum(/datum/antagonist/vassal)
 	return vassal_datum.master?.owner?.current?.stat != DEAD

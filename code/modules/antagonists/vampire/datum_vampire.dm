@@ -647,29 +647,20 @@
 /datum/antagonist/vampire/forge_objectives()
 	var/datum/objective/vampire/extra_objective
 
-	if(get_max_vassals() >= 1) // Two trees for if we can make vassals or not.
-		//pick Ego objective
-		switch(rand(1, 3))
-			if(3)
-				extra_objective = new /datum/objective/vampire/ego/department_vassal()
-			if(2)
-				extra_objective = new /datum/objective/vampire/ego/bigplaces()
-			if(1)
-				extra_objective = new /datum/objective/vampire/ego/lair()
+	if(prob(80))
+		extra_objective = new /datum/objective/vampire/ego/vassals
 	else
-		extra_objective = new /datum/objective/vampire/ego/bigplaces()
+		extra_objective = new /datum/objective/vampire/ego/department_vassal
 
 	extra_objective.owner = owner
 	objectives += extra_objective
 
 	//pick Hedonism objective
-	switch(rand(1, 3))
-		if(3)
-			extra_objective = new /datum/objective/vampire/hedonism/heartthief()
-		if(2)
-			extra_objective = new /datum/objective/vampire/hedonism/gourmand()
+	switch(rand(1, 2))
 		if(1)
-			extra_objective = new /datum/objective/vampire/hedonism/thirster()
+			extra_objective = new /datum/objective/vampire/hedonism/gourmand
+		if(2)
+			extra_objective = new /datum/objective/vampire/hedonism/thirster
 
 	extra_objective.owner = owner
 	objectives += extra_objective
@@ -680,11 +671,13 @@
 	objectives += survive_objective
 
 /// Use this instead of `length(vassals)`, as it won't count round removed vassals and such.
-/datum/antagonist/vampire/proc/count_vassals()
+/datum/antagonist/vampire/proc/count_vassals(only_living = FALSE)
 	. = 0
 	for(var/datum/antagonist/vassal/vassal as anything in vassals)
 		var/mob/living/vassal_body = vassal.owner.current
 		if(QDELETED(vassal_body))
+			continue
+		if(only_living && !considered_alive(vassal))
 			continue
 		if(!HAS_TRAIT(vassal_body, TRAIT_MIND_TEMPORARILY_GONE))
 			if(vassal_body.stat == DEAD)
