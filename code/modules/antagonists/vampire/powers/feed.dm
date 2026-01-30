@@ -621,7 +621,7 @@
 	id = "feed marked"
 	tick_interval = STATUS_EFFECT_NO_TICK
 	processing_speed = STATUS_EFFECT_NORMAL_PROCESS
-	status_type = STATUS_EFFECT_UNIQUE
+	status_type = STATUS_EFFECT_REFRESH
 	alert_type = null
 
 /datum/status_effect/feed_marked/on_apply()
