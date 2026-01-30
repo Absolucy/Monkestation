@@ -228,3 +228,4 @@
 	masquerade_objective.explanation_text = "Ensure [masquerade_breaker.owner.current], who has broken the Masquerade, succumbs to Final Death."
 	vampiredatum.objectives += masquerade_objective
 	vampiredatum.owner.announce_objectives()
+	vampiredatum.update_static_data_for_all_viewers()
