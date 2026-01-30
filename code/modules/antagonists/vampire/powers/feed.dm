@@ -142,11 +142,11 @@
 	if(IS_VAMPIRE_HUNTER(target))
 		owner.balloon_alert(owner, "[target] is too powerful!")
 		return FALSE
-	// Only allow diablerie for masquerade breakers
-	if(IS_VAMPIRE(target))
+	// If allowing all vamps to diablerize ends up being too much of an issue, uncomment this.
+	/* if(IS_VAMPIRE(target))
 		var/datum/antagonist/vampire/target_vampire = IS_VAMPIRE(target)
 		if(!target_vampire.broke_masquerade)
-			return FALSE
+			return FALSE */
 	// Human checks
 	if(ishuman(target))
 		// Cannot drink from inorganics
@@ -448,11 +448,11 @@
 /datum/action/cooldown/vampire/targeted/feed/proc/diablerie(mob/living/poor_sap)
 	var/datum/antagonist/vampire/victim = IS_VAMPIRE(poor_sap)
 
-	var/levels_absorbed = (victim.vampire_level + victim.vampire_level_unspent) / DIABLERIE_DIVISOR
+	var/levels_absorbed = ceil((victim.vampire_level + victim.vampire_level_unspent) / DIABLERIE_DIVISOR)
 
 	vampiredatum_power.rank_up(levels_absorbed, TRUE)
-
 	vampiredatum_power.adjust_humanity(-victim.humanity / 3)
+	vampiredatum_power.diablerie_count++
 
 	victim.final_death()
 
@@ -571,8 +571,8 @@
 	vampiredatum_power.adjust_blood_volume(vitae_absorbed)
 
 	// Diablerie takes vitae directly
-	if(IS_VAMPIRE(target))
-		var/datum/antagonist/vampire/vampire_target = IS_VAMPIRE(target)
+	var/datum/antagonist/vampire/vampire_target = IS_VAMPIRE(target)
+	if(vampire_target)
 		vampire_target.adjust_blood_volume(- (blood_to_take * 4))
 
 	// Transfer the target's reagents into the vampire's blood

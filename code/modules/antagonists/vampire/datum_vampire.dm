@@ -49,6 +49,9 @@
 	/// Cooldown between masquerade infractions, so you can't have a bunch of them in the span of a single fight.
 	COOLDOWN_DECLARE(masquerade_infraction_cooldown)
 
+	/// How many vampires we've diablerized, if any.
+	var/diablerie_count = 0
+
 	/// How many humanity points do we have? 0-10
 	/// We actually always start with 7 and then add the clan's default humanity
 	var/humanity = VAMPIRE_DEFAULT_HUMANITY
