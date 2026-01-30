@@ -545,9 +545,11 @@
 	user.throw_at(get_edge_target_turf(user_turf, get_dir(target_turf, user_turf)), range = 200, speed = 5)
 	target.throw_at(get_edge_target_turf(target_turf, get_dir(user_turf, target_turf)), range = 200, speed = 5)
 
-	// they both get a bit of confusion too, as a treat
+	// they're both a bit disoriented for a moment
 	target.set_confusion_if_lower(8 SECONDS)
+	target.set_eye_blur_if_lower(8 SECONDS)
 	user.set_confusion_if_lower(8 SECONDS)
+	user.set_eye_blur_if_lower(8 SECONDS)
 
 // If this is gonna be a snowflake touch spell despite not being an actual touch spell, then we get to have snowflake code to ensure it behaves like it should.
 /obj/item/melee/blood_magic/stun/proc/snowflake_martial_arts_handler(mob/living/target, mob/living/carbon/user)
