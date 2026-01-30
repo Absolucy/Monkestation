@@ -331,6 +331,25 @@
 		playsound(smacked, 'sound/weapons/cqchit2.ogg', 80)
 		deactivate_power()
 		return
+	else if(istype(smacked.get_item_by_slot(ITEM_SLOT_NECK), /obj/item/clothing/neck/crucifix))
+		owner.visible_message(
+			span_warning("[owner] recoils, quickly releasing [smacked] from [owner.p_their()] grip!"),
+			span_userdanger("The Faith burns you, preventing you from feeding!"),
+		)
+		living_owner.take_overall_damage(burn = rand(5, 15))
+		living_owner.set_jitter_if_lower(5 SECONDS)
+		living_owner.set_eye_blur_if_lower(2 SECONDS)
+		playsound(
+			owner,
+			pick('sound/effects/wounds/sizzle1.ogg', 'sound/effects/wounds/sizzle2.ogg'),
+			vol = 50,
+			vary = TRUE,
+			extrarange = SHORT_RANGE_SOUND_EXTRARANGE,
+		)
+		deactivate_power()
+		if(owner.pulledby == smacked)
+			owner.stop_pulling()
+		return
 
 	if(currently_feeding) // Check if we actually started successfully.
 		var/obj/item/comically_large_straw/straw = locate() in owner.held_items
