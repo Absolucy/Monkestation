@@ -72,6 +72,7 @@
 	. = ..()
 	owner.balloon_alert(owner, "fortitude turned on.")
 	to_chat(owner, span_notice("Your flesh has become as hard as steel!"))
+	owner.playsound_local(null, 'sound/vampires/fortitude_on.ogg', 100, FALSE, pressure_affected = FALSE)
 
 	calculated_burn_resist = min(1, resistance * 3)
 
@@ -112,5 +113,6 @@
 	REMOVE_TRAITS_IN(owner, REF(src))
 
 	owner.balloon_alert(owner, "fortitude turned off.")
+	owner.playsound_local(null, 'sound/vampires/fortitude_off.ogg', 100, FALSE, pressure_affected = FALSE)
 
 	return ..()

@@ -42,6 +42,7 @@ GLOBAL_LIST_EMPTY(all_vampires)
 
 	rank_up(8, TRUE) // Rank up a lot.
 	to_chat(owner.current, span_cultbold("As a true prince, you find some of your old power returning to you!"))
+	owner.current.playsound_local(null, 'sound/vampires/prince.ogg', 100, FALSE, pressure_affected = FALSE)
 	prince = TRUE
 	add_team_hud(owner.current)
 
@@ -77,6 +78,7 @@ GLOBAL_LIST_EMPTY(all_vampires)
 
 	rank_up(4, TRUE) // Rank up less.
 	to_chat(owner.current, span_cultbold("As a Camarilla scourge, your newfound purpose empowers you!"))
+	owner.current.playsound_local(null, 'sound/vampires/scourge_recruit.ogg', 100, FALSE, pressure_affected = FALSE)
 	scourge = TRUE
 	add_team_hud(owner.current)
 

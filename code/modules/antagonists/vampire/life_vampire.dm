@@ -253,6 +253,7 @@
 
 	// Warn them at low blood
 	if(current_vitae < VAMPIRE_LOW_BLOOD_WARNING && !low_blood_alerted)
+		owner.current.playsound_local(null, 'sound/vampires/bloodneed.ogg', 100, FALSE, pressure_affected = FALSE)
 		to_chat(owner.current, span_narsiesmall("Care now. Your vitae runs low!"), type = MESSAGE_TYPE_WARNING)
 		low_blood_alerted = TRUE
 	else if(current_vitae > VAMPIRE_LOW_BLOOD_WARNING)
@@ -307,6 +308,7 @@
 			carbon_body.drop_all_held_items()
 			carbon_body.unequip_everything()
 			carbon_body.remove_all_embedded_objects()
+			playsound(owner.current, 'sound/vampires/burning_death.ogg', 100, TRUE)
 		else
 			body.dust(drop_items = TRUE)
 

@@ -203,7 +203,7 @@ GLOBAL_LIST_EMPTY_TYPED(dead_oozeling_cores, /obj/item/organ/internal/brain/slim
 	user.balloon_alert_to_viewers("staked core!")
 	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(src)
 	if(vampire_datum)
-		playsound(get_turf(src), 'sound/effects/tendril_destroyed.ogg', vol = 40, vary = TRUE)
+		playsound(get_turf(src), 'sound/vampires/burning_death.ogg', vol = 40, vary = TRUE)
 		user.visible_message(
 			span_danger("[user] drives \the [stake] into [src], causing it to rapidly dissolve. A hollow cry wails from the rapidly melting core."),
 			span_danger("You drive \the [stake] into [src], causing it to rapidly dissolve. A hollow cry wails from the rapidly melting core."),

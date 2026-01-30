@@ -136,6 +136,7 @@
 		target_ref = WEAKREF(IS_VAMPIRE(living_target))
 
 		owner.balloon_alert(owner, "you offer [living_target] the rank of Scourge...")
+		living_target.playsound_local(null, 'sound/vampires/scourge_offer.ogg', 100, FALSE, pressure_affected = FALSE)
 
 		ASYNC
 			var/choice = tgui_alert(living_target,

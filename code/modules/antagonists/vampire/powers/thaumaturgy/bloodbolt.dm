@@ -31,6 +31,7 @@
 	bolt.preparePixelProjectile(target_atom, living_owner)
 	INVOKE_ASYNC(bolt, TYPE_PROC_REF(/obj/projectile, fire))
 
+	playsound(living_owner, 'sound/vampires/bloodbolt_fire.ogg', 60, TRUE)
 	power_activated_sucessfully()
 
 /**
@@ -42,6 +43,7 @@
 	name = "blood bolt"
 	icon_state = "mini_leaper"
 	damage = 40
+	hitsound = 'sound/vampires/bloodbolt.ogg'
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	// var/datum/action/cooldown/vampire/targeted/bloodbolt/vampire_power
 
