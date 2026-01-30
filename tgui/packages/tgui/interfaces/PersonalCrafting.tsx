@@ -1,23 +1,23 @@
-import { BooleanLike, classes } from 'common/react';
-import { createSearch } from 'common/string';
-import { flow } from 'common/fp';
 import { filter, sortBy } from 'common/collections';
+import { flow } from 'common/fp';
+import { type BooleanLike, classes } from 'common/react';
+import { createSearch } from 'common/string';
+import type React from 'react';
 import { useBackend, useLocalState } from '../backend';
 import {
-  Divider,
-  Button,
-  Section,
-  Tabs,
-  Stack,
   Box,
-  Input,
+  Button,
+  Divider,
   Icon,
-  Tooltip,
+  Input,
   NoticeBox,
+  Section,
+  Stack,
+  Tabs,
+  Tooltip,
 } from '../components';
 import { Window } from '../layouts';
 import { Food } from './PreferencesMenu/data';
-import React from 'react';
 
 const TYPE_ICONS = {
   'Can Make': 'utensils',
@@ -598,7 +598,7 @@ const MaterialContent = (props) => {
           mr={-0.5}
           className={classes([
             mode ? 'cooking32x32' : 'crafting32x32',
-            'a' + atom_id,
+            `a${atom_id}`,
           ])}
           style={{ imageRendering: 'pixelated' }}
         />
@@ -705,7 +705,7 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
           <Box
             className={classes([
               mode ? 'cooking32x32' : 'crafting32x32',
-              'a' + item.result,
+              `a${item.result}`,
             ])}
             style={{ imageRendering: 'pixelated' }}
           />
@@ -964,7 +964,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
               m={'16px'}
               className={classes([
                 mode ? 'cooking32x32' : 'crafting32x32',
-                'a' + item.result,
+                `a${item.result}`,
               ])}
             />
           </Box>
@@ -1008,14 +1008,12 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
                 {(item.tool_paths || item.tool_behaviors) && (
                   <Box>
                     <GroupTitle title="Tools" />
-                    {item.tool_paths &&
-                      item.tool_paths.map((tool) => (
-                        <AtomContent key={tool} atom_id={tool} amount={1} />
-                      ))}
-                    {item.tool_behaviors &&
-                      item.tool_behaviors.map((tool) => (
-                        <ToolContent key={tool} tool={tool} />
-                      ))}
+                    {item.tool_paths?.map((tool) => (
+                      <AtomContent key={tool} atom_id={tool} amount={1} />
+                    ))}
+                    {item.tool_behaviors?.map((tool) => (
+                      <ToolContent key={tool} tool={tool} />
+                    ))}
                   </Box>
                 )}
                 {item.machinery && (
@@ -1105,7 +1103,7 @@ const AtomContent = ({ atom_id, amount }) => {
         mr={0.5}
         className={classes([
           mode ? 'cooking32x32' : 'crafting32x32',
-          'a' + atom_id,
+          `a${atom_id}`,
         ])}
         style={{ imageRendering: 'pixelated' }}
       />
