@@ -5,6 +5,7 @@
 	active_background_icon_state = "tremere_power_bronze_on"
 	base_background_icon_state = "tremere_power_bronze_off"
 	power_explanation = "Afflict a debilitating status effect on a target within range, causing them to suffer bloodloss and burn damage.\n\
+						The effect weakens if the target is further than 5 tiles away from you, or if you are also draining their blood.\n\
 						This is the only thaumaturgy ability to scale with level. It will become more powerful, last longer, gain range, and have a shorter cooldown."
 	vampire_power_flags = NONE
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -66,7 +67,7 @@
 
 	owner.whisper("Potestas Vitae...", forced = "[src]")
 
-	if(target.apply_status_effect(/datum/status_effect/bloodboil, powerlevel))
+	if(target.apply_status_effect(/datum/status_effect/bloodboil, owner, powerlevel))
 		to_chat(owner, span_warning("You cause [target]'s blood to boil inside [target.p_their()] body!"))
 		owner.log_message("used [name] (level [powerlevel]) on [key_name(target)]", LOG_ATTACK)
 		target.log_message("was hit by [key_name(owner)] with [name] (level [powerlevel])", LOG_VICTIM, log_globally = FALSE)
@@ -83,9 +84,15 @@
 	processing_speed = STATUS_EFFECT_PRIORITY
 	alert_type = /atom/movable/screen/alert/status_effect/bloodboil
 	var/power = 1
+	var/mob/living/caster
 
-/datum/status_effect/bloodboil/on_creation(mob/living/new_owner, power = 1)
+/datum/status_effect/bloodboil/Destroy()
+	caster = null
+	return ..()
+
+/datum/status_effect/bloodboil/on_creation(mob/living/new_owner, mob/living/caster, power = 1)
 	src.duration = (2 * power + 2) SECONDS
+	src.caster = caster
 	src.power = power
 	return ..()
 
@@ -98,13 +105,16 @@
 	var/burn_damage = 4 + (power * 2)
 	var/blood_loss = 2 * power + 2
 
+	var/multiplier = 1
 	// if their blood is also being drained, halve the damage.
 	if(owner.has_status_effect(/datum/status_effect/blood_drain))
-		burn_damage /= 2
-		blood_loss /= 2
+		multiplier *= 0.5
 
-	owner.take_overall_damage(burn = burn_damage)
-	owner.blood_volume = max(owner.blood_volume - blood_loss, 0)
+	if(get_dist(owner, caster) > 5)
+		multiplier *= 0.5
+
+	owner.take_overall_damage(burn = round(burn_damage * multiplier, 1))
+	owner.blood_volume = max(owner.blood_volume - round(blood_loss * multiplier, 1), 0)
 
 	if(SPT_PROB(50, seconds_between_ticks))
 		to_chat(owner, span_warning("Oh god! IT BURNS!"))
