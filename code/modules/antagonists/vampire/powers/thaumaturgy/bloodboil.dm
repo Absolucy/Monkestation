@@ -98,6 +98,11 @@
 	var/burn_damage = 4 + (power * 2)
 	var/blood_loss = 2 * power + 2
 
+	// if their blood is also being drained, halve the damage.
+	if(owner.has_status_effect(/datum/status_effect/blood_drain))
+		burn_damage /= 2
+		blood_loss /= 2
+
 	owner.take_overall_damage(burn = burn_damage)
 	owner.blood_volume = max(owner.blood_volume - blood_loss, 0)
 

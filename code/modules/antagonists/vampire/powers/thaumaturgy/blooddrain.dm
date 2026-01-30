@@ -89,7 +89,7 @@
 	spell.active_effect = src
 	drain_beam = vampire.Beam(new_owner, icon = 'icons/effects/beam.dmi', icon_state = "blood_drain", time = 22 SECONDS, maxdistance = 7, beam_color = COLOR_RED)
 	RegisterSignal(drain_beam, COMSIG_QDELETING, PROC_REF(end_drain))
-	new_owner.visible_message(span_boldwarning("[vampire] begins draining the life force from [new_owner]!"), span_boldwarning("[vampire] is draining your life force! You need to get away from them to stop it!"))
+	new_owner.visible_message(span_boldwarning("[vampire] begins draining the life force from [new_owner]!"), span_boldwarning("[vampire] is draining your life force! You need to get away from [vampire.p_them()] to stop it!"))
 	. = ..()
 
 /datum/status_effect/blood_drain/on_apply()
