@@ -8,10 +8,11 @@
  */
 /datum/action/cooldown/vampire/targeted/mesmerize
 	name = "Mesmerize"
-	desc = "Transfix the mind of a mortal who can see your eyes, freezing them in place."
+	desc = "Transfix the mind of a mortal after a few seconds, freezing them in place."
 	button_icon_state = "power_mez"
 	power_explanation = "Click any player to attempt to mesmerize them, and freeze them in place.\n\
-		You cannot wear anything covering your face, and both parties must be facing eachother.\n\
+		You cannot wear anything covering your face.\n\
+		This will take a few seconds, and they may attempt to flee - the spell will fail if they exit the range.\n\
 		If your target is already mesmerized or a Curator, you will fail.\n\
 		Once mesmerized, the target will be unable to move for a certain amount of time, scaling with level.\n\
 		At level 2, your target will additionally be muted.\n\
@@ -21,13 +22,21 @@
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
 	vitaecost = 75
 	cooldown_time = 20 SECONDS
-	target_range = 8
+	target_range = 4
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you submit to your will?"
 	level_current = 1
 
 	/// Reference to the target
 	var/datum/weakref/target_ref
+	/// How long it takes us to mesmerize our target.
+	var/mesmerize_delay = 5 SECONDS
+
+/datum/action/cooldown/vampire/targeted/mesmerize/Destroy()
+	var/mob/living/current_target = target_ref?.resolve()
+	if(current_target)
+		REMOVE_TRAITS_IN(current_target, TRAIT_MESMERIZED)
+	return ..()
 
 /datum/action/cooldown/vampire/targeted/mesmerize/two
 	vitaecost = 45
@@ -38,9 +47,9 @@
 	level_current = 3
 
 /datum/action/cooldown/vampire/targeted/mesmerize/four
-	desc = "Transfix the mind of a mortal."
 	vitaecost = 85
 	level_current = 4
+	target_range = 6
 
 /datum/action/cooldown/vampire/targeted/mesmerize/can_use()
 	. = ..()
@@ -49,7 +58,7 @@
 
 	// Must have eyes
 	if(!owner.get_organ_slot(ORGAN_SLOT_EYES))
-		to_chat(owner, span_warning("You have no eyes with which to mesmerize."))
+		to_chat(owner, span_warning("You have no eyes with which to mesmerize."), type = MESSAGE_TYPE_COMBAT)
 		return FALSE
 
 	// Must have eyes unobstructed
@@ -89,11 +98,6 @@
 		owner.balloon_alert(owner, "[living_target] is blind.")
 		return FALSE
 
-	// Target facing me? (they face everyone on the floor)
-	if(((living_target.mobility_flags & MOBILITY_STAND) && !is_source_facing_target(living_target, owner) && level_current < 4))
-		owner.balloon_alert(owner, "[living_target] must be facing you.")
-		return FALSE
-
 	// Already mesmerized?
 	if(HAS_TRAIT_FROM(living_target, TRAIT_MUTE, TRAIT_MESMERIZED))
 		owner.balloon_alert(owner, "[living_target] is already in a hypnotic gaze.")
@@ -112,12 +116,26 @@
 		power_activated_sucessfully() // PAY COST! BEGIN COOLDOWN!
 		return
 
-	owner.balloon_alert(owner, "attempting to hypnotize [living_target]...")
-	if(!do_after(owner, 4 SECONDS, living_target, extra_checks = CALLBACK(src, PROC_REF(continue_active)), hidden = TRUE))
+	var/modified_delay = mesmerize_delay
+	var/eye_protection = living_target.get_eye_protection()
+	to_chat(living_target, span_warning("[owner]'s eyes look into yours, and [span_awe("you feel your mind slipping away")]..."), type = MESSAGE_TYPE_COMBAT)
+	if(eye_protection > 0)
+		modified_delay += (eye_protection * 0.25) * mesmerize_delay
+		to_chat(living_target, span_warning("It feels like your eye-protection is helping you resist the gaze!"), type = MESSAGE_TYPE_COMBAT)
+		to_chat(living_target, span_warning("But, you can still feel it making your eyes grow heavy."), type = MESSAGE_TYPE_COMBAT)
+		to_chat(owner, span_warning("[living_target] is wearing eye-protection, it will take longer to mesmerize them."), type = MESSAGE_TYPE_COMBAT)
+		owner.balloon_alert(owner, "attempting to hypnotize [living_target], but [living_target.p_they()] [living_target.p_are()] partially protected!")
+	else
+		owner.balloon_alert(owner, "attempting to hypnotize [living_target]...")
+
+	perform_indicators(living_target, modified_delay)
+
+	if(!do_after(owner, modified_delay, living_target, IGNORE_USER_LOC_CHANGE | IGNORE_TARGET_LOC_CHANGE, extra_checks = CALLBACK(src, PROC_REF(continue_active)), hidden = TRUE))
+		deactivate_power()
 		return
 
 	owner.balloon_alert(owner, "successfully mesmerized [living_target].")
-	to_chat(living_target, span_hypnophrase("[owner]'s eyes glitter so beautifully... You're mesmerized!"), type = MESSAGE_TYPE_WARNING)
+	to_chat(living_target, span_awe("[owner]'s eyes glitter so beautifully... You're mesmerized!"), type = MESSAGE_TYPE_COMBAT)
 
 	//Actually mesmerize them now
 	var/power_time = 9 SECONDS + level_current * 1.5 SECONDS
@@ -151,7 +169,23 @@
 /datum/action/cooldown/vampire/targeted/mesmerize/proc/end_mesmerize(mob/living/living_target)
 	living_target.remove_traits(list(TRAIT_MUTE, TRAIT_NO_TRANSFORM), TRAIT_MESMERIZED)
 
-	to_chat(living_target, span_hypnophrase("With the spell waning, so does your memory of being mesmerized."), type = MESSAGE_TYPE_WARNING)
+	to_chat(living_target, span_awe(span_big("With the spell waning, so does your memory of being mesmerized.")), type = MESSAGE_TYPE_COMBAT)
 
 	if (living_target in view(6, get_turf(owner)))
 		living_target.balloon_alert(owner, "snapped out of [living_target.p_their()] trance!")
+
+/datum/action/cooldown/vampire/targeted/mesmerize/proc/perform_indicators(mob/target, duration)
+	// Display an animated overlay over our head to indicate what's going on
+	eldritch_eye(target, "eye_open", 1 SECONDS)
+	var/main_duration = max(duration - 2 SECONDS, 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(eldritch_eye), target, "eye_flash", main_duration), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(eldritch_eye), target,  "eye_close", 1 SECONDS), main_duration + 1 SECONDS)
+
+/// Display an animated overlay over our head to indicate what's going on
+/datum/action/cooldown/vampire/targeted/mesmerize/proc/eldritch_eye(mob/target, icon_state = "eye_open", duration = 1 SECONDS)
+	var/image/image = image('icons/effects/eldritch.dmi', owner, icon_state, ABOVE_ALL_MOB_LAYER)
+	image.pixel_w = -(owner.pixel_x + owner.pixel_w)
+	image.pixel_z = 28
+	image.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
+	SET_PLANE_EXPLICIT(image, ABOVE_HUD_PLANE, owner)
+	flick_overlay_global(image, list(owner?.client, target?.client), duration)
