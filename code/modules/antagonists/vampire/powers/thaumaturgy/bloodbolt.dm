@@ -13,7 +13,7 @@
 	power_activates_immediately = FALSE
 	prefire_message = "Select your target."
 
-/datum/action/cooldown/vampire/targeted/bloodbolt/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/bloodbolt/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/living_owner = owner
 	// check_witnesses(target_atom)

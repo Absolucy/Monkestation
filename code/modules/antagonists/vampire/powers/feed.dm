@@ -173,7 +173,7 @@
 
 	silent_feed = TRUE
 
-/datum/action/cooldown/vampire/targeted/feed/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/feed/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/feed_target = target_atom
 	var/mob/living/living_owner = owner

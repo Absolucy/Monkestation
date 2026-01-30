@@ -92,7 +92,7 @@
 		return
 
 	power_in_use = TRUE
-	FireTargetedPower(target_atom)
+	fire_targeted_power(target_atom)
 	if(vampire_power_flags & BP_AM_TOGGLE)
 		RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(use_power))
 	// Skip this part so we can return TRUE right away.
@@ -100,7 +100,7 @@
 		power_activated_sucessfully() // Mesmerize pays only after success.
 	power_in_use = FALSE
 
-/datum/action/cooldown/vampire/targeted/proc/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/proc/fire_targeted_power(atom/target_atom)
 	unset_click_ability(owner)
 	log_combat(owner, target_atom, "used [name] on")
 

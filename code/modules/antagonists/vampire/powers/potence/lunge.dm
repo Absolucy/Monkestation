@@ -67,7 +67,7 @@
 	if(user.body_position == LYING_DOWN || HAS_TRAIT(owner, TRAIT_IMMOBILIZED))
 		return FALSE
 
-/datum/action/cooldown/vampire/targeted/lunge/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/lunge/fire_targeted_power(atom/target_atom)
 	. = ..()
 	owner.face_atom(target_atom)
 	if(instant)

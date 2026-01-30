@@ -94,7 +94,7 @@
 		owner.balloon_alert(owner, "[living_target] is already compelled!")
 		return FALSE
 
-/datum/action/cooldown/vampire/targeted/command/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/command/fire_targeted_power(atom/target_atom)
 	. = ..()
 
 	var/mob/living/living_target = target_atom

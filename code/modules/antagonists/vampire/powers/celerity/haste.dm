@@ -58,7 +58,7 @@
 		return FALSE
 
 /// This is a non-async proc to make sure the power is "locked" until this finishes.
-/datum/action/cooldown/vampire/targeted/haste/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/haste/fire_targeted_power(atom/target_atom)
 	. = ..()
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
 	var/mob/living/user = owner

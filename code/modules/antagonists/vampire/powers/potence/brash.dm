@@ -51,7 +51,7 @@
 	playsound(target_atom, sound, 75, TRUE)
 	target_obj.deconstruct(FALSE)
 
-/datum/action/cooldown/vampire/targeted/brawn/brash/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/brawn/brash/fire_targeted_power(atom/target_atom)
 	. = ..()
 	// People
 	if(isliving(target_atom))

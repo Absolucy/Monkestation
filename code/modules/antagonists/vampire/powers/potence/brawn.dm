@@ -119,7 +119,7 @@
 	// check_witnesses()
 	return TRUE
 
-/datum/action/cooldown/vampire/targeted/brawn/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/brawn/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/carbon/carbon_owner = owner
 

@@ -103,7 +103,7 @@
 		owner.balloon_alert(owner, "[living_target] is already in a hypnotic gaze.")
 		return FALSE
 
-/datum/action/cooldown/vampire/targeted/mesmerize/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/mesmerize/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/living_target = target_atom
 	target_ref = WEAKREF(living_target)

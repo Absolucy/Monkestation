@@ -15,7 +15,7 @@
 
 	var/datum/status_effect/blood_drain/active_effect
 
-/datum/action/cooldown/vampire/targeted/blooddrain/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/blooddrain/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/living_owner = owner
 	/* var/mob/living/living_target = target_atom

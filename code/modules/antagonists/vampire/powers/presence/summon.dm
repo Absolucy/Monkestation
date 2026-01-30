@@ -56,7 +56,7 @@
 
 	return TRUE
 
-/datum/action/cooldown/vampire/targeted/summon/FireTargetedPower(atom/target_atom)
+/datum/action/cooldown/vampire/targeted/summon/fire_targeted_power(atom/target_atom)
 	. = ..()
 	var/mob/living/carbon/carbon_target = target_atom
 
