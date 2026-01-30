@@ -1,4 +1,4 @@
-/obj/item/clothing/suit/armor/monsterhunter
+/obj/item/clothing/suit/armor/vamphunter
 	name = "vampire hunter garb"
 	desc = "This worn outfit saw much use back in the day. Internal reinforcements help protect against bites and scratches."
 	allowed = list(
@@ -20,10 +20,6 @@
 	strip_delay = 8 SECONDS
 	equip_delay_other = 6 SECONDS
 
-/obj/item/clothing/suit/armor/monsterhunter/Initialize(mapload)
-	. = ..()
-	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
-
 /datum/armor/jacket_curator
 	melee = 25
 	bullet = 10
@@ -32,8 +28,8 @@
 	acid = 45
 	wound =  10
 
-/obj/item/clothing/head/helmet/monsterhunter_hat
-	name = "monster hunter hat"
+/obj/item/clothing/head/helmet/vamphunter_hat
+	name = "vampire hunter hat"
 	desc = "This hat saw much use back in the day."
 	icon = 'icons/vampires/vamp_obj.dmi'
 	worn_icon = 'icons/vampires/worn.dmi'

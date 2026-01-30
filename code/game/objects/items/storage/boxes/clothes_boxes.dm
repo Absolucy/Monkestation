@@ -149,8 +149,8 @@
 	desc = "Vampire Hunter - 1735. \n" + span_notice("The garb can hold a variety of relevant items.\nComes with a crucifix that wards against hexes, and a few premium stakes.")
 
 /obj/item/storage/box/hero/vamphunter/PopulateContents()
-	new /obj/item/clothing/suit/armor/monsterhunter(src)
-	new /obj/item/clothing/head/helmet/monsterhunter_hat(src)
+	new /obj/item/clothing/suit/armor/vamphunter(src)
+	new /obj/item/clothing/head/helmet/vamphunter_hat(src)
 	new /obj/item/clothing/neck/crucifix(src)
 	new	/obj/item/stake/hardened/silver(src)
 	new /obj/item/stake/hardened/silver(src)
