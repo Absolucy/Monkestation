@@ -44,6 +44,9 @@
 	var/masquerade_breached = FALSE
 	/// Are we at a stage of the process where we can be noticed?
 	var/currently_feeding = FALSE
+	/// Did we complete the thirster objective this drain?
+	/// We won't give a bad moodlet for dead bodies if so.
+	var/completing_thirster = FALSE
 
 /datum/action/cooldown/vampire/targeted/feed/can_use()
 	. = ..()
@@ -452,7 +455,10 @@
 	if(feed_target.blood_volume <= 10)
 		owner.balloon_alert(owner, "no blood left!")
 		if(feed_target.client)
-			vampiredatum_power.thirster_objective = TRUE
+			var/datum/objective/vampire/hedonism/thirster/yumy = locate() in vampiredatum_power.objectives
+			if(yumy && !yumy.completed)
+				yumy.completed = TRUE
+				completing_thirster = TRUE
 		power_activated_sucessfully()
 		return
 
@@ -519,14 +525,15 @@
 				if(feed_target.blood_volume >= BLOOD_VOLUME_OKAY)
 					to_chat(feed_target, span_announce("You feel dizzy, but it will probably pass by itself!"), type = MESSAGE_TYPE_INFO)
 
-			if(feed_target.stat == DEAD)
-				living_owner.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
-				humanity_deducted = TRUE
+			if(!completing_thirster)
+				if(feed_target.stat == DEAD)
+					living_owner.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
+					humanity_deducted = TRUE
 
-			if(feed_fatal && !humanity_deducted)
-				living_owner.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
-				to_chat(owner, span_userdanger("No way will [feed_target.p_they()] survive that..."))
-				vampiredatum_power.adjust_humanity(-1)
+				if(feed_fatal && !humanity_deducted)
+					living_owner.add_mood_event("drankkilled", /datum/mood_event/drankkilled)
+					to_chat(owner, span_userdanger("No way will [feed_target.p_they()] survive that..."))
+					vampiredatum_power.adjust_humanity(-1)
 
 /*
 		if(iscarbon(feed_target))
@@ -547,6 +554,7 @@
 
 	feed_fatal = FALSE
 	humanity_deducted = FALSE
+	completing_thirster = FALSE
 
 	target_ref = null
 

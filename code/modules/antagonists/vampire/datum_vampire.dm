@@ -67,8 +67,6 @@
 	var/current_vitae_goal = VITAE_GOAL_STANDARD
 	/// progress to that goal
 	var/vitae_goal_progress = 0
-	/// Thirster objective completed.
-	var/thirster_objective = FALSE
 	/// To keep track of objective
 	var/total_blood_drank = 0
 

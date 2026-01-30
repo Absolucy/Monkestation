@@ -156,17 +156,11 @@
 
 /datum/objective/vampire/hedonism/thirster
 	name = "Complete Drain"
+	// no check_completion, we just manually set `completed` in feed.
 
 /datum/objective/vampire/hedonism/thirster/update_explanation_text()
 	. = ..()
 	explanation_text = "[initial(explanation_text)] Drain a mortal completely, letting their lifeblood become your sustenance and their body fall cold and spent."
-
-/datum/objective/vampire/hedonism/thirster/check_completion()
-	var/datum/antagonist/vampire/vampiredatum = owner.has_antag_datum(/datum/antagonist/vampire)
-	if(vampiredatum?.thirster_objective)
-		return TRUE
-
-	return FALSE
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////       MISC       //////////////////////////////////////
