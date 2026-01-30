@@ -109,7 +109,7 @@
 	if(SPT_PROB(50, seconds_between_ticks))
 		to_chat(owner, span_warning("Oh god! IT BURNS!"))
 		INVOKE_ASYNC(owner, TYPE_PROC_REF(/mob, emote), "scream")
-	playsound(owner, 'sound/effects/wounds/sizzle1.ogg', 50, vary = TRUE)
+	playsound(owner, pick('sound/effects/wounds/sizzle1.ogg', 'sound/effects/wounds/sizzle2.ogg'), 50, vary = TRUE)
 
 /datum/status_effect/bloodboil/get_examine_text()
 	return span_warning("[owner.p_They()] writhe[owner.p_s()] and squirm[owner.p_s()], [owner.p_they()] seem[owner.p_s()] weirdly red?")
