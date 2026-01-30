@@ -237,5 +237,5 @@
 // The night vision is weaker than true night vision like a vampire has, but it's still better than mesons.
 /datum/antagonist/vassal/proc/on_update_sight(mob/user)
 	SIGNAL_HANDLER
-	user.lighting_cutoff = max(user.lighting_cutoff, (LIGHTING_CUTOFF_HIGH + LIGHTING_CUTOFF_MEDIUM) / 2)
+	user.lighting_cutoff = max(user.lighting_cutoff, round((LIGHTING_CUTOFF_HIGH + LIGHTING_CUTOFF_MEDIUM) / 2, 1))
 	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
