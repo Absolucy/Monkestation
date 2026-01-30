@@ -16,7 +16,7 @@
 		<b>Feeding off of someone while you have them aggressively grabbed while in combat mode, will put them to sleep and make you feed faster</b>. \
 		This is very obvious and the radius in which you can be detected is much larger!\n\
 		<b>IMPORTANT:</b> You are given a Masquerade Infraction if a mortal witnesses you while feeding.\n\
-		<b>IMPORTANT:</b> You may feed on other vampires if they have broken the masquerade. Should you drain them, you will absorb their power!"
+		<b>IMPORTANT:</b> Should you drain another vampire, you will absorb their power!"
 	vampire_power_flags = BP_AM_TOGGLE | BP_AM_STATIC_COOLDOWN
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
 	special_flags = VAMPIRE_DEFAULT_POWER
