@@ -40,6 +40,8 @@
 
 	current_mob.faction += FACTION_VAMPIRE
 
+	current_mob.clear_mood_event("vampcandle")
+
 /datum/antagonist/vassal/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
