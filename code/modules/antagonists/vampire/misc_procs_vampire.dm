@@ -9,6 +9,7 @@
 
 	power.Grant(owner.current)
 	log_game("[key_name(owner.current)] has purchased: [power].")
+	update_static_data_for_all_viewers()
 	return TRUE
 
 /**
@@ -19,6 +20,7 @@
 		power.deactivate_power()
 	powers -= power
 	power.Remove(owner.current)
+	update_static_data_for_all_viewers()
 
 /**
  * When a Vampire breaks the Masquerade, they get their HUD icon changed, and Malkavian Vampires get alerted.

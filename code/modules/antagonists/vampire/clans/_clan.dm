@@ -67,6 +67,8 @@
 	vampiredatum.owner.current.playsound_local(get_turf(vampiredatum.owner.current), 'sound/vampires/VampireAlert.ogg', 80, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 	to_chat(vampiredatum.owner.current, span_narsiesmall("I remember now. I belong with the [name]..."))
 
+	vampiredatum.update_static_data_for_all_viewers()
+
 /datum/vampire_clan/proc/on_apply()
 	for(var/datum/discipline/disciple as anything in vampiredatum.owned_disciplines)
 		disciple.apply_discipline_quirks(vampiredatum)
