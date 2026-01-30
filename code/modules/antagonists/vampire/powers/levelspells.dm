@@ -56,6 +56,10 @@
 	/// Reference to the target antag datum
 	var/datum/weakref/target_ref
 
+	/// Are we currently in the process of promote someone?
+	/// This is just so we don't have any issues with using the power in the time between using it to scourgify someone and when it's removed.
+	var/promoting = FALSE
+
 /datum/action/cooldown/vampire/targeted/scourgify/check_valid_target(atom/target_atom)
 	. = ..()
 	if(!isliving(target_atom))
@@ -91,7 +95,7 @@
 		owner.balloon_alert(owner, "cannot promote elders!")
 		return FALSE
 
-	if(target_ref) // Already offering
+	if(target_ref || promoting) // Already offering
 		owner.balloon_alert(owner, "already offering!")
 		return FALSE
 
@@ -102,6 +106,8 @@
 	var/mob/living/living_target = target_atom
 
 	var/datum/antagonist/vassal/vassal = IS_VASSAL(living_target)
+
+	promoting = TRUE
 
 	if(vassal) // We don't need to ask a lowly vassal.
 		vassal.silent = TRUE
@@ -129,6 +135,8 @@
 	else
 		target_ref = WEAKREF(IS_VAMPIRE(living_target))
 
+		owner.balloon_alert(owner, "you offer [living_target] the rank of Scourge...")
+
 		ASYNC
 			var/choice = tgui_alert(living_target,
 				message = "Your Prince has selected you as [owner.p_their()] enforcer. Should you accept, you will receive the rank of 'Scourge', be bound to [owner.p_their()] authority, and increase in power considerably.",
@@ -151,11 +159,13 @@
 /datum/action/cooldown/vampire/targeted/scourgify/proc/refused()
 	owner.balloon_alert(owner, "offer refused")
 	target_ref = null
+	promoting = FALSE
 
 /datum/action/cooldown/vampire/targeted/scourgify/proc/choice_timeout()
 	if(owner && target_ref) // This might happen AFTER we remove the power from our owner.
 		owner.balloon_alert(owner, "offer ignored")
 		target_ref = null
+		promoting = FALSE
 
 /datum/action/cooldown/vampire/targeted/scourgify/proc/handle_choice(choice)
 	switch(choice)
