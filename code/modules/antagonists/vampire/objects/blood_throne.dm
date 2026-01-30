@@ -63,8 +63,7 @@
 // Unbuckling
 /obj/structure/vampire/bloodthrone/unbuckle_mob(mob/living/user, force = FALSE, can_fall = TRUE)
 	visible_message(span_danger("[user] unbuckles [user.p_them()]self from \the [src]."))
-	if(IS_VAMPIRE(user))
-		UnregisterSignal(user, COMSIG_MOB_SAY)
+	UnregisterSignal(user, COMSIG_MOB_SAY)
 	return ..()
 
 /obj/structure/vampire/bloodthrone/post_unbuckle_mob(mob/living/target)
@@ -78,9 +77,20 @@
 	if(speech_args[SPEECH_FORCED])
 		return
 
-	var/message = speech_args[SPEECH_MESSAGE]
 	var/mob/living/carbon/human/user = source
-	var/rendered = span_cultlarge("<b>[user.real_name]:</b> [message]")
+	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(user)
+	if(!vampire_datum)
+		CRASH("Non-vampire speaking on blood throne somehow!")
+
+	var/rank_icon_state = "vampire"
+	if(vampire_datum.prince)
+		rank_icon_state = "prince"
+	else if(vampire_datum.scourge)
+		rank_icon_state = "scourge"
+
+	var/icon_html = "<img class='icon' style='margin-right: -0.1em; transform: scale(1.85); image-rendering: pixelated; font-size: initial; vertical-align: middle;' src='\ref['icons/vampires/vampiric.dmi']?state=[rank_icon_state]'>"
+	var/message = speech_args[SPEECH_MESSAGE]
+	var/rendered = span_cultlarge("[icon_html] <b>[user.real_name]:</b> [message]")
 	user.log_talk(message, LOG_SAY, tag = ROLE_VAMPIRE)
 
 	for(var/datum/antagonist/vampire/receiver as anything in GLOB.all_vampires)
@@ -88,8 +98,6 @@
 			continue
 		var/mob/receiver_mob = receiver.owner.current
 		to_chat(receiver_mob, rendered, type = MESSAGE_TYPE_RADIO, avoid_highlighting = receiver_mob == user)
-
-	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(user)
 
 	for(var/datum/antagonist/vassal/vassal as anything in vampire_datum.vassals)
 		if(!vassal.owner.current)
