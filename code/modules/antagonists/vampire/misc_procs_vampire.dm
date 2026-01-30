@@ -172,7 +172,7 @@
 
 		// Only run this code if there is an actual increase in humanity. Also don't run it if we wanna be silent.
 		if(humanity < temp_humanity && !silent)
-			owner.current.playsound_local(null, 'sound/vampires/humanity_gain.ogg', 50, TRUE)
+			owner.current.playsound_local(null, 'sound/vampires/humanity_gain.ogg', 50, TRUE, pressure_affected = FALSE)
 			if(power_given)
 				to_chat(owner.current, span_userdanger("Your closeness to humanity has granted you the ability to feign life!"))
 			else
@@ -186,7 +186,7 @@
 
 		// Only run this code if there is an actual decrease in humanity
 		if(humanity > temp_humanity && !silent)
-			owner.current.playsound_local(null, 'sound/vampires/humanity_loss.ogg', 50, TRUE)
+			owner.current.playsound_local(null, 'sound/vampires/humanity_loss.ogg', 50, TRUE, pressure_affected = FALSE)
 			if(power_removed)
 				to_chat(owner.current, span_userdanger("Your inhuman actions have caused you to lose the masquerade ability!"))
 			else
