@@ -4,7 +4,7 @@
 	button_icon_state = "power_thaumaturgy"
 	active_background_icon_state = "tremere_power_bronze_on"
 	base_background_icon_state = "tremere_power_bronze_off"
-	power_explanation = "Afflict a debilitating status effect on a target within range, causing them to suffer bloodloss, burn damage, and slowing them down.\n\
+	power_explanation = "Afflict a debilitating status effect on a target within range, causing them to suffer bloodloss and burn damage.\n\
 						This is the only thaumaturgy ability to scale with level. It will become more powerful, last longer, gain range, and have a shorter cooldown."
 	vampire_power_flags = NONE
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -42,6 +42,10 @@
 	// Must be a carbon
 	if(!iscarbon(target))
 		owner.balloon_alert(owner, "not a valid target.")
+		return FALSE
+
+	if(HAS_TRAIT(target, TRAIT_NOBLOOD))
+		owner.balloon_alert(owner, "[target.p_they()] [target.p_have()] no blood anyways!")
 		return FALSE
 
 	// Check for magic immunity
@@ -85,12 +89,16 @@
 	src.power = power
 	return ..()
 
+/datum/status_effect/bloodboil/on_apply()
+	if(!iscarbon(owner) || HAS_TRAIT(owner, TRAIT_NOBLOOD))
+		return FALSE
+	return TRUE
+
 /datum/status_effect/bloodboil/tick(seconds_between_ticks)
 	var/burn_damage = 4 + (power * 2)
-	var/stamina_damage = 5 * power
 	var/blood_loss = 2 * power + 2
 
-	owner.take_overall_damage(burn = burn_damage, stamina = stamina_damage)
+	owner.take_overall_damage(burn = burn_damage)
 	owner.blood_volume = max(owner.blood_volume - blood_loss, 0)
 
 	if(SPT_PROB(50, seconds_between_ticks))
