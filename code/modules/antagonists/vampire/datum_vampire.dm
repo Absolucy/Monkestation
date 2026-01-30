@@ -348,6 +348,7 @@
 	if(!QDELETED(owner.current))
 		for(var/quirk_type in typesof(/datum/quirk/item_quirk/junkie) + /datum/quirk/skittish)
 			owner.current.remove_quirk(quirk_type)
+		owner.current.persistent_client?.remove_challenge(/datum/challenge/no_heals)
 
 #ifdef VAMPIRE_TESTING
 	var/turf/user_loc = get_turf(owner.current)
