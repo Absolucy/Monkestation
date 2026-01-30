@@ -623,6 +623,8 @@
 	processing_speed = STATUS_EFFECT_NORMAL_PROCESS
 	status_type = STATUS_EFFECT_REFRESH
 	alert_type = null
+	remove_on_fullheal = TRUE
+	heal_flag_necessary = HEAL_WOUNDS
 
 /datum/status_effect/feed_marked/on_apply()
 	if(!iscarbon(owner))
