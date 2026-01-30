@@ -18,5 +18,8 @@
 	var/mob/dead/observer/ghost = owner.ghostize(can_reenter_corpse = TRUE)
 	ADD_TRAIT(ghost, TRAIT_NO_OBSERVE, TRAIT_VAMPIRE)
 	ghost.add_atom_colour(COLOR_VOID_PURPLE, ADMIN_COLOUR_PRIORITY)
-	ghost.name = "Astral Shade of [ghost.name]"
+	var/ghost_name = "Astral Shade of [ghost.name]"
+	ghost.name = ghost_name
+	ghost.deadchat_name = ghost_name
+	ghost.add_filter("astral_projection", 1, outline_filter(size = 1, color = COLOR_BLOOD))
 	deactivate_power()
