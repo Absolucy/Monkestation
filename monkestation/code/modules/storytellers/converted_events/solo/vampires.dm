@@ -95,4 +95,6 @@
 /datum/round_event/antagonist/solo/vampire/add_datum_to_mind(datum/mind/antag_mind)
 #endif
 	var/datum/antagonist/vampire/vampire_datum = antag_mind.add_antag_datum(/datum/antagonist/vampire)
-	vampire_datum.vampire_level_unspent += rand(2, 3)
+	var/extra_levels = rand(2, 3)
+	vampire_datum.vampire_level_unspent += extra_levels
+	vampire_datum.free_levels_remaining = max(vampire_datum.free_levels_remaining - extra_levels, 0)
