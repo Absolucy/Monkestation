@@ -1,11 +1,10 @@
-import { BooleanLike } from 'common/react';
+import type { BooleanLike } from 'common/react';
+import { useState } from 'react';
 import { sanitizeText } from 'tgui/sanitize';
-import { DmIcon, Box, Icon, Section, Stack, Tabs } from 'tgui-core/components';
-
+import { Box, DmIcon, Icon, Section, Stack, Tabs } from 'tgui-core/components';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { Objective, ObjectivePrintout } from './common/Objectives';
-import { useState } from 'react';
+import { type Objective, ObjectivePrintout } from './common/Objectives';
 
 type VampireInformation = {
   clan: ClanInfo[];
