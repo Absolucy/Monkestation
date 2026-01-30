@@ -699,7 +699,7 @@
 		.++
 
 /datum/antagonist/vampire/proc/get_max_vassals()
-	var/total_players = length(GLOB.joined_player_list)
+	var/total_players = SSgamemode.get_correct_popcount()
 	switch(total_players)
 		if(1 to 20)
 			return 1
