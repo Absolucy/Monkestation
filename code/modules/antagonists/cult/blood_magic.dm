@@ -529,6 +529,10 @@
 	flash_color(user.client, COLOR_BLOOD, 2 SECONDS)
 	flash_color(target.client, COLOR_BLOOD, 2 SECONDS)
 
+	// cultist gets a little bit of mercy to make it slightly more fair
+	ADD_TRAIT(user, TRAIT_HARDLY_WOUNDED, REF(src))
+	addtimer(TRAIT_CALLBACK_REMOVE(user, TRAIT_HARDLY_WOUNDED, REF(src)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
 	var/turf/user_turf = get_turf(user)
 	var/turf/target_turf = get_turf(target)
 
