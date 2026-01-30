@@ -33,6 +33,11 @@
 	/// Are we feeding with passive grab or not?
 	var/silent_feed = TRUE
 
+	/// Sound loop used for the straw succ
+	var/datum/looping_sound/zucc/straw_soundloop
+	/// Straw we're holding, so we can remove the NODROP from it when we're done.
+	var/obj/item/comically_large_straw/held_straw
+
 	/// Have we fed till fatal?
 	var/feed_fatal = FALSE
 	/// During feeding, have we breached the masquerade?
@@ -324,6 +329,13 @@
 		return
 
 	if(currently_feeding) // Check if we actually started successfully.
+		var/obj/item/comically_large_straw/straw = locate() in owner.held_items
+		if(straw)
+			held_straw = straw
+			ADD_TRAIT(straw, TRAIT_NODROP, REF(src))
+			if(!QDELETED(straw_soundloop))
+				straw_soundloop = new(owner, FALSE)
+
 		owner.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_MUTE, TRAIT_HANDS_BLOCKED), REF(src))
 		feed_target.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_MUTE, TRAIT_HANDS_BLOCKED), REF(src))
 
@@ -379,6 +391,12 @@
 		feed_strength_mult = 2
 	else if(!silent_feed)
 		feed_strength_mult = 1
+
+	if(held_straw)
+		feed_strength_mult *= held_straw.suck_power
+		straw_soundloop?.start(owner)
+	else
+		straw_soundloop?.stop(TRUE)
 
 	handle_feeding(feed_target, feed_strength_mult)
 
@@ -441,6 +459,13 @@
 /datum/action/cooldown/vampire/targeted/feed/deactivate_power()
 	. = ..()
 	REMOVE_TRAITS_IN(owner, REF(src))
+
+	if(straw_soundloop?.loop_started)
+		straw_soundloop.stop(TRUE)
+
+	if(held_straw)
+		REMOVE_TRAIT(held_straw, TRAIT_NODROP, REF(src))
+		held_straw = null
 
 	// Did we already take humanity for killing them?
 	var/humanity_deducted = FALSE
