@@ -356,7 +356,7 @@
 		if(straw)
 			held_straw = straw
 			ADD_TRAIT(straw, TRAIT_NODROP, REF(src))
-			if(!QDELETED(straw_soundloop))
+			if(QDELETED(straw_soundloop))
 				straw_soundloop = new(owner, FALSE)
 
 		owner.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_MUTE, TRAIT_HANDS_BLOCKED), REF(src))
