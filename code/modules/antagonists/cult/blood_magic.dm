@@ -524,7 +524,7 @@
 	user.buckled?.unbuckle_mob(user, force = TRUE)
 	target.buckled?.unbuckle_mob(target, force = TRUE)
 
-	playsound(user, 'sound/vampires/rage_increase.ogg', vol = 100, vary = TRUE, pressure_affected = FALSE)
+	playsound(user, 'sound/vampires/rage_increase.ogg', vol = 100, vary = FALSE, pressure_affected = FALSE)
 
 	flash_color(user.client, COLOR_BLOOD, 2 SECONDS)
 	flash_color(target.client, COLOR_BLOOD, 2 SECONDS)
