@@ -406,10 +406,8 @@ const VampireGuide = () => {
               </Box>
               <Box fontSize="13px">
                 • Everyone hunts you, vampires more than mortals
-                <br />
-                • Your vassals are up for grabs
-                <br />
-                • Other vampires can feed on you
+                <br />• Your vassals are up for grabs
+                <br />• Other vampires can feed on you
                 <br />• <b>Draining another vampire grants you their powers</b>
                 <br />• It is too late for mercy
               </Box>
@@ -452,8 +450,7 @@ const VampireGuide = () => {
               <br />
               <Box fontSize="13px" ml={1}>
                 • Harder to interact with mortals
-                <br />
-                • Difficult to stay active during daylight
+                <br />• Difficult to stay active during daylight
                 <br />• Longer{' '}
                 <Box inline textColor="orange">
                   torpor
@@ -591,12 +588,9 @@ const VampireGuide = () => {
               significant benefits:
               <Box fontSize="13px" ml={1}>
                 • Increased physical strength
-                <br />
-                • Greater health pool
-                <br />
-                • Faster feeding rate
-                <br />
-                • Higher blood capacity
+                <br />• Greater health pool
+                <br />• Faster feeding rate
+                <br />• Higher blood capacity
                 <br />• Additional discipline points to unlock new powers
               </Box>
               <br />
@@ -639,10 +633,8 @@ const VampireGuide = () => {
               </Box>
               <Box fontSize="13px">
                 • Crewmembers
-                <br />
-                • Monkeys
-                <br />
-                • Mice
+                <br />• Monkeys
+                <br />• Mice
                 <br />• Bloodbags
               </Box>
               <Box
