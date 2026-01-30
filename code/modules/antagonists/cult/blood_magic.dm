@@ -508,11 +508,28 @@
 
 /obj/item/melee/blood_magic/stun/proc/effect_vampire(mob/living/target, mob/living/carbon/user)
 	to_chat(user, span_userdanger("The spell violently reacts with [target], releasing a large burst of sanguine energy!"), type = MESSAGE_TYPE_COMBAT)
-	to_chat(target, span_userdanger("You're flung back by a violent burst of sanguine energy, as [target] attempts to hit you with ") + span_cultlarge("the blood of the Traitor!"), type = MESSAGE_TYPE_COMBAT)
+	to_chat(target, span_userdanger("You're flung back by a violent burst of sanguine energy, as [user] attempts to hit you with ") + span_cultlarge("the blood of the Traitor!"), type = MESSAGE_TYPE_COMBAT)
 	target.visible_message(
 		span_warning("[user] and [target] are violently flung back by a burst of sanguine energy!"),
 		ignored_mobs = list(user, target),
 	)
+
+	var/obj/effect/temp_visual/sanguine_boom/boom = new(user.loc)
+
+	if(user.loc == target.loc)
+		boom.pixel_x = -32
+		boom.pixel_y = -32
+	else
+		var/dir = get_dir(user, target)
+		if(dir & NORTH)
+			boom.pixel_y = 32
+		else if(dir & SOUTH)
+			boom.pixel_y = -32
+
+		if(dir & WEST)
+			boom.pixel_x = -32
+		else if(dir & EAST)
+			boom.pixel_x = 32
 
 	// deactivate any active powers, to ensure the vampire can experience the full force of being flung away at mach fuck
 	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(target)
@@ -529,9 +546,9 @@
 	flash_color(user.client, COLOR_BLOOD, 2 SECONDS)
 	flash_color(target.client, COLOR_BLOOD, 2 SECONDS)
 
-	// cultist gets a little bit of mercy to make it slightly more fair
-	ADD_TRAIT(user, TRAIT_HARDLY_WOUNDED, REF(src))
-	addtimer(TRAIT_CALLBACK_REMOVE(user, TRAIT_HARDLY_WOUNDED, REF(src)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	// cultist gets a little bit of mercy to make it slightly more fair (they won't break an arm or something from the knockback)
+	ADD_TRAIT(user, TRAIT_NEVER_WOUNDED, REF(src))
+	addtimer(TRAIT_CALLBACK_REMOVE(user, TRAIT_NEVER_WOUNDED, REF(src)), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 
 	var/turf/user_turf = get_turf(user)
@@ -590,6 +607,11 @@
 		playsound(target, 'monkestation/sound/effects/miss.ogg', vol = 50, vary = TRUE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
 		return TRUE
 	return FALSE
+
+/obj/effect/temp_visual/sanguine_boom
+	icon = 'icons/vampires/64x64.dmi'
+	icon_state = "sanguine_boom"
+	duration = 0.41 SECONDS
 
 //Teleportation
 /obj/item/melee/blood_magic/teleport
