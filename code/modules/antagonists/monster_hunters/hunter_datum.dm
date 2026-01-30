@@ -67,9 +67,10 @@
 	INVOKE_ASYNC(src, PROC_REF(load_wonderland))
 	owner.add_traits(mind_traits, HUNTER_TRAIT)
 	//Teach Stake crafting
-	// LUCY TODO: old bloodsucker code
-/* 	owner.teach_crafting_recipe(/datum/crafting_recipe/hardened_stake)
-	owner.teach_crafting_recipe(/datum/crafting_recipe/silver_stake) */
+	owner.teach_crafting_recipe(list(
+		/datum/crafting_recipe/hardened_stake,
+		/datum/crafting_recipe/silver_stake,
+	))
 	var/mob/living/carbon/criminal = owner.current
 	var/obj/item/rabbit_locator/card = new(criminal.drop_location(), src)
 	var/list/slots = list("backpack" = ITEM_SLOT_BACKPACK, "left pocket" = ITEM_SLOT_LPOCKET, "right pocket" = ITEM_SLOT_RPOCKET)
@@ -95,6 +96,10 @@
 	locator = null
 	to_chat(owner.current, span_userdanger("Your hunt has ended: You enter retirement once again, and are no longer a Monster Hunter."))
 	owner.special_role = null
+	owner.forget_crafting_recipe(list(
+		/datum/crafting_recipe/hardened_stake,
+		/datum/crafting_recipe/silver_stake,
+	))
 	return ..()
 
 /datum/antagonist/monsterhunter/proc/load_wonderland()
