@@ -34,6 +34,11 @@
 	if(currently_active)
 		set_click_ability(owner)
 
+/datum/action/cooldown/vampire/targeted/Remove(mob/removed_from)
+	if(removed_from?.click_intercept == src)
+		unset_click_ability(removed_from, refund_cooldown = FALSE)
+	return ..()
+
 /datum/action/cooldown/vampire/targeted/activate_power()
 	currently_active = TRUE
 
