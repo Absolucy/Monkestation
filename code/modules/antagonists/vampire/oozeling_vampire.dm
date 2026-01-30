@@ -3,7 +3,7 @@
 /// Handles setting up self-revival when an oozeling vampire dies.
 /datum/antagonist/vampire/proc/on_oozeling_core_ejected(datum/source, obj/item/organ/internal/brain/slime/core)
 	SIGNAL_HANDLER
-	if(QDELETED(core))
+	if(QDELETED(core) || final_death)
 		return
 	ADD_TRAIT(core, TRAIT_NO_ORGAN_DECAY, TRAIT_VAMPIRE)
 	if(current_vitae < OOZELING_MIN_REVIVE_BLOOD_THRESHOLD)
@@ -20,7 +20,7 @@
 	heal_vampire_organs()
 
 /datum/antagonist/vampire/proc/oozeling_self_revive(obj/item/organ/internal/brain/slime/core)
-	if(QDELETED(core))
+	if(QDELETED(core) || final_death)
 		return
 	var/mob/living/carbon/human/new_body = core.rebuild_body(nugget = FALSE, revival_policy = POLICY_ANTAGONISTIC_REVIVAL)
 	to_chat(new_body, span_cultlarge("You recollect yourself, your vitae reforming your body from your core!"), type = MESSAGE_TYPE_INFO)
@@ -74,7 +74,7 @@
 				return OOZELING_VAMPIRE_REVIVE_HELD_MULTIPLIER
 
 /datum/vampire_oozeling_reviver/process(seconds_per_tick)
-	if(QDELETED(core) || !core.core_ejected)
+	if(QDELETED(core) || !core.core_ejected || vampire.final_death)
 		delete_self()
 		return
 	oozeling_revival_progress -= (world.time - last_process) * progress_multiplier()
