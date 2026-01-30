@@ -517,6 +517,8 @@
 	// deactivate any active powers, to ensure the vampire can experience the full force of being flung away at mach fuck
 	var/datum/antagonist/vampire/vampire_datum = IS_VAMPIRE(target)
 	vampire_datum.disable_all_powers(forced = TRUE)
+	// they lose 25% of their current vitae too
+	vampire_datum.adjust_blood_volume(-vampire_datum.current_vitae * 0.25)
 
 	// ensure they're not buckled to anything, you are NOT escaping this bullshit
 	user.buckled?.unbuckle_mob(user, force = TRUE)
