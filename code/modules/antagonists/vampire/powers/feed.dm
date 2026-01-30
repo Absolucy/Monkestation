@@ -347,7 +347,7 @@
 			extrarange = SHORT_RANGE_SOUND_EXTRARANGE,
 		)
 		deactivate_power()
-		if(owner.pulledby == smacked)
+		if(owner.pulling == smacked)
 			owner.stop_pulling()
 		return
 
