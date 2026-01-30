@@ -380,7 +380,7 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 	button_icon = 'monkestation/code/modules/blueshift/icons/mob/actions/actions_nif.dmi'
 	button_icon_state = "soulcatcher_enter"
 
-/datum/action/innate/IsAvailable(feedback)
+/datum/action/innate/join_soulcatcher/IsAvailable(feedback)
 	. = ..()
 	if(HAS_TRAIT(owner, TRAIT_NO_OBSERVE))
 		return FALSE
