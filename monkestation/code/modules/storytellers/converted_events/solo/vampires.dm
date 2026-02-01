@@ -24,6 +24,14 @@
 		JOB_BRIDGE_ASSISTANT,
 		JOB_CURATOR,
 	)
+	enemy_roles = list(
+		JOB_CAPTAIN,
+		JOB_HEAD_OF_SECURITY,
+		JOB_WARDEN,
+		JOB_SECURITY_OFFICER,
+		JOB_DETECTIVE,
+		JOB_CURATOR,
+	)
 	restricted_roles = list(
 		JOB_AI,
 		JOB_CYBORG,
