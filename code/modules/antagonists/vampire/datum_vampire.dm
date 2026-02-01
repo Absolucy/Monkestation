@@ -107,12 +107,14 @@
 	/// Tracker so that vassals know where their master is
 	var/obj/effect/abstract/vampire_tracker_holder/tracker
 
-	/// List of limbs we've applied additional punch damage to.
+	/// List of limbs we've applied modifications to.
 	var/list/affected_limbs = list(
 		BODY_ZONE_L_ARM = null,
 		BODY_ZONE_R_ARM = null,
 		BODY_ZONE_L_LEG = null,
 		BODY_ZONE_R_LEG = null,
+		BODY_ZONE_HEAD = null,
+		BODY_ZONE_CHEST = null,
 	)
 
 	/// Static typecache of all vampire powers.
@@ -195,8 +197,6 @@
 	RegisterSignal(current_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(current_mob, COMSIG_HUMAN_ON_HANDLE_BLOOD, PROC_REF(handle_blood))
 	RegisterSignal(current_mob, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(on_update_sight))
-	RegisterSignal(current_mob, COMSIG_SPECIES_GAIN, PROC_REF(on_species_gain))
-	RegisterSignal(current_mob, COMSIG_SPECIES_LOSS, PROC_REF(on_species_loss))
 
 	RegisterSignal(current_mob, COMSIG_LIVING_PET_ANIMAL, PROC_REF(on_pet_animal))
 	RegisterSignal(current_mob, COMSIG_LIVING_HUG_CARBON, PROC_REF(on_hug_carbon))
@@ -223,8 +223,6 @@
 	if(ishuman(current_mob))
 		var/mob/living/carbon/human/current_human = current_mob
 		current_human.physiology?.stamina_mod *= VAMPIRE_INHERENT_STAMINA_RESIST
-		if(isoozeling(current_human))
-			current_human.physiology?.burn_mod /= 0.8
 
 	current_mob.has_dna()?.remove_all_mutations()
 	current_mob.add_traits(vampire_traits + always_traits, TRAIT_VAMPIRE)
@@ -251,8 +249,6 @@
 		COMSIG_MOVABLE_MOVED,
 		COMSIG_HUMAN_ON_HANDLE_BLOOD,
 		COMSIG_MOB_UPDATE_SIGHT,
-		COMSIG_SPECIES_GAIN,
-		COMSIG_SPECIES_LOSS,
 		COMSIG_LIVING_PET_ANIMAL,
 		COMSIG_LIVING_HUG_CARBON,
 		COMSIG_LIVING_APPRAISE_ART,
@@ -279,8 +275,6 @@
 	if(ishuman(current_mob))
 		var/mob/living/carbon/human/current_human = current_mob
 		current_human.physiology?.stamina_mod /= VAMPIRE_INHERENT_STAMINA_RESIST
-		if(isoozeling(current_human))
-			current_human.physiology?.burn_mod *= 0.8
 
 	if(!QDELETED(current_mob))
 		my_clan?.remove_effects(current_mob)
@@ -772,27 +766,34 @@
 
 /datum/antagonist/vampire/proc/register_limb(mob/living/carbon/owner, obj/item/bodypart/new_limb, special, initial = FALSE)
 	SIGNAL_HANDLER
-	if(new_limb.body_zone == BODY_ZONE_HEAD || new_limb.body_zone == BODY_ZONE_CHEST)
-		return
 
 	affected_limbs[new_limb.body_zone] = new_limb
 	RegisterSignal(new_limb, COMSIG_QDELETING, PROC_REF(limb_gone))
 
-	var/extra_damage = base_punch_damage + (vampire_level * VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
-	new_limb.unarmed_damage_low += extra_damage
-	new_limb.unarmed_damage_high += extra_damage
+	// if the limb has reduced burn damage, offset that.
+	if(initial(new_limb.burn_modifier) < 1)
+		new_limb.burn_modifier /= initial(new_limb.burn_modifier)
+
+	if(new_limb.body_zone in BODY_ZONES_LIMBS)
+		var/extra_damage = base_punch_damage + (vampire_level * VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
+		new_limb.unarmed_damage_low += extra_damage
+		new_limb.unarmed_damage_high += extra_damage
 
 /datum/antagonist/vampire/proc/unregister_limb(mob/living/carbon/owner, obj/item/bodypart/lost_limb, special)
 	SIGNAL_HANDLER
-	if(lost_limb.body_zone == BODY_ZONE_HEAD || lost_limb.body_zone == BODY_ZONE_CHEST)
-		return
-	var/extra_damage = base_punch_damage + (vampire_level / VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
 
 	affected_limbs[lost_limb.body_zone] = null
 	UnregisterSignal(lost_limb, COMSIG_QDELETING)
-	// safety measure in case we ever accidentally fuck up the math or something
-	lost_limb.unarmed_damage_low = max(lost_limb.unarmed_damage_low - extra_damage, initial(lost_limb.unarmed_damage_low))
-	lost_limb.unarmed_damage_high = max(lost_limb.unarmed_damage_high - extra_damage, initial(lost_limb.unarmed_damage_high))
+
+	// undo any offset we've done to reduce limb burn damage.
+	if(initial(lost_limb.burn_modifier) < 1)
+		lost_limb.burn_modifier *= initial(lost_limb.burn_modifier)
+
+	if(lost_limb.body_zone in BODY_ZONES_LIMBS)
+		var/extra_damage = base_punch_damage + (vampire_level / VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
+		// safety measure in case we ever accidentally fuck up the math or something
+		lost_limb.unarmed_damage_low = max(lost_limb.unarmed_damage_low - extra_damage, initial(lost_limb.unarmed_damage_low))
+		lost_limb.unarmed_damage_high = max(lost_limb.unarmed_damage_high - extra_damage, initial(lost_limb.unarmed_damage_high))
 
 /datum/antagonist/vampire/proc/limb_gone(obj/item/bodypart/deleted_limb)
 	SIGNAL_HANDLER
@@ -820,20 +821,6 @@
 	user.add_sight(SEE_MOBS)
 	user.lighting_cutoff = max(user.lighting_cutoff, LIGHTING_CUTOFF_HIGH)
 	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
-
-/datum/antagonist/vampire/proc/on_species_gain(mob/living/carbon/human/source, datum/species/new_species, datum/species/old_species)
-	SIGNAL_HANDLER
-	if(!ishuman(source))
-		return
-	if(istype(new_species, /datum/species/oozeling))
-		source.physiology?.burn_mod /= 0.8
-
-/datum/antagonist/vampire/proc/on_species_loss(mob/living/carbon/human/source, datum/species/lost_species)
-	SIGNAL_HANDLER
-	if(!ishuman(source))
-		return
-	if(istype(lost_species, /datum/species/oozeling))
-		source.physiology?.burn_mod *= 0.8
 
 /datum/antagonist/vampire/proc/query_for_monster_hunter(datum/source, list/prey)
 	SIGNAL_HANDLER
