@@ -37,8 +37,8 @@ SUBSYSTEM_DEF(cameras)
 		chunks_to_update = list()
 
 	var/list/current_run = src.current_run
-	while(current_run.len)
-		var/datum/camerachunk/chunk = current_run[current_run.len]
+	while(length(current_run))
+		var/datum/camerachunk/chunk = current_run[length(current_run)]
 		if(chunk.yield_update())
 			current_run.len--
 		if(MC_TICK_CHECK)
