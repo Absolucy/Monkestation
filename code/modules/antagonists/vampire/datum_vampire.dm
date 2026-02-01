@@ -260,14 +260,10 @@
 	cleanup_limbs(current_mob)
 	cleanup_tracker()
 
-	var/datum/hud/hud_used = current_mob.hud_used
-	if(hud_used)
-		hud_used.infodisplay -= blood_display
-		hud_used.infodisplay -= vamprank_display
-		hud_used.infodisplay -= humanity_display
-		QDEL_NULL(blood_display)
-		QDEL_NULL(vamprank_display)
-		QDEL_NULL(humanity_display)
+	remove_hud_elements(current_mob)
+	QDEL_NULL(blood_display)
+	QDEL_NULL(vamprank_display)
+	QDEL_NULL(humanity_display)
 
 	current_mob.faction -= FACTION_VAMPIRE
 
@@ -277,6 +273,18 @@
 
 	if(!QDELETED(current_mob))
 		my_clan?.remove_effects(current_mob)
+
+/datum/antagonist/vampire/proc/remove_hud_elements(mob/living/current_mob)
+	var/datum/hud/hud_used = current_mob?.hud_used
+	if(hud_used)
+		hud_used.infodisplay -= blood_display
+		hud_used.infodisplay -= vamprank_display
+		hud_used.infodisplay -= humanity_display
+	var/client/current_client = current_mob?.client
+	if(current_client)
+		current_client?.screen -= blood_display
+		current_client?.screen -= vamprank_display
+		current_client?.screen -= humanity_display
 
 /datum/antagonist/vampire/proc/on_hud_created(datum/source)
 	SIGNAL_HANDLER
