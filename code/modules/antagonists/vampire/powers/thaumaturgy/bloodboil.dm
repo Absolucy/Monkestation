@@ -23,18 +23,6 @@
 	target_range = 10
 	powerlevel = 2
 
-/datum/action/cooldown/vampire/targeted/bloodboil/three
-	cooldown_time = 25 SECONDS
-	vitaecost = 60
-	target_range = 15
-	powerlevel = 3
-
-/datum/action/cooldown/vampire/targeted/bloodboil/four
-	cooldown_time = 20 SECONDS
-	vitaecost = 75
-	target_range = 20
-	powerlevel = 4
-
 /datum/action/cooldown/vampire/targeted/bloodboil/check_valid_target(mob/living/carbon/target)
 	. = ..()
 	if(!.)
