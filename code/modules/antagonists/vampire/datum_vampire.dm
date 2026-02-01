@@ -195,6 +195,8 @@
 	RegisterSignal(current_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(current_mob, COMSIG_HUMAN_ON_HANDLE_BLOOD, PROC_REF(handle_blood))
 	RegisterSignal(current_mob, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(on_update_sight))
+	RegisterSignal(current_mob, COMSIG_SPECIES_GAIN, PROC_REF(on_species_gain))
+	RegisterSignal(current_mob, COMSIG_SPECIES_LOSS, PROC_REF(on_species_loss))
 
 	RegisterSignal(current_mob, COMSIG_LIVING_PET_ANIMAL, PROC_REF(on_pet_animal))
 	RegisterSignal(current_mob, COMSIG_LIVING_HUG_CARBON, PROC_REF(on_hug_carbon))
@@ -247,6 +249,8 @@
 		COMSIG_MOVABLE_MOVED,
 		COMSIG_HUMAN_ON_HANDLE_BLOOD,
 		COMSIG_MOB_UPDATE_SIGHT,
+		COMSIG_SPECIES_GAIN,
+		COMSIG_SPECIES_LOSS,
 		COMSIG_LIVING_PET_ANIMAL,
 		COMSIG_LIVING_HUG_CARBON,
 		COMSIG_LIVING_APPRAISE_ART,
@@ -812,6 +816,20 @@
 	user.add_sight(SEE_MOBS)
 	user.lighting_cutoff = max(user.lighting_cutoff, LIGHTING_CUTOFF_HIGH)
 	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
+
+/datum/antagonist/vampire/proc/on_species_gain(mob/living/carbon/human/source, datum/species/new_species, datum/species/old_species)
+	SIGNAL_HANDLER
+	if(!ishuman(source))
+		return
+	if(istype(new_species, /datum/species/oozeling))
+		source.physiology?.burn_mod /= 0.8
+
+/datum/antagonist/vampire/proc/on_species_loss(mob/living/carbon/human/source, datum/species/lost_species)
+	SIGNAL_HANDLER
+	if(!ishuman(source))
+		return
+	if(istype(lost_species, /datum/species/oozeling))
+		source.physiology?.burn_mod *= 0.8
 
 /datum/antagonist/vampire/proc/query_for_monster_hunter(datum/source, list/prey)
 	SIGNAL_HANDLER
