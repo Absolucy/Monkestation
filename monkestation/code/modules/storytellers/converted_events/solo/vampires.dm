@@ -30,9 +30,18 @@
 	)
 	min_players = 20
 	weight = 10
-	base_antags = 3
+	base_antags = 2
 	maximum_antags = 4
 	event_icon_state = "vampires"
+
+#ifdef STORYTELLER_TRACK_BOOSTER
+/datum/round_event_control/antagonist/vampire/get_antag_amount()
+#else
+/datum/round_event_control/antagonist/solo/vampire/get_antag_amount()
+#endif
+	. = ..()
+	if(SSgamemode.get_correct_popcount() < 45)
+		return min(., 2)
 
 #ifdef STORYTELLER_TRACK_BOOSTER
 /datum/round_event_control/antagonist/vampire/roundstart
