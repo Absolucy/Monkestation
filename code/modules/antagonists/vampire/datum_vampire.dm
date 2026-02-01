@@ -223,6 +223,8 @@
 	if(ishuman(current_mob))
 		var/mob/living/carbon/human/current_human = current_mob
 		current_human.physiology?.stamina_mod *= VAMPIRE_INHERENT_STAMINA_RESIST
+		if(isoozeling(current_human))
+			current_human.physiology?.burn_mod /= 0.8
 
 	current_mob.has_dna()?.remove_all_mutations()
 	current_mob.add_traits(vampire_traits + always_traits, TRAIT_VAMPIRE)
@@ -277,6 +279,8 @@
 	if(ishuman(current_mob))
 		var/mob/living/carbon/human/current_human = current_mob
 		current_human.physiology?.stamina_mod /= VAMPIRE_INHERENT_STAMINA_RESIST
+		if(isoozeling(current_human))
+			current_human.physiology?.burn_mod *= 0.8
 
 	if(!QDELETED(current_mob))
 		my_clan?.remove_effects(current_mob)
