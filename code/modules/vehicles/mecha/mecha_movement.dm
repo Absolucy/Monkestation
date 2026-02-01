@@ -188,9 +188,11 @@
  * helping us to avoid running out of the camera's FoV. An EMPd mecha with a lowered view_range on its camera can still
  * sometimes run out into static before updating, however.
 */
-/obj/vehicle/sealed/mecha/proc/do_camera_update(oldLoc)
-	if(oldLoc != get_turf(src))
-		SScameras.update_portable_camera(chassis_camera, MECH_CAMERA_BUFFER)
+/obj/vehicle/sealed/mecha/proc/do_camera_update(atom/old_loc)
+	var/turf/old_turf = get_turf(old_loc)
+	var/turf/new_turf = get_turf(src)
+	if(old_turf != new_turf)
+		SScameras.camera_moved(chassis_camera, old_turf, new_turf, MECH_CAMERA_BUFFER)
 	updating = FALSE
 #undef MECH_CAMERA_BUFFER
 
