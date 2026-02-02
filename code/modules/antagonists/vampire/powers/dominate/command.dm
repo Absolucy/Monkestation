@@ -10,7 +10,7 @@
 	power_explanation = "Click any player to attempt to compel them.\n\
 		If your target is already commanded, a Curator, or a vampire, you will fail.\n\
 		Once commanded, the target will do their best to fulfill it, with a duration scaling with level.\n\
-		If your target is mindshielded, your command's duration will be halved.\n\
+		If your target is mindshielded, your command's duration will be halved, and commanding them will take longer.\n\
 		At level 1, your command will stay for 60 seconds.\n\
 		At level 2, it will remain for 3 minutes.\n\
 		Be smart with your wording. They will become pacified, and won't obey violent commands."
@@ -18,11 +18,14 @@
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
 	vitaecost = 120
 	cooldown_time = 80 SECONDS
-	target_range = 6
+	target_range = 3
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you subvert to your will?"
 
+	/// How long the command is in effect.
 	var/power_time = 60 SECONDS
+	/// How long you have to channel in order to command someone.
+	var/channel_time = 8 SECONDS
 
 	/// Reference to the target
 	var/datum/weakref/target_ref
@@ -32,6 +35,8 @@
 	power_time = 180 SECONDS
 	vitaecost = 240
 	cooldown_time = 200 SECONDS
+	target_range = 6
+	channel_time = 5 SECONDS
 
 /datum/action/cooldown/vampire/targeted/command/can_use()
 	. = ..()
@@ -60,10 +65,10 @@
 		return FALSE
 
 	// Must be a carbon or silicon
-	if(!iscarbon(target_atom) && !issilicon(target_atom))
+	if(!iscarbon(target_atom))
 		return FALSE
-	var/mob/living/living_target = target_atom
 
+	var/mob/living/living_target = target_atom
 	// No mind
 	if(!living_target.mind)
 		owner.balloon_alert(owner, "[living_target] is mindless.")
@@ -109,29 +114,38 @@
 		return
 
 	// They left while we were writing
-	if(!(living_target in hearers(6, owner)))
+	if(!(living_target in hearers(target_range, owner)))
 		deactivate_power()
 		return
 
-	// Put the objective list together
-	var/list/brainwash_list = list()
-	brainwash_list += "[command]!"
+	var/modified_delay = channel_time
+	if(HAS_TRAIT_NOT_FROM(living_target, TRAIT_MINDSHIELD, NANITES_TRAIT))
+		modified_delay *= 1.5
+
+	if(!do_after(owner, modified_delay, living_target, IGNORE_USER_LOC_CHANGE | IGNORE_TARGET_LOC_CHANGE, extra_checks = CALLBACK(src, PROC_REF(continue_active)), hidden = TRUE))
+		deactivate_power()
+		return
+
+	// they're out of range once more
+	if(!(living_target in hearers(target_range, owner)))
+		deactivate_power()
+		return
 
 	//Actually command them now
-	owner.say(command)
+	owner.say(command, forced = "[type]")
 
 	var/time_multiplier = 1
-	if(HAS_TRAIT(living_target, TRAIT_MINDSHIELD))
+	if(HAS_TRAIT_NOT_FROM(living_target, TRAIT_MINDSHIELD, NANITES_TRAIT))
 		time_multiplier = 0.5
 
 	ADD_TRAIT(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED)
-	var/list/directives = brainwash(living_target, brainwash_list, "[owner.real_name]'s Command")
+	var/list/directives = brainwash(living_target, "[command]!", "[owner.real_name]'s Command")
 
 	message_admins("[ADMIN_LOOKUPFLW(owner)] used the COMMAND ability on [ADMIN_LOOKUPFLW(living_target)], commanding them to [command].")
 	log_game("[key_name(owner)] used the command ability on [living_target], commanding them to [command].")
 
 	living_target.Immobilize(2 SECONDS, TRUE)
-	to_chat(living_target, span_narsie("[command]!"), type = MESSAGE_TYPE_WARNING)
+	to_chat(living_target, span_awe(span_reallybig("[command]!")), type = MESSAGE_TYPE_WARNING)
 	addtimer(CALLBACK(src, PROC_REF(end_command), living_target, directives), power_time * time_multiplier)
 
 	power_activated_sucessfully() // PAY COST! BEGIN COOLDOWN!
