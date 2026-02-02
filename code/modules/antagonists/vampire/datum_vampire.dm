@@ -832,7 +832,7 @@
 	SIGNAL_HANDLER
 	if(final_death || scourge)
 		return
-	if(prince || broke_masquerade || humanity < VAMPIRE_DEFAULT_HUMANITY || length(vassals))
+	if(prince || length(GLOB.masquerade_breakers) || humanity < VAMPIRE_DEFAULT_HUMANITY || length(vassals))
 		prey += owner
 
 /datum/outfit/vampire_outfit
