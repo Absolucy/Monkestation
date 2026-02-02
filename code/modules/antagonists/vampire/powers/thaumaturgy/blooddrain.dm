@@ -81,6 +81,10 @@
 	var/datum/action/cooldown/vampire/targeted/blooddrain/spell
 	var/blood_drain = 5	 // Amount of blood drained per second
 
+/datum/status_effect/blood_drain/Destroy()
+	. = ..()
+	vampire = null
+
 /datum/status_effect/blood_drain/on_creation(mob/living/new_owner, mob/living/firer, fired_from, duration_override)
 	if(isnull(firer) || isnull(fired_from) || !iscarbon(firer) || !iscarbon(new_owner))
 		qdel(src)
@@ -99,7 +103,14 @@
 
 /datum/status_effect/blood_drain/on_remove()
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/status_effect/life_drain)
-	end_drain()
+	if(spell)
+		spell.active_effect = null
+		spell.deactivate_power()
+		spell.StartCooldown()
+		spell = null
+	if(!QDELETED(drain_beam))
+		qdel(drain_beam)
+	drain_beam = null
 
 /datum/status_effect/blood_drain/tick(seconds_between_ticks)
 	if(!iscarbon(owner) || owner.stat > HARD_CRIT) //If they're dead or non-humanoid, this spell fails
@@ -132,11 +143,5 @@
 
 /datum/status_effect/blood_drain/proc/end_drain()
 	SIGNAL_HANDLER
-	spell.active_effect = null
-	spell.deactivate_power()
-	spell.StartCooldown()
-	if(QDELING(src))
-		return
-	if(!QDELETED(drain_beam))
-		QDEL_NULL(drain_beam)
-	qdel(src)
+	if(!QDELETED(src))
+		qdel(src)
