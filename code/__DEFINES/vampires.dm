@@ -172,8 +172,6 @@
 #define TRAIT_VAMPIRE "trait_vampire"
 /// Source trait for vampire mesmerization.
 #define TRAIT_MESMERIZED "trait_mesmerized"
-/// Source trait for vampire commandment.
-#define TRAIT_COMMANDED "trait_commanded"
 
 // Macros
 #define IS_CURATOR(mob) istype(mob?.mind?.assigned_role, /datum/job/curator)

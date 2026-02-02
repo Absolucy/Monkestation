@@ -95,7 +95,7 @@
 		return FALSE
 
 	// Already commanded?
-	if(HAS_TRAIT_FROM(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED))
+	if(living_target.has_status_effect(/datum/status_effect/commanded))
 		owner.balloon_alert(owner, "[living_target] is already compelled!")
 		return FALSE
 
@@ -138,15 +138,7 @@
 	if(HAS_TRAIT_NOT_FROM(living_target, TRAIT_MINDSHIELD, NANITES_TRAIT))
 		time_multiplier = 0.5
 
-	ADD_TRAIT(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED)
-	var/list/directives = brainwash(living_target, "[command]!", "[owner.real_name]'s Command")
-
-	message_admins("[ADMIN_LOOKUPFLW(owner)] used the COMMAND ability on [ADMIN_LOOKUPFLW(living_target)], commanding them to [command].")
-	log_game("[key_name(owner)] used the command ability on [living_target], commanding them to [command].")
-
-	living_target.Immobilize(2 SECONDS, TRUE)
-	to_chat(living_target, span_awe(span_reallybig("[command]!")), type = MESSAGE_TYPE_WARNING)
-	addtimer(CALLBACK(src, PROC_REF(end_command), living_target, directives), power_time * time_multiplier)
+	living_target.apply_status_effect(/datum/status_effect/commanded, owner, command, power_time * time_multiplier)
 
 	power_activated_sucessfully() // PAY COST! BEGIN COOLDOWN!
 
@@ -165,7 +157,7 @@
 		to_chat(owner, span_warning("Command too long!"))
 		return FALSE
 
-	return(command)
+	return command
 
 /datum/action/cooldown/vampire/targeted/command/continue_active()
 	. = ..()
@@ -183,8 +175,42 @@
 	. = ..()
 	target_ref = null
 
-/datum/action/cooldown/vampire/targeted/command/proc/end_command(mob/living/living_target, list/directives)
-	REMOVE_TRAIT(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED)
-	unbrainwash(living_target, directives)
+/datum/status_effect/commanded
+	id = "commanded"
+	duration = 1 MINUTES
+	tick_interval = STATUS_EFFECT_NO_TICK
+	on_remove_on_mob_delete = TRUE
+	alert_type = null
+	/// The vampire that casted this command.
+	var/mob/living/caster
+	/// The actual command used for the objective.
+	var/command
+	/// The brainwash objectives, so we can unbrainwash when it ends.
+	var/list/directives
 
-	owner.balloon_alert(owner, "[living_target] snapped out of [living_target.p_their()] trance!")
+/datum/status_effect/commanded/on_creation(mob/living/new_owner, mob/living/caster, command, duration)
+	src.caster = caster
+	src.command = command
+	if(duration)
+		src.duration = duration
+	return ..()
+
+/datum/status_effect/commanded/on_apply()
+	ADD_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
+	directives = brainwash(owner, "[command]!", "[caster.real_name]'s Command")
+
+	// make sure they have a moment to realize what's going on
+	owner.Immobilize(2 SECONDS, TRUE)
+	to_chat(owner, "<br>" + span_awe(span_extremelybig("[command]!")) + "<br>", type = MESSAGE_TYPE_WARNING)
+
+	// also log it.
+	message_admins("[ADMIN_LOOKUPFLW(caster)] used the COMMAND ability on [ADMIN_LOOKUPFLW(owner)], commanding them to [command].")
+	log_game("[key_name(caster)] used the command ability on [key_name(owner)], commanding them to [command].")
+	return TRUE
+
+/datum/status_effect/commanded/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
+	unbrainwash(owner, directives)
+	directives = null
+	caster.balloon_alert(owner, "[owner] snapped out of [owner.p_their()] trance!")
+	caster = null
