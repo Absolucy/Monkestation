@@ -4,7 +4,8 @@
 	button_icon_state = "power_thaumaturgy"
 	active_background_icon_state = "tremere_power_on"
 	base_background_icon_state = "tremere_power_off"
-	power_explanation = "Cast a beam of draining magic that saps the vitality of your target to steal their blood and heal yourself."
+	power_explanation = "Cast a beam of draining magic that saps the vitality of your target to steal their blood and heal yourself.\n\
+		You must maintain line of sight to the victim for the effect to continue."
 	vampire_power_flags = BP_AM_TOGGLE
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
 	vitaecost = 75
@@ -78,7 +79,7 @@
 	var/datum/beam/drain_beam
 	var/mob/living/carbon/vampire
 	var/datum/action/cooldown/vampire/targeted/blooddrain/spell
-	var/blood_drain = 3	 // Amount of blood drained per tick, at 0.25 this is 12 blood per second
+	var/blood_drain = 5	 // Amount of blood drained per second
 
 /datum/status_effect/blood_drain/on_creation(mob/living/new_owner, mob/living/firer, fired_from, duration_override)
 	if(isnull(firer) || isnull(fired_from) || !iscarbon(firer) || !iscarbon(new_owner))
@@ -100,20 +101,23 @@
 	owner.remove_movespeed_modifier(/datum/movespeed_modifier/status_effect/life_drain)
 	end_drain()
 
-/datum/status_effect/blood_drain/tick()
+/datum/status_effect/blood_drain/tick(seconds_between_ticks)
 	if(!iscarbon(owner) || owner.stat > HARD_CRIT) //If they're dead or non-humanoid, this spell fails
 		end_drain()
 		return
 	if(!iscarbon(vampire)) //You never know what might happen with wizards around
 		end_drain()
 		return
+	if(!CAN_THEY_SEE(vampire, owner)) // if they leave line of sight, no more drain.
+		end_drain()
+		return
 
 	if(HAS_TRAIT(owner, TRAIT_INCAPACITATED) || owner.stat)
 		//If the victim is incapacitated, drain their blood
-		owner.blood_volume -= blood_drain
+		owner.blood_volume -= blood_drain * seconds_between_ticks
 	else
 		//If they aren't incapacitated yet, drain only their stamina
-		owner.stamina?.adjust(-7)
+		owner.stamina?.adjust(-7 * seconds_between_ticks)
 
 	if(prob(20))
 		INVOKE_ASYNC(owner, TYPE_PROC_REF(/mob, emote), "scream")
