@@ -10,7 +10,7 @@
 	antag_hud_name = "vampire"
 	preview_outfit = /datum/outfit/vampire_outfit
 
-	antag_count_points = 4 // there's gonna be a lot of these.
+	antag_count_points = 6
 
 	show_to_ghosts = TRUE
 
