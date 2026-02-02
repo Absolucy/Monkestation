@@ -8,7 +8,7 @@
 	desc = "Dominate the mind of another with a simple command."
 	button_icon_state = "power_command"
 	power_explanation = "Click any player to attempt to compel them.\n\
-		If your target is already commanded, a Curator, or a vampire of higher level, you will fail.\n\
+		If your target is already commanded, a Curator, or a vampire, you will fail.\n\
 		Once commanded, the target will do their best to fulfill it, with a duration scaling with level.\n\
 		If your target is mindshielded, your command's duration will be halved.\n\
 		At level 1, your command will stay for 60 seconds.\n\
@@ -120,10 +120,9 @@
 	//Actually command them now
 	owner.say(command)
 
-	var/power_time_adjusted = FALSE
+	var/time_multiplier = 1
 	if(HAS_TRAIT(living_target, TRAIT_MINDSHIELD))
-		power_time /= 2
-		power_time_adjusted = TRUE
+		time_multiplier = 0.5
 
 	ADD_TRAIT(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED)
 	var/list/directives = brainwash(living_target, brainwash_list, "[owner.real_name]'s Command")
@@ -133,11 +132,7 @@
 
 	living_target.Immobilize(2 SECONDS, TRUE)
 	to_chat(living_target, span_narsie("[command]!"), type = MESSAGE_TYPE_WARNING)
-	addtimer(CALLBACK(src, PROC_REF(end_command), living_target, directives), power_time)
-
-	if(power_time_adjusted)
-		power_time *= 2
-		power_time_adjusted = FALSE
+	addtimer(CALLBACK(src, PROC_REF(end_command), living_target, directives), power_time * time_multiplier)
 
 	power_activated_sucessfully() // PAY COST! BEGIN COOLDOWN!
 
