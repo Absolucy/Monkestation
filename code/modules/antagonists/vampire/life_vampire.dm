@@ -77,8 +77,8 @@
 	var/vitaecost_multiplier = 0.5 // Coffin makes it cheaper
 	var/healing_multiplier = 1
 
-	var/brute_heal = min(carbon_owner.getBruteLoss(), actual_regen) * healing_multiplier
-	var/burn_heal = min(carbon_owner.getFireLoss(), actual_regen) * 0.75 * healing_multiplier
+	var/brute_heal = min(carbon_owner.getBruteLoss(), actual_regen)
+	var/burn_heal = 0
 
 	if(length(carbon_owner.all_wounds))
 		var/datum/wound/bloodiest_wound
