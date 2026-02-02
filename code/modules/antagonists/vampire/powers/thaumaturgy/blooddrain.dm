@@ -130,14 +130,14 @@
 		//If they aren't incapacitated yet, drain only their stamina
 		owner.stamina?.adjust(-7 * seconds_between_ticks)
 
-	if(prob(20))
+	if(SPT_PROB(20, seconds_between_ticks))
 		INVOKE_ASYNC(owner, TYPE_PROC_REF(/mob, emote), "scream")
 		owner.visible_message(span_boldwarning("[vampire] absorbs blood from [owner]!"), span_boldwarning("It BURNS!"))
 
 	//Vampire heals at a steady rate over the duration of the spell regardless of the victim's state
 	vampire.heal_overall_damage(brute = 0.5, burn = 0.5, stamina = 5)
 
-	spell.vampiredatum_power.current_vitae += blood_drain * 2	// Vampires get double the blood drained because of balance
+	spell.vampiredatum_power.adjust_blood_volume(blood_drain * seconds_between_ticks * 2) // Vampires get double the blood drained because of balance
 	//Weird beam visuals if it isn't redrawn due to the beam sending players into crit
 	drain_beam.redrawing()
 
