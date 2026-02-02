@@ -832,7 +832,14 @@
 	SIGNAL_HANDLER
 	if(final_death || scourge)
 		return
-	if(prince || length(GLOB.masquerade_breakers) || humanity < VAMPIRE_DEFAULT_HUMANITY || length(vassals))
+	var/masq_breakers_alive = FALSE
+	for(var/datum/antagonist/vampire/masq_breaker as anything in GLOB.masquerade_breakers)
+		if(masq_breaker.final_death || QDELETED(masq_breaker.owner.current))
+			continue
+		if(masq_breaker.owner.current.stat != DEAD)
+			masq_breakers_alive = TRUE
+			break
+	if(prince || masq_breakers_alive || humanity < VAMPIRE_DEFAULT_HUMANITY || length(vassals))
 		prey += owner
 
 /datum/outfit/vampire_outfit
