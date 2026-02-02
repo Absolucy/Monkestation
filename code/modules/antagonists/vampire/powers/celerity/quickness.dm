@@ -48,7 +48,7 @@
 			continue
 		source.face_atom(to_attack)
 		to_attack.attack_hand(source, modifiers)
-		source.changeNext_move(CLICK_CD_MELEE * 0.75)
+		source.changeNext_move(CLICK_CD_MELEE)
 		return COMPONENT_CANCEL_ATTACK_CHAIN
 
 
