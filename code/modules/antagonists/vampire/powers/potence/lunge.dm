@@ -67,6 +67,10 @@
 	if(user.body_position == LYING_DOWN || HAS_TRAIT(owner, TRAIT_IMMOBILIZED))
 		return FALSE
 
+	if(get_dist(owner, target_atom) > 7)
+		owner.balloon_alert(owner, "too far away!")
+		return FALSE
+
 /datum/action/cooldown/vampire/targeted/lunge/fire_targeted_power(atom/target_atom)
 	. = ..()
 	owner.face_atom(target_atom)
@@ -90,11 +94,11 @@
 	//animate them shake
 	var/base_x = owner.base_pixel_x
 	var/base_y = owner.base_pixel_y
-	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 1, loop = -1)
+	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 0.1 SECONDS, loop = -1)
 	for(var/i in 1 to 25)
 		var/x_offset = base_x + rand(-3, 3)
 		var/y_offset = base_y + rand(-3, 3)
-		animate(pixel_x = x_offset, pixel_y = y_offset, time = 1)
+		animate(pixel_x = x_offset, pixel_y = y_offset, time = 0.1 SECONDS)
 
 	// Actually lunge now
 	if(!do_after(owner, LUNGE_TIME, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE), extra_checks = CALLBACK(src, PROC_REF(check_valid_target), target_atom)))
@@ -107,7 +111,7 @@
 
 ///When preparing to lunge ends, this clears it up.
 /datum/action/cooldown/vampire/targeted/lunge/proc/end_target_lunge(base_x, base_y)
-	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 1)
+	animate(owner, pixel_x = base_x, pixel_y = base_y, time = 0.1 SECONDS)
 	STOP_PROCESSING(SSprocessing, src)
 
 /datum/action/cooldown/vampire/targeted/lunge/process()
@@ -163,7 +167,7 @@
 	else
 		// Did we knock them down?
 		if(!is_source_facing_target(target, owner) || owner.alpha <= 40)
-			target.Knockdown(10 + knockdown_bonus * 5)
+			target.Knockdown((1 SECONDS) + knockdown_bonus * 5)
 			target.Paralyze(0.1)
 
 			target.drop_all_held_items()
