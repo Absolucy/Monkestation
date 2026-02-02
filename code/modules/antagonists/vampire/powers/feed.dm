@@ -145,11 +145,10 @@
 	if(IS_VAMPIRE_HUNTER(target))
 		owner.balloon_alert(owner, "[target] is too powerful!")
 		return FALSE
-	// If allowing all vamps to diablerize ends up being too much of an issue, uncomment this.
-	/* if(IS_VAMPIRE(target))
-		var/datum/antagonist/vampire/target_vampire = IS_VAMPIRE(target)
-		if(!target_vampire.broke_masquerade)
-			return FALSE */
+	var/datum/antagonist/vampire/target_vampire = IS_VAMPIRE(target)
+	if(target_vampire && (vampiredatum_power.scourge || vampiredatum_power.prince) && !target_vampire.broke_masquerade)
+		owner.balloon_alert(owner, "cannot diablerize non-masquerade breakers as royalty!")
+		return FALSE
 	// Human checks
 	if(ishuman(target))
 		// Cannot drink from inorganics
