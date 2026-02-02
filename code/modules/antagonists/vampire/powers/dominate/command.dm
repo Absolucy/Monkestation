@@ -70,7 +70,7 @@
 		return FALSE
 
 	// Vampire/Curator check
-	if(IS_CURATOR(living_target) || HAS_MIND_TRAIT(living_target, TRAIT_UNCONVERTABLE))
+	if(IS_VAMPIRE(living_target) || IS_CURATOR(living_target) || HAS_MIND_TRAIT(living_target, TRAIT_UNCONVERTABLE))
 		owner.balloon_alert(owner, "too powerful.")
 		return FALSE
 
@@ -124,13 +124,6 @@
 	if(HAS_TRAIT(living_target, TRAIT_MINDSHIELD))
 		power_time /= 2
 		power_time_adjusted = TRUE
-
-	if(IS_VAMPIRE(living_target))
-		var/datum/antagonist/vampire/target_vampdatum = IS_VAMPIRE(living_target)
-		if(target_vampdatum.vampire_level > vampiredatum_power.vampire_level)
-			owner.balloon_alert(owner, "kindred stronger than you.")
-			deactivate_power()
-			return
 
 	ADD_TRAIT(living_target, TRAIT_PACIFISM, TRAIT_COMMANDED)
 	var/list/directives = brainwash(living_target, brainwash_list, "[owner.real_name]'s Command")
