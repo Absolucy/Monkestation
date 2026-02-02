@@ -14,8 +14,7 @@
 		You cannot wear anything covering your face.\n\
 		This will take a few seconds, and they may attempt to flee - the spell will fail if they exit the range.\n\
 		If your target is already mesmerized or a Curator, you will fail.\n\
-		Once mesmerized, the target will be unable to move for a certain amount of time, scaling with level.\n\
-		At level 2, your target will additionally be muted.\n\
+		Once mesmerized, the target will be unable to move or speak for a certain amount of time, scaling with level.\n\
 		At level 3, you will be able to use the power through masks and helmets.\n\
 		At level 4, you will be able to mesmerize regardless of your target's direction."
 	vampire_power_flags = NONE
@@ -33,9 +32,7 @@
 	var/mesmerize_delay = 5 SECONDS
 
 /datum/action/cooldown/vampire/targeted/mesmerize/Destroy()
-	var/mob/living/current_target = target_ref?.resolve()
-	if(current_target)
-		REMOVE_TRAITS_IN(current_target, TRAIT_MESMERIZED)
+	target_ref = null
 	return ..()
 
 /datum/action/cooldown/vampire/targeted/mesmerize/two
@@ -99,7 +96,7 @@
 		return FALSE
 
 	// Already mesmerized?
-	if(HAS_TRAIT_FROM(living_target, TRAIT_MUTE, TRAIT_MESMERIZED))
+	if(living_target.has_status_effect(/datum/status_effect/mesmerized))
 		owner.balloon_alert(owner, "[living_target] is already in a hypnotic gaze.")
 		return FALSE
 
@@ -123,7 +120,7 @@
 		modified_delay += (eye_protection * 0.25) * mesmerize_delay
 		to_chat(living_target, span_warning("It feels like your eye-protection is helping you resist the gaze!"), type = MESSAGE_TYPE_COMBAT)
 		to_chat(living_target, span_warning("But, you can still feel it making your eyes grow heavy."), type = MESSAGE_TYPE_COMBAT)
-		to_chat(owner, span_warning("[living_target] is wearing eye-protection, it will take longer to mesmerize them."), type = MESSAGE_TYPE_COMBAT)
+		to_chat(owner, span_warning("[living_target] is wearing eye-protection, it will take longer to mesmerize [living_target.p_them()]."), type = MESSAGE_TYPE_COMBAT)
 		owner.balloon_alert(owner, "attempting to hypnotize [living_target], but [living_target.p_they()] [living_target.p_are()] partially protected!")
 	else
 		owner.balloon_alert(owner, "attempting to hypnotize [living_target]...")
@@ -135,19 +132,10 @@
 		return
 
 	owner.balloon_alert(owner, "successfully mesmerized [living_target].")
-	to_chat(living_target, span_awe("[owner]'s eyes glitter so beautifully... You're mesmerized!"), type = MESSAGE_TYPE_COMBAT)
-	living_target.playsound_local(null, 'sound/vampires/mesmerize.ogg', 100, FALSE, pressure_affected = FALSE)
 
 	//Actually mesmerize them now
 	var/power_time = 9 SECONDS + level_current * 1.5 SECONDS
-
-	if(level_current >= 2)
-		ADD_TRAIT(living_target, TRAIT_MUTE, TRAIT_MESMERIZED)
-
-	living_target.Immobilize(power_time)
-	living_target.next_move = world.time + power_time // <--- Use direct change instead. We want an unmodified delay to their next move
-	ADD_TRAIT(living_target, TRAIT_NO_TRANSFORM, TRAIT_MESMERIZED) // <--- Fuck it. We tried using next_move, but they could STILL resist. We're just doing a hard freeze.
-	addtimer(CALLBACK(src, PROC_REF(end_mesmerize), living_target), power_time)
+	living_target.apply_status_effect(/datum/status_effect/mesmerized, owner, power_time)
 
 	power_activated_sucessfully() // PAY COST! BEGIN COOLDOWN!
 
@@ -167,14 +155,6 @@
 	. = ..()
 	target_ref = null
 
-/datum/action/cooldown/vampire/targeted/mesmerize/proc/end_mesmerize(mob/living/living_target)
-	living_target.remove_traits(list(TRAIT_MUTE, TRAIT_NO_TRANSFORM), TRAIT_MESMERIZED)
-
-	to_chat(living_target, span_awe(span_big("With the spell waning, so does your memory of being mesmerized.")), type = MESSAGE_TYPE_COMBAT)
-
-	if (living_target in view(6, get_turf(owner)))
-		living_target.balloon_alert(owner, "snapped out of [living_target.p_their()] trance!")
-
 /datum/action/cooldown/vampire/targeted/mesmerize/proc/perform_indicators(mob/target, duration)
 	// Display an animated overlay over our head to indicate what's going on
 	eldritch_eye(target, "eye_open", 1 SECONDS)
@@ -190,3 +170,41 @@
 	image.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	SET_PLANE_EXPLICIT(image, ABOVE_HUD_PLANE, owner)
 	flick_overlay_global(image, list(owner?.client, target?.client), duration)
+
+/datum/status_effect/mesmerized
+	id = "mesmerized"
+	duration = 15 SECONDS
+	tick_interval = STATUS_EFFECT_NO_TICK
+	alert_type = null
+	/// The mob that mesmerized the victim.
+	var/mob/living/caster
+	/// Traits given to the mesmerized victim.
+	var/list/mesmerized_traits = list(
+		TRAIT_HANDS_BLOCKED,
+		TRAIT_IMMOBILIZED,
+		TRAIT_INCAPACITATED,
+		TRAIT_MUTE,
+	)
+
+/datum/status_effect/mesmerized/Destroy()
+	. = ..()
+	caster = null
+
+/datum/status_effect/mesmerized/on_creation(mob/living/new_owner, mob/living/caster, duration)
+	src.caster = caster
+	src.duration = duration
+	return ..()
+
+/datum/status_effect/mesmerized/on_apply()
+	owner.add_client_colour(/datum/client_colour/glass_colour/pink)
+	owner.add_traits(mesmerized_traits, TRAIT_STATUS_EFFECT(id))
+	to_chat(owner, span_awe("[caster]'s eyes glitter so beautifully... You're mesmerized!"), type = MESSAGE_TYPE_COMBAT)
+	owner.playsound_local(null, 'sound/vampires/mesmerize.ogg', 100, FALSE, pressure_affected = FALSE)
+	return TRUE
+
+/datum/status_effect/mesmerized/on_remove()
+	owner.remove_client_colour(/datum/client_colour/glass_colour/pink)
+	owner.remove_traits(mesmerized_traits, TRAIT_STATUS_EFFECT(id))
+	to_chat(owner, span_awe(span_big("With the spell waning, so does your memory of being mesmerized.")), type = MESSAGE_TYPE_COMBAT)
+	if(CAN_THEY_SEE(owner, caster))
+		owner.balloon_alert(caster, "snapped out of [owner.p_their()] trance!")
