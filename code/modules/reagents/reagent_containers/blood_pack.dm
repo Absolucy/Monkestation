@@ -50,13 +50,17 @@
 		return TRUE
 
 	attacker.visible_message(
-		span_notice("[victim] puts the [src] up to [victim.p_their()] mouth."),
-		span_notice("You put the [src] up to your mouth.")
+		span_notice("[victim] puts \the [src] up to [victim.p_their()] mouth."),
+		span_notice("You put \the [src] up to your mouth.")
 	)
 
 	if(!do_after(victim, 5 SECONDS, victim, timed_action_flags = IGNORE_USER_LOC_CHANGE, extra_checks = CALLBACK(src, PROC_REF(can_drink), victim, attacker), hidden = TRUE))
 		return
 
+	victim.visible_message(
+		span_notice("[victim] sucks the contents out of \the [src]!"),
+		span_notice("You feed from \the [src].")
+	)
 	reagents.trans_to(victim, to_feed, transfered_by = attacker, methods = INGEST)
 	playsound(victim, 'sound/items/drink.ogg', vol = 30, vary = TRUE)
 	return TRUE
