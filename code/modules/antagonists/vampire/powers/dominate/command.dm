@@ -13,7 +13,8 @@
 		If your target is mindshielded, your command's duration will be halved, and commanding them will take longer.\n\
 		At level 1, your command will stay for 60 seconds.\n\
 		At level 2, it will remain for 3 minutes.\n\
-		Be smart with your wording. They will become pacified, and won't obey violent commands."
+		Be smart with your wording. They will become pacified, and won't obey violent commands.\n\
+		In addition, attacking your target will immediately snap them out of their compulsion."
 	vampire_power_flags = NONE
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
 	vitaecost = 120
@@ -206,11 +207,21 @@
 	// also log it.
 	message_admins("[ADMIN_LOOKUPFLW(caster)] used the COMMAND ability on [ADMIN_LOOKUPFLW(owner)], commanding them to [command].")
 	log_game("[key_name(caster)] used the command ability on [key_name(owner)], commanding them to [command].")
+
+	owner.AddElement(/datum/element/relay_attackers)
+	RegisterSignal(owner, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_attacked))
 	return TRUE
 
 /datum/status_effect/commanded/on_remove()
+	UnregisterSignal(owner, COMSIG_ATOM_WAS_ATTACKED)
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
 	unbrainwash(owner, directives)
 	directives = null
 	caster.balloon_alert(owner, "[owner] snapped out of [owner.p_their()] trance!")
 	caster = null
+
+/datum/status_effect/commanded/proc/on_attacked(datum/source, atom/attacker, attack_flags)
+	SIGNAL_HANDLER
+	if(attacker == caster && (attack_flags & ATTACKER_DAMAGING_ATTACK))
+		to_chat(owner, span_awe(span_reallybig("You quickly come back to your senses as you're hit by [attacker]!")))
+		qdel(src)
