@@ -25,7 +25,7 @@
 /// Amount of vitae drunk from another player required to level up.
 #define VITAE_GOAL_STANDARD 250
 
-/// How much the bloodsucker's punch/kick damage increases with each level.
+/// Default amount of damage the vampire's punch/kick damage increases with each level.
 #define VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP 0.5
 
 /// How many starting levels do we want each one to have?

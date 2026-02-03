@@ -21,5 +21,5 @@
 /datum/discipline/potence/apply_discipline_quirks(datum/antagonist/vampire/clan_owner)
 	. = ..()
 	clan_owner.cleanup_limbs(clan_owner.owner.current)
-	clan_owner.base_punch_damage = 8
+	clan_owner.extra_damage_per_rank = 2
 	clan_owner.setup_limbs(clan_owner.owner.current)

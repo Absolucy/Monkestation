@@ -90,8 +90,8 @@
 	/// How much damage the vampire heals each life tick. Increases per rank up
 	var/vampire_regen_rate = 0.3
 
-	/// Flat punch damage added.
-	var/base_punch_damage = 1
+	/// How much more punch/kick damage the vampire gets per rank.
+	var/extra_damage_per_rank = VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP
 
 	/// Lair
 	var/area/vampire_lair_area
@@ -781,7 +781,7 @@
 		new_limb.burn_modifier /= initial(new_limb.burn_modifier)
 
 	if(new_limb.body_zone in BODY_ZONES_LIMBS)
-		var/extra_damage = base_punch_damage + (vampire_level * VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
+		var/extra_damage = 1 + (vampire_level * extra_damage_per_rank)
 		new_limb.unarmed_damage_low += extra_damage
 		new_limb.unarmed_damage_high += extra_damage
 
@@ -796,7 +796,7 @@
 		lost_limb.burn_modifier *= initial(lost_limb.burn_modifier)
 
 	if(lost_limb.body_zone in BODY_ZONES_LIMBS)
-		var/extra_damage = base_punch_damage + (vampire_level / VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP)
+		var/extra_damage = 1 + (vampire_level / extra_damage_per_rank)
 		// safety measure in case we ever accidentally fuck up the math or something
 		lost_limb.unarmed_damage_low = max(lost_limb.unarmed_damage_low - extra_damage, initial(lost_limb.unarmed_damage_low))
 		lost_limb.unarmed_damage_high = max(lost_limb.unarmed_damage_high - extra_damage, initial(lost_limb.unarmed_damage_high))
