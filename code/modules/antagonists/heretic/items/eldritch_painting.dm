@@ -211,11 +211,11 @@
 		return
 
 	if(!IS_HERETIC(examiner))
-		to_chat(examiner, "You feel changed, more perfect....")
+		to_chat(examiner, span_warning("You feel changed, more perfect...."))
 		examiner.easy_random_mutate(NEGATIVE + MINOR_NEGATIVE)
 		return
 
-	to_chat(examiner, "Your imperfections shed and you are restored.")
+	to_chat(examiner, span_notice("Your imperfections shed and you are restored."))
 	examiner.reagents.add_reagent(reagents_to_add, 5)
 
 // Climb over the rusted mountain, gives a brain trauma causing the person to randomly rust tiles beneath them
@@ -237,11 +237,11 @@
 	. = ..()
 
 	if(!IS_HERETIC(examiner))
-		to_chat(examiner, "It can wait...")
+		to_chat(examiner, span_warning("It can wait..."))
 		examiner.add_mood_event("rusted_examine", /datum/mood_event/eldritch_painting/rust_examine)
 		return
 
-	to_chat(examiner, "You see the climber, and are inspired by it!")
+	to_chat(examiner, span_notice("You see the climber, and are inspired by it!"))
 	examiner.add_mood_event("rusted_examine", /datum/mood_event/eldritch_painting/rust_heretic_examine)
 
 /datum/status_effect/eldritch_painting
