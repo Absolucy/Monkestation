@@ -277,17 +277,15 @@
 // This one is for "The Sister and He Who Wept" or /obj/structure/sign/painting/eldritch
 /datum/status_effect/eldritch_painting/weeping
 	id = "weeping"
+	tick_interval = 10 SECONDS
 	gain_text = "HE WEEPS AND I WILL SEE HIM ONCE MORE"
 	lose_text = "You feel the tendrils of something slip from your mind."
-	/// Our cooldown declare for causing hallucinations
-	COOLDOWN_DECLARE(weeping_hallucinations)
 
 /datum/status_effect/eldritch_painting/weeping/do_effect(seconds_between_ticks)
-	if(owner.stat != CONSCIOUS || owner.IsSleeping() || owner.IsUnconscious() || COOLDOWN_FINISHED(src, weeping_hallucinations))
+	if(owner.stat != CONSCIOUS || owner.IsSleeping() || owner.IsUnconscious())
 		return
 	owner.cause_hallucination(/datum/hallucination/delusion/preset/heretic, "Caused by [type]")
 	owner.add_mood_event("eldritch_weeping", /datum/mood_event/eldritch_painting/weeping)
-	COOLDOWN_START(src, weeping_hallucinations, 10 SECONDS)
 
 // This one is for "The First Desire" or /obj/structure/sign/painting/eldritch/desire
 /datum/status_effect/eldritch_painting/flesh_desire
