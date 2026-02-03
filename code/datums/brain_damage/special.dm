@@ -782,6 +782,8 @@ monkestation end */
 /obj/effect/client_image_holder/phobetor/Initialize(mapload)
 	. = ..()
 	created_on = world.time
+	AddElement(/datum/element/block_turf_fingerprints)
+	AddComponent(/datum/component/redirect_attack_hand_from_turf, interact_check = CALLBACK(src, PROC_REF(verify_user_can_see)))
 
 /obj/effect/client_image_holder/phobetor/Destroy()
 	seer = null
@@ -789,6 +791,9 @@ monkestation end */
 		linked_to.linked_to = null
 		QDEL_NULL(linked_to)
 	return ..()
+
+/obj/effect/client_image_holder/phobetor/proc/verify_user_can_see(mob/user)
+	return user == seer
 
 /obj/effect/client_image_holder/phobetor/proc/check_location_seen(atom/subject, turf/target_turf)
 	if(!isturf(target_turf))
@@ -813,7 +818,7 @@ monkestation end */
 	if(user != seer || !linked_to)
 		return
 	if(user.loc != loc)
-		to_chat(user, "Step into the Tear before using it.")
+		to_chat(user, span_warning("Step into the Tear before using it."))
 		return
 	var/obj/item/implant/tracking/tracking_implant = locate() in user.implants
 	if(tracking_implant)
