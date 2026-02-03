@@ -222,6 +222,10 @@
 
 /datum/status_effect/commanded/proc/on_attacked(datum/source, atom/attacker, attack_flags)
 	SIGNAL_HANDLER
-	if(attacker == caster && (attack_flags & ATTACKER_DAMAGING_ATTACK))
-		to_chat(owner, span_awe(span_reallybig("You quickly come back to your senses as you're hit by [attacker]!")))
-		qdel(src)
+	if(attacker != caster || !(attack_flags & ATTACKER_DAMAGING_ATTACK))
+		return
+	if(owner.pulledby == caster)
+		caster.stop_pulling()
+	owner.SetAllImmobility(0)
+	to_chat(owner, span_awe(span_reallybig("You quickly come back to your senses as you're hit by [attacker]!")))
+	qdel(src)
