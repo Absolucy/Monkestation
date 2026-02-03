@@ -227,5 +227,7 @@
 	if(owner.pulledby == caster)
 		caster.stop_pulling()
 	owner.SetAllImmobility(0)
+	if(caster.Adjacent(owner)) // give them a split second to run away
+		caster.Stun(0.5 SECONDS, TRUE)
 	to_chat(owner, span_awe(span_reallybig("You quickly come back to your senses as you're hit by [attacker]!")))
 	qdel(src)
