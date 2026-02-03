@@ -268,8 +268,7 @@
 		if(SPT_PROB(5, seconds_between_ticks))
 			qdel(src)
 		return
-	if(!HAS_TRAIT(owner, TRAIT_ELDRITCH_PAINTING_EXAMINE))
-		do_effect(seconds_between_ticks)
+	do_effect(seconds_between_ticks)
 
 /datum/status_effect/eldritch_painting/proc/do_effect(seconds_between_ticks)
 	return
@@ -283,6 +282,9 @@
 
 /datum/status_effect/eldritch_painting/weeping/do_effect(seconds_between_ticks)
 	if(owner.stat != CONSCIOUS || owner.IsSleeping() || owner.IsUnconscious())
+		return
+	// If they have examined a painting recently
+	if(HAS_TRAIT(owner, TRAIT_ELDRITCH_PAINTING_EXAMINE))
 		return
 	owner.cause_hallucination(/datum/hallucination/delusion/preset/heretic, "Caused by [type]")
 	owner.add_mood_event("eldritch_weeping", /datum/mood_event/eldritch_painting/weeping)
@@ -341,6 +343,9 @@
 	lose_text = "The rusted climb? Whats that? An odd dream to be sure."
 
 /datum/status_effect/eldritch_painting/rusting/do_effect(seconds_between_ticks)
+	// Examining a painting should stop this effect to give counterplay
+	if(HAS_TRAIT(owner, TRAIT_ELDRITCH_PAINTING_EXAMINE))
+		return
 	var/atom/tile = get_turf(owner)
 	if(SPT_PROB(50, seconds_between_ticks))
 		to_chat(owner, span_notice("You feel eldritch energies pulse from your body!"))
