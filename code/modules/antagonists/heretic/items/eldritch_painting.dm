@@ -302,7 +302,6 @@
 
 /datum/status_effect/eldritch_painting/flesh_desire/on_remove()
 	. = ..()
-	// Allows them to eat faster, mainly for flavor
 	owner.remove_traits(list(TRAIT_VORACIOUS, TRAIT_FLESH_DESIRE), TRAIT_STATUS_EFFECT(id))
 
 /datum/status_effect/eldritch_painting/flesh_desire/do_effect(seconds_between_ticks)
