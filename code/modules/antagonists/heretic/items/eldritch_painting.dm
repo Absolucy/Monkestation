@@ -328,7 +328,7 @@
 
 	// Scratching code
 	var/obj/item/bodypart/bodypart = owner.get_bodypart(owner.get_random_valid_zone(even_weights = TRUE))
-	if(!(bodypart && IS_ORGANIC_LIMB(bodypart)) && bodypart.bodypart_flags & BODYPART_PSEUDOPART)
+	if(!bodypart || !IS_ORGANIC_LIMB(bodypart) || (bodypart.bodypart_flags & BODYPART_PSEUDOPART))
 		return
 	if(owner.incapacitated())
 		return
