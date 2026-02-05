@@ -42,6 +42,7 @@
 	base_antags = 2
 	maximum_antags = 4
 	event_icon_state = "vampires"
+	repeated_mode_adjust = TRUE
 
 #ifdef STORYTELLER_TRACK_BOOSTER
 /datum/round_event_control/antagonist/vampire/get_antag_amount()
