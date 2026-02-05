@@ -83,10 +83,14 @@
 #endif
 	. = ..()
 	// if there's only one or two vamps, let's raise the chance of giving them some friends
-	var/vampire_count = length(GLOB.all_vampires)
-	if(vampire_count == 1)
+	var/vampire_amt = 0
+	for(var/datum/antagonist/vampire/vampire as anything in GLOB.all_vampires)
+		var/mob/body = vampire.owner?.current
+		if(!vampire.final_death && !QDELETED(body))
+			vampire_amt++
+	if(vampire_amt == 1)
 		. *= 2
-	else if(vampire_count == 2)
+	else if(vampire_amt == 2)
 		. *= 1.5
 
 #ifdef STORYTELLER_TRACK_BOOSTER
