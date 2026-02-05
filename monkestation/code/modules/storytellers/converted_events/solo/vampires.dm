@@ -49,7 +49,7 @@
 /datum/round_event_control/antagonist/solo/vampire/get_antag_amount()
 #endif
 	. = ..()
-	if(SSgamemode.get_correct_popcount() < 45)
+	if(SSgamemode.get_correct_popcount() < 35)
 		return min(., 2)
 
 #ifdef STORYTELLER_TRACK_BOOSTER
