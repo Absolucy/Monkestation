@@ -682,7 +682,7 @@
 		var/mob/living/vassal_body = vassal.owner.current
 		if(QDELETED(vassal_body))
 			continue
-		if(only_living && !considered_alive(vassal))
+		if(only_living && !considered_alive(vassal.owner))
 			continue
 		if(!HAS_TRAIT(vassal_body, TRAIT_MIND_TEMPORARILY_GONE))
 			if(vassal_body.stat == DEAD)
