@@ -5,7 +5,8 @@
 	active_background_icon_state = "tremere_power_gold_on"
 	base_background_icon_state = "tremere_power_gold_off"
 	power_explanation = "Activating Thaumaturgy will temporarily give you a Blood Shield.\n\
-		The blood shield has very good block power, but costs 15 Blood per hit to maintain."
+		The blood shield has very good block power, but costs 15 Blood per hit to maintain.\n\
+		However, it is slightly less effective at blocking lasers or lethal energy projectiles."
 
 	vampire_power_flags = BP_AM_TOGGLE | BP_AM_STATIC_COOLDOWN
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_INCAPACITATED | BP_CANT_USE_WHILE_UNCONSCIOUS
@@ -58,6 +59,9 @@
 	ADD_TRAIT(src, TRAIT_NODROP, INNATE_TRAIT)
 
 /obj/item/shield/vampire/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	// energy and laser beams have less block chance
+	if(attack_type == PROJECTILE_ATTACK && (istype(hitby, /obj/projectile/energy) || istype(hitby, /obj/projectile/beam/laser)))
+		final_block_chance -= 25
 	. = ..()
 	if(. && damage > 0)
 		var/datum/antagonist/vampire/vampire = IS_VAMPIRE(owner)
