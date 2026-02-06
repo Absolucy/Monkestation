@@ -1,7 +1,15 @@
 import type { BooleanLike } from 'common/react';
-import { useState } from 'react';
+import { type SetStateAction, useState } from 'react';
 import { sanitizeText } from 'tgui/sanitize';
-import { Box, DmIcon, Icon, Section, Stack, Tabs } from 'tgui-core/components';
+import {
+  Box,
+  Button,
+  DmIcon,
+  Icon,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { type Objective, ObjectivePrintout } from './common/Objectives';
@@ -101,20 +109,32 @@ export const AntagInfoVampire = () => {
 
         {/* Re-map which component shows for each tab index to match the new ordering */}
         {tab === InfoTab.General && <VampireGuide />}
-        {tab === InfoTab.Basics && <VampireIntroduction />}
+        {tab === InfoTab.Basics && <VampireIntroduction setTab={setTab} />}
         {tab === InfoTab.Powers && <PowerSection />}
       </Window.Content>
     </Window>
   );
 };
 
-const VampireIntroduction = () => {
+const VampireIntroduction = (props: {
+  setTab: React.Dispatch<SetStateAction<InfoTab>>;
+}) => {
   const { data } = useBackend<Info>();
   const { objectives } = data;
   return (
     <Stack vertical fill>
       <Stack.Item grow maxHeight="220px">
         <ObjectivePrintout objectives={objectives} />
+      </Stack.Item>
+      <Stack.Item textAlign="center">
+        <Button
+          fluid
+          align="middle"
+          fontSize="200%"
+          onClick={() => props.setTab(InfoTab.General)}
+        >
+          Confused? Read the guide!
+        </Button>
       </Stack.Item>
       <Stack.Item grow>
         <ClanSection />
