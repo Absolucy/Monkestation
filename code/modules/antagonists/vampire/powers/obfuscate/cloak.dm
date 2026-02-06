@@ -43,6 +43,7 @@
 	user.AddElement(/datum/element/digitalcamo)
 	user.balloon_alert(user, "cloak turned on.")
 	animate(user, alpha = cloaklevel, time = 1 SECONDS)
+	apply_wibbly_filters(user)
 
 /datum/action/cooldown/vampire/cloak/continue_active()
 	. = ..()
@@ -57,6 +58,7 @@
 /datum/action/cooldown/vampire/cloak/deactivate_power()
 	var/mob/living/user = owner
 
+	remove_wibbly_filters(user, 1 SECONDS)
 	animate(user, alpha = 255, time = 1 SECONDS)
 	REMOVE_TRAIT(user, TRAIT_UNKNOWN, REF(src))
 	user.RemoveElement(/datum/element/digitalcamo)
