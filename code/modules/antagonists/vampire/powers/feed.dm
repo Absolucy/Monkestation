@@ -595,7 +595,7 @@
 	var/vitae_absorbed = blood_to_take * 4
 
 	/// Tracking of the vitae goal
-	if(target.client)
+	if(target.client && !target.mind?.has_antag_datum(/datum/antagonist/changeling))
 		vampiredatum_power.vitae_goal_progress += vitae_absorbed
 
 	vampiredatum_power.adjust_blood_volume(vitae_absorbed)
