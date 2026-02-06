@@ -111,7 +111,7 @@
 
 	if(vassal) // We don't need to ask a lowly vassal.
 		// Pull them into our clan
-		var/datum/vampire_clan/masterclan_type = vampiredatum_power.my_clan.type
+		var/datum/vampire_clan/masterclan_type = vampiredatum_power.my_clan?.type
 
 		if(!masterclan_type) // How did a caitiff get prince, bro. Fine.
 			owner.balloon_alert(owner, "select clan first!")
