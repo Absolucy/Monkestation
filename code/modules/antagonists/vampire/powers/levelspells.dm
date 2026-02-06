@@ -110,6 +110,14 @@
 	promoting = TRUE
 
 	if(vassal) // We don't need to ask a lowly vassal.
+		// Pull them into our clan
+		var/datum/vampire_clan/masterclan_type = vampiredatum_power.my_clan.type
+
+		if(!masterclan_type) // How did a caitiff get prince, bro. Fine.
+			owner.balloon_alert(owner, "select clan first!")
+			deactivate_power()
+			return
+
 		vassal.silent = TRUE
 		living_target.mind.remove_antag_datum(/datum/antagonist/vassal)
 
@@ -118,13 +126,6 @@
 		scourgedatum.should_forge_objectives = FALSE // their one objective is to enforce their prince's authority
 		scourgedatum.stinger_sound = null // to avoid several sounds stacking on top of each other
 		living_target.mind.add_antag_datum(scourgedatum)
-
-		// Pull them into our clan
-		var/datum/vampire_clan/masterclan_type = vampiredatum_power.my_clan.type
-
-		if(!masterclan_type) // How did a caitiff get prince, bro. Fine.
-			owner.balloon_alert(owner, "select clan first!")
-			deactivate_power()
 
 		scourgedatum.my_clan = new masterclan_type(scourgedatum)
 		scourgedatum.my_clan.on_apply()
