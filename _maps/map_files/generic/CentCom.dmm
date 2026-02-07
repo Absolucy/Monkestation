@@ -822,18 +822,6 @@
 /obj/effect/turf_decal/tile/dark/diagonal_edge,
 /turf/open/floor/iron/white/diagonal,
 /area/centcom/central_command_areas/hall)
-"acb" = (
-/obj/item/storage/briefcase{
-	pixel_x = -3;
-	pixel_y = 3
-	},
-/obj/item/storage/briefcase/secure,
-/obj/structure/table/wood,
-/obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
-	dir = 4
-	},
-/turf/open/floor/iron/dark,
-/area/centcom/central_command_areas/briefing)
 "acc" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -2730,14 +2718,6 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/briefing)
-"ahp" = (
-/obj/machinery/ntnet_relay{
-	name = "Ook's Modem";
-	is_operational = 0;
-	desc = "A very complex router and transmitter capable of connecting electronic devices together. Did Ook somehow steal this hunk of junk from NT or something??"
-	},
-/turf/open/misc/grass,
-/area/centcom/central_command_areas/admin)
 "ahq" = (
 /obj/item/cardboard_cutout,
 /obj/effect/turf_decal/bot,
@@ -13407,12 +13387,6 @@
 	},
 /turf/open/floor/carpet,
 /area/centcom/central_command_areas/hall)
-"aJW" = (
-/obj/structure/table/reinforced,
-/obj/item/storage/briefcase/secure,
-/obj/effect/turf_decal/tile/neutral/fourcorners,
-/turf/open/floor/iron/dark,
-/area/centcom/central_command_areas/briefing)
 "aJX" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -19635,26 +19609,6 @@
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/sandy_dirt,
 /area/centcom/central_command_areas/admin)
-"blq" = (
-/obj/structure/closet/cabinet,
-/obj/item/storage/box/firecrackers,
-/obj/item/storage/pill_bottle/prescription_stimulant,
-/obj/item/reagent_containers/hypospray/medipen/deforest/coagulants,
-/obj/item/reagent_containers/hypospray/medipen/deforest/coagulants,
-/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
-/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
-/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
-/obj/item/reagent_containers/hypospray/medipen/deforest/aranepaine,
-/obj/item/reagent_containers/hypospray/medipen/deforest/aranepaine,
-/obj/item/autosurgeon{
-	pixel_y = 17
-	},
-/obj/item/storage/box/alienhandcuffs,
-/obj/effect/turf_decal/siding/wood{
-	dir = 9
-	},
-/turf/open/floor/wood/large,
-/area/centcom/central_command_areas/adminroom)
 "blr" = (
 /obj/machinery/door/airlock/centcom{
 	name = "CentCom Supply"
@@ -21530,15 +21484,6 @@
 /obj/item/bedsheet/nanotrasen,
 /turf/open/floor/mineral/titanium/tiled,
 /area/centcom/central_command_areas/adminroom)
-"ewJ" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 10
-	},
-/turf/open/floor/wood,
-/area/centcom/central_command_areas/adminroom)
 "exa" = (
 /turf/open/floor/sandy_dirt,
 /area/centcom/central_command_areas/admin)
@@ -22940,6 +22885,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/prison)
+"gNP" = (
+/obj/item/flashlight/flare/candle/amber,
+/turf/open/floor/carpet/red,
+/area/centcom/central_command_areas/adminroom)
 "gOn" = (
 /obj/structure/table/reinforced{
 	color = "#d5c9d6"
@@ -25126,6 +25075,12 @@
 	},
 /turf/open/floor/glass/reinforced,
 /area/centcom/central_command_areas/admin)
+"kbg" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/briefcase/secure,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/briefing)
 "kbi" = (
 /obj/structure/flora/grass/brown/style_random,
 /turf/open/floor/sandy_dirt,
@@ -25195,6 +25150,15 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/glass/reinforced/plasma,
 /area/centcom/central_command_areas/adminroom)
+"kgZ" = (
+/obj/structure/fluff{
+	desc = "A very complex router and transmitter capable of connecting electronic devices together. Did Ook somehow steal this hunk of junk from NT or something??";
+	name = "Ook's Modem";
+	icon = 'icons/obj/machines/telecomms.dmi';
+	icon_state = "bus"
+	},
+/turf/open/misc/grass,
+/area/centcom/central_command_areas/admin)
 "khe" = (
 /obj/effect/spawner/random/structure/chair_flipped,
 /obj/effect/decal/cleanable/blood/pre_dna/ethereal,
@@ -25846,6 +25810,18 @@
 "lhl" = (
 /turf/open/ballpit,
 /area/centcom/central_command_areas/adminroom)
+"lhD" = (
+/obj/item/storage/briefcase{
+	pixel_x = -3;
+	pixel_y = 3
+	},
+/obj/item/storage/briefcase/secure,
+/obj/structure/table/wood,
+/obj/effect/turf_decal/tile/neutral/anticorner/contrasted{
+	dir = 4
+	},
+/turf/open/floor/iron/dark,
+/area/centcom/central_command_areas/briefing)
 "ljD" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark{
 	dir = 4
@@ -28061,6 +28037,15 @@
 /obj/item/toy/plush/admin/veth,
 /turf/open/floor/grass,
 /area/centcom/central_command_areas/admin)
+"pnz" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 10
+	},
+/turf/open/floor/wood,
+/area/centcom/central_command_areas/adminroom)
 "pnO" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -31322,6 +31307,26 @@
 	},
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/adminroom)
+"uQQ" = (
+/obj/structure/closet/cabinet,
+/obj/item/storage/box/firecrackers,
+/obj/item/storage/pill_bottle/prescription_stimulant,
+/obj/item/reagent_containers/hypospray/medipen/deforest/coagulants,
+/obj/item/reagent_containers/hypospray/medipen/deforest/coagulants,
+/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
+/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
+/obj/item/reagent_containers/hypospray/medipen/deforest/demoneye,
+/obj/item/reagent_containers/hypospray/medipen/deforest/aranepaine,
+/obj/item/reagent_containers/hypospray/medipen/deforest/aranepaine,
+/obj/item/autosurgeon{
+	pixel_y = 17
+	},
+/obj/item/storage/box/alienhandcuffs,
+/obj/effect/turf_decal/siding/wood{
+	dir = 9
+	},
+/turf/open/floor/wood/large,
+/area/centcom/central_command_areas/adminroom)
 "uQR" = (
 /obj/machinery/light/dim/directional/south,
 /turf/open/floor/wood/tile,
@@ -31821,10 +31826,6 @@
 	},
 /turf/open/floor/circuit/red/off,
 /area/centcom/syndicate_mothership/expansion_bioterrorism)
-"vJj" = (
-/obj/item/flashlight/flare/candle/amber,
-/turf/open/floor/carpet/red,
-/area/centcom/central_command_areas/adminroom)
 "vJI" = (
 /obj/machinery/porta_turret/syndicate/assaultops/internal{
 	system_id = "goldeneyebase"
@@ -60266,7 +60267,7 @@ ahA
 agH
 anO
 aDT
-ahp
+kgZ
 aOn
 oQo
 oQo
@@ -63132,7 +63133,7 @@ awv
 agO
 acx
 aWN
-acb
+lhD
 awW
 atb
 aaV
@@ -64417,7 +64418,7 @@ afa
 ayr
 aRH
 aRH
-aJW
+kbg
 aeE
 arB
 aRH
@@ -67663,7 +67664,7 @@ exa
 exa
 exa
 qja
-ewJ
+pnz
 qag
 hkq
 jCt
@@ -68949,7 +68950,7 @@ exa
 exa
 qja
 dtm
-vJj
+gNP
 qja
 hkq
 fGN
@@ -69725,7 +69726,7 @@ aOn
 aOn
 aOn
 qja
-blq
+uQQ
 bHk
 rAI
 qja
