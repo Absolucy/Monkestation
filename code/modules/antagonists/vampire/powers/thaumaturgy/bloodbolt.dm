@@ -63,7 +63,7 @@
 
 	if(isliving(target))
 		var/mob/living/living_target = target
-		living_target.add_splatter_floor(get_turf(living_target))
+		living_target.blood_particles(5, angle = rand(0, 360), min_deviation = -180, max_deviation = 180)
 		living_target.blood_volume = max(living_target.blood_volume - 50, 0)
 		living_target.emote("scream")
 		living_target.set_jitter_if_lower(6 SECONDS)
