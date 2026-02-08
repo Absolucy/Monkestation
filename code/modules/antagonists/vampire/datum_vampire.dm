@@ -117,8 +117,6 @@
 		BODY_ZONE_R_ARM = null,
 		BODY_ZONE_L_LEG = null,
 		BODY_ZONE_R_LEG = null,
-		BODY_ZONE_HEAD = null,
-		BODY_ZONE_CHEST = null,
 	)
 
 	/// Static typecache of all vampire powers.
@@ -781,10 +779,9 @@
 	affected_limbs[new_limb.body_zone] = new_limb
 	RegisterSignal(new_limb, COMSIG_QDELETING, PROC_REF(limb_gone))
 
-	if(new_limb.body_zone in BODY_ZONES_LIMBS)
-		var/extra_damage = 1 + (vampire_level * extra_damage_per_rank)
-		new_limb.unarmed_damage_low += extra_damage
-		new_limb.unarmed_damage_high += extra_damage
+	var/extra_damage = 1 + (vampire_level * extra_damage_per_rank)
+	new_limb.unarmed_damage_low += extra_damage
+	new_limb.unarmed_damage_high += extra_damage
 
 /datum/antagonist/vampire/proc/unregister_limb(mob/living/carbon/owner, obj/item/bodypart/lost_limb, special)
 	SIGNAL_HANDLER
@@ -792,11 +789,10 @@
 	affected_limbs[lost_limb.body_zone] = null
 	UnregisterSignal(lost_limb, COMSIG_QDELETING)
 
-	if(lost_limb.body_zone in BODY_ZONES_LIMBS)
-		var/extra_damage = 1 + (vampire_level / extra_damage_per_rank)
-		// safety measure in case we ever accidentally fuck up the math or something
-		lost_limb.unarmed_damage_low = max(lost_limb.unarmed_damage_low - extra_damage, initial(lost_limb.unarmed_damage_low))
-		lost_limb.unarmed_damage_high = max(lost_limb.unarmed_damage_high - extra_damage, initial(lost_limb.unarmed_damage_high))
+	var/extra_damage = 1 + (vampire_level / extra_damage_per_rank)
+	// safety measure in case we ever accidentally fuck up the math or something
+	lost_limb.unarmed_damage_low = max(lost_limb.unarmed_damage_low - extra_damage, initial(lost_limb.unarmed_damage_low))
+	lost_limb.unarmed_damage_high = max(lost_limb.unarmed_damage_high - extra_damage, initial(lost_limb.unarmed_damage_high))
 
 /datum/antagonist/vampire/proc/limb_gone(obj/item/bodypart/deleted_limb)
 	SIGNAL_HANDLER
