@@ -26,9 +26,11 @@
 	)
 	enemy_roles = list(
 		JOB_CAPTAIN,
+		JOB_BLUESHIELD,
 		JOB_HEAD_OF_SECURITY,
 		JOB_WARDEN,
 		JOB_SECURITY_OFFICER,
+		JOB_SECURITY_ASSISTANT,
 		JOB_DETECTIVE,
 		JOB_CURATOR,
 	)
@@ -36,7 +38,7 @@
 		JOB_AI,
 		JOB_CYBORG,
 	)
-	required_enemies = 3
+	required_enemies = 2
 	min_players = 20
 	weight = 12
 	base_antags = 2
