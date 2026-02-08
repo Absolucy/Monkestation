@@ -42,7 +42,7 @@
 	var/dismember = FALSE
 	var/stun = FALSE
 
-/* 	var/calculated_burn_resist */ // do not touch
+	var/calculated_burn_resist // do not touch
 
 /datum/action/cooldown/vampire/fortitude/two
 	vitaecost = 40
@@ -74,7 +74,7 @@
 	to_chat(owner, span_notice("Your flesh has become as hard as steel!"))
 	owner.playsound_local(null, 'sound/vampires/fortitude_on.ogg', 100, FALSE, pressure_affected = FALSE)
 
-	/* calculated_burn_resist = min(1, resistance * 3) */
+	calculated_burn_resist = min(1, resistance * 3)
 
 	// Traits & Effects
 	if(pierce)
@@ -89,7 +89,7 @@
 	var/mob/living/carbon/human/user = owner
 	user.physiology.brute_mod *= resistance
 	user.physiology.stamina_mod *= resistance * 2 // Stamina resistance is half as effective because they have it inherently.
-	/* user.physiology.burn_mod *= calculated_burn_resist */ // they get burn resistance, but way less
+	user.physiology.burn_mod *= calculated_burn_resist // they get burn resistance, but way less
 
 /datum/action/cooldown/vampire/fortitude/use_power()
 	. = ..()
@@ -106,7 +106,7 @@
 
 	var/mob/living/carbon/human/vampire_user = owner
 	vampire_user.physiology.brute_mod /= resistance
-	/* vampire_user.physiology.burn_mod /= calculated_burn_resist */
+	vampire_user.physiology.burn_mod /= calculated_burn_resist
 	vampire_user.physiology.stamina_mod /= resistance * 2
 
 	// Remove Traits & Effects
