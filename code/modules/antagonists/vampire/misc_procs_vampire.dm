@@ -96,8 +96,8 @@
 
 	if(!ignore_reqs)
 		vitae_goal_progress = max(vitae_goal_progress - current_vitae_goal, 0)
-	else
-		vitae_goal_progress = 0
+	/* else
+		vitae_goal_progress = 0 */
 	current_vitae_goal += VITAE_GOAL_STANDARD
 
 	return TRUE

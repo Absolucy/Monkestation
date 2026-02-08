@@ -613,7 +613,9 @@ const VampireGuide = () => {
                 <br />• Additional discipline points to unlock new powers
               </Box>
               <br />
-              In addition, you also passively gain a few ranks over time.
+              In addition, you also passively gain a few ranks over time, and
+              will gain one rank whenever you vassalize a mortal into your
+              servant.
             </Box>
           )}
           {tab === GuideTab.Vitae && (

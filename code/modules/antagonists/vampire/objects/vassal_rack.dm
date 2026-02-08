@@ -206,6 +206,7 @@
 		if(vampiredatum.make_vassal(living_target))
 			// We've made a vassal the proper way, do clan stuff
 			vampiredatum.my_clan?.on_vassal_made(living_vampire, living_target)
+			vampiredatum.rank_up(1, ignore_reqs = TRUE)
 			remove_loyalties(living_target)
 
 /obj/structure/vampire/vassalrack/proc/do_torture(mob/living/user, mob/living/carbon/target, obj/item/held_item)
