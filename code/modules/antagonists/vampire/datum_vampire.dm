@@ -781,10 +781,6 @@
 	affected_limbs[new_limb.body_zone] = new_limb
 	RegisterSignal(new_limb, COMSIG_QDELETING, PROC_REF(limb_gone))
 
-	// if the limb has reduced burn damage, offset that.
-	if(initial(new_limb.burn_modifier) < 1)
-		new_limb.burn_modifier /= initial(new_limb.burn_modifier)
-
 	if(new_limb.body_zone in BODY_ZONES_LIMBS)
 		var/extra_damage = 1 + (vampire_level * extra_damage_per_rank)
 		new_limb.unarmed_damage_low += extra_damage
@@ -795,10 +791,6 @@
 
 	affected_limbs[lost_limb.body_zone] = null
 	UnregisterSignal(lost_limb, COMSIG_QDELETING)
-
-	// undo any offset we've done to reduce limb burn damage.
-	if(initial(lost_limb.burn_modifier) < 1)
-		lost_limb.burn_modifier *= initial(lost_limb.burn_modifier)
 
 	if(lost_limb.body_zone in BODY_ZONES_LIMBS)
 		var/extra_damage = 1 + (vampire_level / extra_damage_per_rank)
