@@ -48,7 +48,6 @@
 	// var/datum/action/cooldown/vampire/targeted/bloodbolt/vampire_power
 
 /obj/projectile/magic/arcane_barrage/vampire/on_hit(atom/target, blocked = 0, pierce_hit)
-	new /obj/effect/gibspawner/generic(target.loc)
 	if(istype(target, /obj/structure/closet))
 		var/obj/structure/closet/hit_closet = target
 		hit_closet.bust_open(destructive = FALSE)
