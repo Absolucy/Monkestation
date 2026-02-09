@@ -8,6 +8,7 @@
 	antag_hud_name = "vassal"
 	antag_count_points = 2
 	stinger_sound = 'sound/magic/mutate.ogg'
+	hijack_speed = 0
 
 	/// The Master Vampire's antag datum.
 	var/datum/antagonist/vampire/master
