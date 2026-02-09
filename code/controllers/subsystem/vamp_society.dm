@@ -40,7 +40,7 @@ SUBSYSTEM_DEF(vsociety)
 			continue
 
 		var/mob/living/livingmob = currentmob
-		if(livingmob.stat != CONSCIOUS) // Are we alive?
+		if(livingmob.health <= HEALTH_THRESHOLD_DEAD) // we check health instead of stat to avoid skipping out on vamps that are in torpor or something
 			continue
 
 		vampire_living_candidates += currentmob
