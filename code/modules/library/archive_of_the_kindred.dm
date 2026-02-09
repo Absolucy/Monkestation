@@ -55,6 +55,8 @@
 			to_chat(user, span_warning("[target], also known as '[vampiredatum.return_full_name()]', is indeed a Vampire, but you already knew this."))
 			return ITEM_INTERACT_SUCCESS
 		to_chat(user, span_warning("[target], also known as '[vampiredatum.return_full_name()]', [vampiredatum.my_clan ? "is part of the [vampiredatum.my_clan]!" : "is not part of a clan."] You quickly note this information down, memorizing it."))
+		user.log_message("used [src] to break [key_name(target)]'s masquerade.", LOG_ATTACK, color = "red")
+		target.log_message("had their masquerade broken by [key_name(user)] with [src].", LOG_VICTIM, color = "orange", log_globally = FALSE)
 		vampiredatum.break_masquerade()
 	else
 		to_chat(user, span_notice("You fail to draw any conclusions to [target] being a Vampire."))
