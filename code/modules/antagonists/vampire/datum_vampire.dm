@@ -12,6 +12,8 @@
 
 	antag_count_points = 6
 
+	hijack_speed = 0
+
 	show_to_ghosts = TRUE
 
 	/// How much blood we have, starting off at default blood levels.
@@ -515,6 +517,11 @@
 		report += span_redtext(span_big("<br>The [name] has failed!"))
 
 	return report.Join("<br>")
+
+/datum/antagonist/vampire/hijack_speed()
+	. = ..()
+	if(istype(my_clan, /datum/vampire_clan/malkavian)) // the voices told them to do it
+		return max(., 1)
 
 /// "Oh, well, that's step one. What about two through ten?"
 /// Beheading vampires is kinda buggy and results in them being dead-dead without actually being final deathed, which is NOT something that's desired.
