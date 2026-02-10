@@ -3472,7 +3472,6 @@
 #include "code\modules\antagonists\vampire\powers\thaumaturgy\bloodshield.dm"
 #include "code\modules\antagonists\vampire\powers\thaumaturgy\thaumaturgy.dm"
 #include "code\modules\antagonists\vampire\vassals\datum_vassal.dm"
-#include "code\modules\antagonists\vampire\vassals\misc_procs_vassal.dm"
 #include "code\modules\antagonists\vampire\vassals\powers\distress.dm"
 #include "code\modules\antagonists\vampire\vassals\powers\recuperate.dm"
 #include "code\modules\antagonists\venus_human_trap\venus_human_trap.dm"

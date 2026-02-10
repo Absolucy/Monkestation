@@ -242,3 +242,9 @@
 	SIGNAL_HANDLER
 	user.lighting_cutoff = max(user.lighting_cutoff, round((LIGHTING_CUTOFF_HIGH + LIGHTING_CUTOFF_MEDIUM) / 2, 1))
 	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
+
+/// Used when your Master teaches you a new Power.
+/datum/antagonist/vassal/proc/grant_power(datum/action/cooldown/vampire/power)
+	powers += power
+	power.Grant(owner.current)
+	log_game("[key_name(owner.current)] has received \"[power]\" as a vassal")
