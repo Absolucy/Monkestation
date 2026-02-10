@@ -2718,6 +2718,15 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/briefing)
+"ahp" = (
+/obj/structure/fluff{
+	desc = "A very complex router and transmitter capable of connecting electronic devices together. Did Ook somehow steal this hunk of junk from NT or something??";
+	name = "Ook's Modem";
+	icon = 'icons/obj/machines/telecomms.dmi';
+	icon_state = "bus"
+	},
+/turf/open/misc/grass,
+/area/centcom/central_command_areas/admin)
 "ahq" = (
 /obj/item/cardboard_cutout,
 /obj/effect/turf_decal/bot,
@@ -3377,10 +3386,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/botany)
-"ajg" = (
-/obj/machinery/vending/wardrobe/engi_wardrobe,
-/turf/open/floor/iron/dark/herringbone,
-/area/centcom/central_command_areas/hall)
 "ajh" = (
 /obj/structure/chair/comfy/brown{
 	dir = 1
@@ -14503,12 +14508,6 @@
 /obj/item/kirbyplants/organic/plant18,
 /turf/open/floor/wood/large,
 /area/centcom/central_command_areas/kitchen)
-"aMP" = (
-/obj/effect/turf_decal/tile/dark/opposingcorners,
-/obj/machinery/vending/wardrobe/engi_wardrobe,
-/obj/machinery/light/floor/has_bulb,
-/turf/open/floor/iron/dark,
-/area/centcom/tdome/observation)
 "aMQ" = (
 /obj/machinery/vending/wardrobe/atmos_wardrobe,
 /obj/effect/turf_decal/siding/dark{
@@ -20410,6 +20409,10 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/medical)
+"cyM" = (
+/obj/machinery/vending/access/engi_wardrobe,
+/turf/open/floor/iron/dark/herringbone,
+/area/centcom/central_command_areas/hall)
 "cAA" = (
 /obj/structure/chair/office/light{
 	dir = 1
@@ -21028,6 +21031,10 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/centcom/syndicate_mothership/firebase_trident)
+"dwz" = (
+/obj/item/flashlight/flare/candle/amber,
+/turf/open/floor/carpet/red,
+/area/centcom/central_command_areas/adminroom)
 "dwU" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 4
@@ -22885,10 +22892,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/centcom/central_command_areas/prison)
-"gNP" = (
-/obj/item/flashlight/flare/candle/amber,
-/turf/open/floor/carpet/red,
-/area/centcom/central_command_areas/adminroom)
 "gOn" = (
 /obj/structure/table/reinforced{
 	color = "#d5c9d6"
@@ -25150,15 +25153,6 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/glass/reinforced/plasma,
 /area/centcom/central_command_areas/adminroom)
-"kgZ" = (
-/obj/structure/fluff{
-	desc = "A very complex router and transmitter capable of connecting electronic devices together. Did Ook somehow steal this hunk of junk from NT or something??";
-	name = "Ook's Modem";
-	icon = 'icons/obj/machines/telecomms.dmi';
-	icon_state = "bus"
-	},
-/turf/open/misc/grass,
-/area/centcom/central_command_areas/admin)
 "khe" = (
 /obj/effect/spawner/random/structure/chair_flipped,
 /obj/effect/decal/cleanable/blood/pre_dna/ethereal,
@@ -28037,15 +28031,6 @@
 /obj/item/toy/plush/admin/veth,
 /turf/open/floor/grass,
 /area/centcom/central_command_areas/admin)
-"pnz" = (
-/obj/effect/turf_decal/siding/wood{
-	dir = 1
-	},
-/obj/effect/turf_decal/siding/wood{
-	dir = 10
-	},
-/turf/open/floor/wood,
-/area/centcom/central_command_areas/adminroom)
 "pnO" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -31434,6 +31419,12 @@
 /obj/effect/decal/cleanable/rubble,
 /turf/open/misc/asteroid,
 /area/centcom/syndicate_mothership/firebase_trident)
+"vam" = (
+/obj/effect/turf_decal/tile/dark/opposingcorners,
+/obj/machinery/vending/access/engi_wardrobe,
+/obj/machinery/light/floor/has_bulb,
+/turf/open/floor/iron/dark,
+/area/centcom/tdome/observation)
 "vdm" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 1
@@ -31777,6 +31768,15 @@
 /obj/machinery/cassette_deck,
 /turf/open/floor/wood/parquet,
 /area/centcom/central_command_areas/arcade)
+"vFj" = (
+/obj/effect/turf_decal/siding/wood{
+	dir = 1
+	},
+/obj/effect/turf_decal/siding/wood{
+	dir = 10
+	},
+/turf/open/floor/wood,
+/area/centcom/central_command_areas/adminroom)
 "vFm" = (
 /turf/open/floor/mineral/titanium/purple,
 /area/centcom/central_command_areas/adminroom)
@@ -60267,7 +60267,7 @@ ahA
 agH
 anO
 aDT
-kgZ
+ahp
 aOn
 oQo
 oQo
@@ -67664,7 +67664,7 @@ exa
 exa
 exa
 qja
-pnz
+vFj
 qag
 hkq
 jCt
@@ -68272,7 +68272,7 @@ aGA
 aZb
 amD
 axG
-aMP
+vam
 aFR
 obs
 aHj
@@ -68950,7 +68950,7 @@ exa
 exa
 qja
 dtm
-gNP
+dwz
 qja
 hkq
 fGN
@@ -74938,7 +74938,7 @@ ayE
 ayE
 aFa
 apG
-ajg
+cyM
 aQp
 aqK
 asA
