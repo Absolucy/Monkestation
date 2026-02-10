@@ -128,7 +128,7 @@
 	if(victim_vassal && (victim_vassal in vampiredatum_power.vassals))
 		modified_delay = 0
 
-	if(!do_after(owner, modified_delay, living_target, extra_checks = CALLBACK(src, PROC_REF(continue_active)), hidden = TRUE))
+	if(!do_after(owner, modified_delay, living_target, IGNORE_TARGET_LOC_CHANGE | IGNORE_HELD_ITEM, extra_checks = CALLBACK(src, PROC_REF(continue_active)), hidden = TRUE))
 		deactivate_power()
 		return
 
