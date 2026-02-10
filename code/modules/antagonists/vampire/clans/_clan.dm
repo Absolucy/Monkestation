@@ -220,12 +220,13 @@
 	if(masquerade_breaker == vampiredatum)
 		return
 
-	to_chat(vampiredatum.owner.current, span_userdanger("[masquerade_breaker.owner.current] has broken the Masquerade! We must destroy them at all costs, for the good of all kindred!\n\
+	var/breaker_name = masquerade_breaker.owner.name || masquerade_breaker.owner.current.real_name || masquerade_breaker.owner.current.name
+	to_chat(vampiredatum.owner.current, span_userdanger("[breaker_name] has broken the Masquerade! We must destroy them at all costs, for the good of all kindred!\n\
 																							(Hint: You may feed on a vampire that has broken the masquerade to steal their powers.)"))
 	var/datum/objective/assassinate/masquerade_objective = new()
 	masquerade_objective.target = masquerade_breaker.owner
 	masquerade_objective.name = "Masquerade Objective"
-	masquerade_objective.explanation_text = "Ensure [masquerade_breaker.owner.current], who has broken the Masquerade, succumbs to Final Death."
+	masquerade_objective.explanation_text = "Ensure [breaker_name], who has broken the Masquerade, succumbs to Final Death."
 	vampiredatum.objectives += masquerade_objective
 	vampiredatum.owner.announce_objectives()
 	vampiredatum.update_static_data_for_all_viewers()
