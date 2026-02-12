@@ -1,7 +1,7 @@
 /datum/action/cooldown/vampire/targeted/blooddrain
 	name = "Thaumaturgy: Blood Drain"
 	desc = "Cast a beam of draining magic that saps the vitality of your target to steal their blood and heal yourself."
-	button_icon_state = "power_bloodbolt"
+	button_icon_state = "power_blooddrain"
 	active_background_icon_state = "tremere_power_on"
 	base_background_icon_state = "tremere_power_off"
 	power_explanation = "Cast a beam of draining magic that saps the vitality of your target to steal their blood and heal yourself.\n\
