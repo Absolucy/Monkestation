@@ -236,11 +236,6 @@
 
 	my_clan?.apply_effects(current_mob)
 
-	if(humanity <= 5)
-		current_mob.AddElement(/datum/element/cult_eyes)
-	else
-		current_mob.RemoveElement(/datum/element/cult_eyes)
-
 /**
  * Remove innate effects is everything given to the mob
  * When a body is tranferred, this is called on the old mob.

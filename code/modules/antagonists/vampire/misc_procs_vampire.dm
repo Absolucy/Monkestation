@@ -194,13 +194,6 @@
 			else
 				to_chat(owner.current, span_userdanger("You have lost humanity."))
 
-	if(temp_humanity > 5 && humanity <= 5)
-		to_chat(owner.current, span_userdanger("Your eyes no longer glow red due to your closeness with humanity!"))
-		owner.current.RemoveElement(/datum/element/cult_eyes)
-	else if(temp_humanity <= 5 && humanity > 5)
-		to_chat(owner.current, span_userdanger("Your inhuman actions have resulted in your eyes beginning to gain a noticable red glow..."))
-		owner.current.AddElement(/datum/element/cult_eyes)
-
 	// Clamp to valid range, we are so sane we might see the face of god
 	if(temp_humanity > 10)
 		temp_humanity = 10
