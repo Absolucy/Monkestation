@@ -27,7 +27,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 
 	RegisterSignal(current_mob, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
-	RegisterSignal(current_mob, COMSIG_MOB_LOGIN, PROC_REF(on_login))
+	RegisterSignals(current_mob, list(COMSIG_MOB_LOGIN, COMSIG_MOVABLE_Z_CHANGED), PROC_REF(on_login))
 	RegisterSignal(current_mob, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(on_update_sight))
 
 	current_mob.update_sight()
@@ -47,7 +47,7 @@
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 
-	UnregisterSignal(current_mob, list(COMSIG_ATOM_EXAMINE, COMSIG_MOB_LOGIN, COMSIG_MOB_UPDATE_SIGHT))
+	UnregisterSignal(current_mob, list(COMSIG_ATOM_EXAMINE, COMSIG_MOB_LOGIN, COMSIG_MOVABLE_Z_CHANGED, COMSIG_MOB_UPDATE_SIGHT))
 	current_mob.update_sight()
 
 	// Tracking

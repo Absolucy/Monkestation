@@ -194,7 +194,7 @@
 /datum/antagonist/vampire/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
-	RegisterSignal(current_mob, COMSIG_MOB_LOGIN, PROC_REF(on_login))
+	RegisterSignals(current_mob, list(COMSIG_MOB_LOGIN, COMSIG_MOVABLE_Z_CHANGED), PROC_REF(on_login))
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(life_tick))
 	RegisterSignal(current_mob, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
 	RegisterSignal(current_mob, COMSIG_ATOM_AFTER_EXPOSE_REAGENTS, PROC_REF(after_expose_reagents))
@@ -251,6 +251,7 @@
 	var/mob/living/current_mob = mob_override || owner.current
 	UnregisterSignal(current_mob, list(
 		COMSIG_MOB_LOGIN,
+		COMSIG_MOVABLE_Z_CHANGED,
 		COMSIG_LIVING_LIFE,
 		COMSIG_ATOM_EXAMINE,
 		COMSIG_ATOM_AFTER_EXPOSE_REAGENTS,
