@@ -137,6 +137,8 @@
 	msg += span_cult("\n<b>Right now, others would describe you as <i>'[humanitylevel]',</i> giving you a [divisor_turned_percentage]% resistance to the ravages of Sol.</b>")
 	if(owner_vamp.humanity > 7)
 		msg += span_cult("Due to your connection to your own human soul, you have achieved the masquerade ability.")
+	else if(owner_vamp.humanity <= 5)
+		msg += span_cult("Due to your disconnect from humanity, your eyes glow unnaturally, potentially unnerving mortals...")
 
 	msg += span_cult("\n<b>You may gain humanity by engaging in human activities, such as:</b>")
 	msg += span_cult("Hugging different mortals: [length(owner_vamp.humanity_trackgain_hugged)] of [owner_vamp.humanity_hugging_goal].")
