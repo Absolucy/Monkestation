@@ -4,22 +4,28 @@
 	button_icon_state = "power_fop"
 	power_explanation = "Project an aura around yourself that subtly pushes people away.\n\
 						Effects on those in 3 tile range. No one will be able to voluntarily approach you.\n\
-						Targets must be able to see you to be affected."
+						Targets must be able to see you to be affected.\n\
+						Lasts 1 minute."
 	vampire_power_flags = BP_AM_TOGGLE | BP_AM_STATIC_COOLDOWN
 	vampire_check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_WHILE_STAKED | BP_CANT_USE_IN_FRENZY
 	vitaecost = 30
 	constant_vitaecost = 2
-	cooldown_time = 10 SECONDS
+	cooldown_time = 30 SECONDS
 	/// The range of the aura in tiles, this is further than the actual effect just so we can hit them with the status effect before they even get close enough.
 	var/aura_range = 7
+	var/deactivate_timer
 
 /datum/action/cooldown/vampire/force_of_personality/activate_power()
 	. = ..()
 	to_chat(owner, span_notice("You project an overwhelming sense of authority."), type = MESSAGE_TYPE_INFO)
+	deactivate_timer = addtimer(CALLBACK(src, PROC_REF(deactivate_power)), 1 MINUTES, TIMER_STOPPABLE)
 
 /datum/action/cooldown/vampire/force_of_personality/deactivate_power()
 	. = ..()
 	to_chat(owner, span_notice("You withdraw your authoritative presence."), type = MESSAGE_TYPE_INFO)
+	if(deactivate_timer)
+		deltimer(deactivate_timer)
+		deactivate_timer = null
 
 /datum/action/cooldown/vampire/force_of_personality/use_power()
 	. = ..()
