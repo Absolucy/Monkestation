@@ -34,9 +34,6 @@
 	else
 		INVOKE_ASYNC(src, PROC_REF(provide_clan_selector))
 
-	// Check for Final Death
-	check_final_death()
-
 	// Set our body's blood_volume to mimick our vampire one (if we aren't using the Masquerade power)
 	update_hud()
 
@@ -272,15 +269,6 @@
 		additional_regen = 0.5
 
 	return HANDLE_BLOOD_NO_NUTRITION_DRAIN | HANDLE_BLOOD_NO_EFFECTS
-
-/datum/antagonist/vampire/proc/check_final_death()
-	if(owner.current.stat <= UNCONSCIOUS)
-		return
-
-	// Fire Damage? (above double health)
-	if(owner.current.getFireLoss() >= (owner.current.maxHealth * 2.5))
-		final_death()
-		return
 
 /// dust
 /datum/antagonist/vampire/proc/final_death(skip_destruction = FALSE)
