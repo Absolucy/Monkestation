@@ -1,7 +1,7 @@
 /datum/action/cooldown/vampire/targeted/bloodbolt
 	name = "Thaumaturgy: Blood Bolt"
 	desc = "Fire a blood bolt at your enemy, dealing Burn damage."
-	button_icon_state = "power_thaumaturgy"
+	button_icon_state = "power_bloodbolt"
 	active_background_icon_state = "tremere_power_plat_on"
 	base_background_icon_state = "tremere_power_plat_off"
 	power_explanation = "Shoots a blood bolt spell that deals burn damage"
