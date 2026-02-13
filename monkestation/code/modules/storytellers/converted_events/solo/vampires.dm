@@ -38,7 +38,7 @@
 		JOB_AI,
 		JOB_CYBORG,
 	)
-	required_enemies = 1
+	required_enemies = 2
 	min_players = 20
 	weight = 10
 	base_antags = 2
