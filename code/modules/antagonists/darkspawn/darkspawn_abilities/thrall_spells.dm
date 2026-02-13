@@ -140,14 +140,14 @@
 //////////////////////////////////////////////////////////////////////////
 //--------------------------Veil Camera System--------------------------//
 //////////////////////////////////////////////////////////////////////////
-/datum/action/cooldown/spell/pointed/darkspawn_build/thrall_cam
+/* /datum/action/cooldown/spell/pointed/darkspawn_build/thrall_cam
 	name = "Panopticon"
 	desc = "Watch what your allies and servants are doing at all times."
 	button_icon_state = "panopticon"
 	cooldown_time = 1 MINUTES
 	cast_time = 2 SECONDS
 	object_type = /obj/machinery/computer/camera_advanced/darkspawn
-	language_final = "kxmiv'ixnce"
+	language_final = "kxmiv'ixnce" */
 
 //////////////////////////////////////////////////////////////////////////
 //-----Shoots a projectile, but can be used through the cam system------//
@@ -400,13 +400,13 @@
 //////////////////////////////////////////////////////////////////////////
 //--------------------Places a camera for panopticon use----------------//
 //////////////////////////////////////////////////////////////////////////
-/datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye
+/* /datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye
 	name = "Opticial"
 	desc = "Places a floating watchful eye."
 	resource_costs = list(ANTAG_RESOURCE_DARKSPAWN = 20)
 	object_type = /obj/machinery/camera/darkspawn
 	language_final = "Ixnce"
-	cast_time = 1 SECONDS
+	cast_time = 1 SECONDS */
 
 //////////////////////////////////////////////////////////////////////////
 //----------------------Abilities that thralls get----------------------//
@@ -452,7 +452,7 @@
 	else
 		owner.lighting_cutoff = 0
 
-/datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye/thrall
+/* /datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye/thrall
 	name = "Lesser Opticial"
 	desc = "Places a floating watchful eye for your masters to observe through."
-	bypass_cost = TRUE
+	bypass_cost = TRUE */

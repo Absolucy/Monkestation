@@ -102,8 +102,8 @@ GLOBAL_VAR_INIT(sacrament_done, FALSE)
 	current_mob.faction |= FACTION_DARKSPAWN
 
 	//for panopticon
-	if(current_mob)
-		current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN))
+	/* if(current_mob)
+		current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN)) */
 
 	//divulge
 	if(darkspawn_state == DARKSPAWN_MUNDANE)
@@ -118,7 +118,7 @@ GLOBAL_VAR_INIT(sacrament_done, FALSE)
 	if(current_mob)
 		current_mob.remove_language(/datum/language/shadowtongue, source = LANGUAGE_DARKSPAWN)
 		current_mob.faction -= FACTION_DARKSPAWN
-		qdel(current_mob.GetComponent(/datum/component/internal_cam))
+		/* qdel(current_mob.GetComponent(/datum/component/internal_cam)) */
 		for(var/datum/action/cooldown/spell/divulge/divulge in current_mob.actions) //remove divulge if they haven't yet
 			divulge.Remove(current_mob)
 			qdel(divulge)

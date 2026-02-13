@@ -67,7 +67,7 @@
 	current_mob.grant_language(/datum/language/shadowtongue, source = LANGUAGE_DARKSPAWN)
 	current_mob.faction |= FACTION_DARKSPAWN
 
-	current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN))
+	/* current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN)) */
 
 /datum/antagonist/psyche/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/current_mob = mob_override || owner.current
@@ -76,7 +76,7 @@
 
 	current_mob.remove_language(/datum/language/shadowtongue, source = LANGUAGE_DARKSPAWN)
 	current_mob.faction -= FACTION_DARKSPAWN
-	qdel(current_mob.GetComponent(/datum/component/internal_cam))
+	/* qdel(current_mob.GetComponent(/datum/component/internal_cam)) */
 
 /datum/antagonist/psyche/add_team_hud(mob/target, antag_to_check)
 	QDEL_NULL(team_hud_ref)

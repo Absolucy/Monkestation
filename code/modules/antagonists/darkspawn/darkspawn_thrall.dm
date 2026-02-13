@@ -22,7 +22,7 @@
 	stinger_sound = 'sound/ambience/antag/darkspawn/become_veil.ogg'
 	antag_count_points = 5 //conversion
 	///The abilities granted to the thrall
-	var/list/abilities = list(/datum/action/cooldown/spell/toggle/nightvision, /datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye/thrall)
+	var/list/abilities = list(/datum/action/cooldown/spell/toggle/nightvision/* , /datum/action/cooldown/spell/pointed/darkspawn_build/thrall_eye/thrall */)
 	///The darkspawn team that the thrall is on
 	var/datum/team/darkspawn/team
 
@@ -74,7 +74,7 @@
 	current_mob.grant_language(/datum/language/shadowtongue, source = LANGUAGE_DARKSPAWN)
 	current_mob.faction |= FACTION_DARKSPAWN
 
-	current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN))
+	/* current_mob.AddComponent(/datum/component/internal_cam, list(CAMERANET_NETWORK_DARKSPAWN)) */
 
 	for(var/spell in abilities)
 		if(isarachnid(current_mob) && ispath(spell, /datum/action/cooldown/spell/toggle/nightvision))
@@ -103,7 +103,7 @@
 	current_mob.remove_language(/datum/language/shadowtongue, source = LANGUAGE_DARKSPAWN)
 	current_mob.faction -= FACTION_DARKSPAWN
 
-	qdel(current_mob.GetComponent(/datum/component/internal_cam))
+	/* qdel(current_mob.GetComponent(/datum/component/internal_cam)) */
 	for(var/datum/action/cooldown/spell/spells in current_mob.actions)
 		if(spells.type in abilities)//no keeping your abilities
 			spells.Remove(current_mob)
