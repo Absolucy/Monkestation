@@ -102,35 +102,14 @@
 /datum/status_effect/summoned/on_apply()
 	if(!iscarbon(owner))
 		return FALSE
-	owner.add_traits(list(TRAIT_INCAPACITATED, TRAIT_MUTE), TRAIT_STATUS_EFFECT(id))
+	ADD_TRAIT(owner, TRAIT_MUTE, TRAIT_STATUS_EFFECT(id))
 	RegisterSignal(owner, COMSIG_MOB_CLIENT_PRE_MOVE, PROC_REF(block_player_move))
 	owner.add_client_colour(/datum/client_colour/glass_colour/pink)
 	start_movement()
 	return TRUE
 
-/// Blocks the player from moving themselves while summoned
-/datum/status_effect/summoned/proc/block_player_move(mob/source, atom/new_loc)
-	SIGNAL_HANDLER
-	return COMSIG_MOB_CLIENT_BLOCK_PRE_MOVE
-
-/// Starts or restarts the movement loop towards the vampire
-/datum/status_effect/summoned/proc/start_movement()
-	if(move_loop)
-		qdel(move_loop)
-	if(QDELETED(source_vampire) || QDELETED(owner))
-		return
-	move_loop = SSmove_manager.home_onto(owner, source_vampire, step_delay, timeout = INFINITY)
-	if(move_loop)
-		RegisterSignal(move_loop, COMSIG_QDELETING, PROC_REF(on_move_loop_deleted))
-
-/// Called when the move loop is deleted externally
-/datum/status_effect/summoned/proc/on_move_loop_deleted(datum/source)
-	SIGNAL_HANDLER
-	move_loop = null
-
 /datum/status_effect/summoned/on_remove()
-	owner.remove_traits(list(TRAIT_INCAPACITATED, TRAIT_MUTE), TRAIT_STATUS_EFFECT(id))
-
+	REMOVE_TRAIT(owner, TRAIT_MUTE, TRAIT_STATUS_EFFECT(id))
 	UnregisterSignal(owner, COMSIG_MOB_CLIENT_PRE_MOVE)
 
 	owner.remove_client_colour(/datum/client_colour/glass_colour/pink)
@@ -175,6 +154,29 @@
 
 /datum/status_effect/summoned/get_examine_text()
 	return span_warning("[owner.p_They()] [owner.p_are()] walking with a blank expression, as if compelled.")
+
+/datum/status_effect/summoned/nextmove_modifier()
+	return 2
+
+/// Blocks the player from moving themselves while summoned
+/datum/status_effect/summoned/proc/block_player_move(mob/source, atom/new_loc)
+	SIGNAL_HANDLER
+	return COMSIG_MOB_CLIENT_BLOCK_PRE_MOVE
+
+/// Starts or restarts the movement loop towards the vampire
+/datum/status_effect/summoned/proc/start_movement()
+	if(move_loop)
+		qdel(move_loop)
+	if(QDELETED(source_vampire) || QDELETED(owner))
+		return
+	move_loop = SSmove_manager.home_onto(owner, source_vampire, step_delay, timeout = INFINITY)
+	if(move_loop)
+		RegisterSignal(move_loop, COMSIG_QDELETING, PROC_REF(on_move_loop_deleted))
+
+/// Called when the move loop is deleted externally
+/datum/status_effect/summoned/proc/on_move_loop_deleted(datum/source)
+	SIGNAL_HANDLER
+	move_loop = null
 
 /// Alert for summoned status
 /atom/movable/screen/alert/status_effect/summoned
