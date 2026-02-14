@@ -66,6 +66,9 @@
 		// bloodsilver bullets cannot be blocked at all (and will immediately kill the shield due to their effect)
 		else if(istype(hitby, /obj/projectile/bullet/bloodsilver))
 			final_block_chance = 0
+	// monster hunter trick weapons will halve the block chance
+	else if(istype(hitby, /obj/item/melee/trick_weapon))
+		final_block_chance -= 50
 	. = ..()
 	if(. && damage > 0)
 		var/datum/antagonist/vampire/vampire = IS_VAMPIRE(owner)
