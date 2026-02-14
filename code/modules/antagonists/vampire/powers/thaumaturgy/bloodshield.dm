@@ -59,9 +59,13 @@
 	ADD_TRAIT(src, TRAIT_NODROP, INNATE_TRAIT)
 
 /obj/item/shield/vampire/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	// energy and laser beams have less block chance
-	if(attack_type == PROJECTILE_ATTACK && (istype(hitby, /obj/projectile/energy) || istype(hitby, /obj/projectile/beam/laser)))
-		final_block_chance -= 25
+	if(attack_type == PROJECTILE_ATTACK)
+		// energy and laser beams have less block chance
+		if(istype(hitby, /obj/projectile/energy) || istype(hitby, /obj/projectile/beam/laser))
+			final_block_chance -= 25
+		// bloodsilver bullets cannot be blocked at all (and will immediately kill the shield due to their effect)
+		else if(istype(hitby, /obj/projectile/bullet/bloodsilver))
+			final_block_chance = 0
 	. = ..()
 	if(. && damage > 0)
 		var/datum/antagonist/vampire/vampire = IS_VAMPIRE(owner)
