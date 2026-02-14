@@ -61,6 +61,9 @@
 	if(!in_torpor && HAS_TRAIT(current, TRAIT_MASQUERADE))
 		return FALSE
 
+	if(current.has_status_effect(/datum/status_effect/silver_bullet))
+		return FALSE
+
 	var/actual_regen = vampire_regen_rate + additional_regen
 
 	// Heal clone and brain damage

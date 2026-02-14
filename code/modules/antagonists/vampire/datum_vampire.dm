@@ -202,6 +202,7 @@
 	RegisterSignal(current_mob, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(current_mob, COMSIG_HUMAN_ON_HANDLE_BLOOD, PROC_REF(handle_blood))
 	RegisterSignal(current_mob, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(on_update_sight))
+	RegisterSignal(current_mob, COMSIG_LIVING_BLOODSILVER_HIT, PROC_REF(on_bloodsilver_hit))
 
 	RegisterSignal(current_mob, COMSIG_LIVING_PET_ANIMAL, PROC_REF(on_pet_animal))
 	RegisterSignal(current_mob, COMSIG_LIVING_HUG_CARBON, PROC_REF(on_hug_carbon))
@@ -254,6 +255,7 @@
 		COMSIG_MOVABLE_MOVED,
 		COMSIG_HUMAN_ON_HANDLE_BLOOD,
 		COMSIG_MOB_UPDATE_SIGHT,
+		COMSIG_LIVING_BLOODSILVER_HIT,
 		COMSIG_LIVING_PET_ANIMAL,
 		COMSIG_LIVING_HUG_CARBON,
 		COMSIG_LIVING_APPRAISE_ART,
@@ -863,6 +865,11 @@
 	user.add_sight(SEE_MOBS)
 	user.lighting_cutoff = max(user.lighting_cutoff, LIGHTING_CUTOFF_HIGH)
 	user.lighting_color_cutoffs = user.lighting_color_cutoffs ? blend_cutoff_colors(user.lighting_color_cutoffs, list(25, 8, 5)) : list(25, 8, 5)
+
+/// Forces all a vampire's powers to be disabled if hit with a bloodsilver bullet.
+/datum/antagonist/vampire/proc/on_bloodsilver_hit(datum/source)
+	SIGNAL_HANDLER
+	disable_all_powers(forced = TRUE)
 
 /datum/antagonist/vampire/proc/query_for_monster_hunter(datum/source, list/prey)
 	SIGNAL_HANDLER
