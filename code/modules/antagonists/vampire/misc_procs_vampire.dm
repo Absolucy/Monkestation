@@ -366,11 +366,25 @@
 
 /// Checks to see if an entity counts as a "watcher" for a masquerade breach
 /datum/antagonist/vampire/proc/is_masq_watcher(mob/living/watcher, recursion = 1)
+	/// List of "weirdo" antags who won't count as masq breaks due to also being supernaturals or supernatural-adjacent.
+	var/static/list/weirdo_antags = list(
+		/datum/antagonist/changeling,
+		/datum/antagonist/darkspawn,
+		/datum/antagonist/heretic,
+		/datum/antagonist/heretic_monster,
+		/datum/antagonist/nightmare,
+		/datum/antagonist/thrall_darkspawn,
+		/datum/antagonist/wizard,
+		/datum/antagonist/wizard_minion,
+	)
+
 	if(!isliving(watcher) || QDELING(watcher))
 		return FALSE
 	if(!watcher.mind || !watcher.client || watcher.client.is_afk())
 		return FALSE
 	if(HAS_MIND_TRAIT(watcher, TRAIT_VAMPIRE_ALIGNED))
+		return FALSE
+	if(watcher.mind.has_antag_datum_in_list(weirdo_antags))
 		return FALSE
 	if(isanimal_or_basicmob(watcher) || HAS_TRAIT(watcher, TRAIT_GHOST_CRITTER))
 		return FALSE
