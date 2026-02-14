@@ -262,7 +262,7 @@
 /// (Flavor text should stay at the very very bottom though)
 #define COMSIG_LIVING_LATE_EXAMINE "late_examine"
 
-#define COMSIG_LIVING_BINGLE_EVOLVE "living_bingle_evolve"
-
 /// Sent when the [/datum/status_effect/silver_bullet] status effect is applied or refresh.
 #define COMSIG_LIVING_BLOODSILVER_HIT "living_bloodsilver_hit"
+
+#define COMSIG_LIVING_BINGLE_EVOLVE "living_bingle_evolve"
