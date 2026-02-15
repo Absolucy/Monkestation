@@ -136,6 +136,7 @@
 
 	/// List of traits that the Masquerade ability does not remove.
 	var/static/list/always_traits = list(
+		TRAIT_GENELESS, // prevents vamps from having genes at all. masquerade will work around this being an antag test with TRAIT_FAKEGENES
 		TRAIT_NO_DNA_COPY, // no, you can't cheat your curse with a cloner.
 		TRAIT_NO_MINDSWAP, // mindswapping vampires is buggy af and I'm too lazy to properly fix it. ~Absolucy
 		TRAIT_OOZELING_NO_CANNIBALIZE, // prevents weird softlocks
@@ -146,7 +147,6 @@
 		TRAIT_AGEUSIA,
 		TRAIT_COLD_BLOODED,
 		TRAIT_ETHEREAL_NO_OVERCHARGE,
-		TRAIT_GENELESS,
 		TRAIT_HARDLY_WOUNDED,
 		TRAIT_NOBREATH,
 		TRAIT_NOCRITDAMAGE,

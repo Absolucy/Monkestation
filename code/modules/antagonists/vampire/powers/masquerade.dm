@@ -46,7 +46,7 @@
 
 	// Handle Traits
 	carbon_owner.remove_traits(vampiredatum.vampire_traits - vampiredatum.always_traits, TRAIT_VAMPIRE)
-	ADD_TRAIT(carbon_owner, TRAIT_MASQUERADE, TRAIT_STATUS_EFFECT(id))
+	carbon_owner.add_traits(list(TRAIT_MASQUERADE, TRAIT_FAKEGENES), TRAIT_STATUS_EFFECT(id))
 
 	// Handle organs
 	var/obj/item/organ/internal/heart/vampheart = carbon_owner.get_organ_by_type(/obj/item/organ/internal/heart)
@@ -70,7 +70,7 @@
 
 	// Handle Traits
 	carbon_owner.add_traits(vampiredatum.vampire_traits, TRAIT_VAMPIRE)
-	REMOVE_TRAIT(carbon_owner, TRAIT_MASQUERADE, TRAIT_STATUS_EFFECT(id))
+	carbon_owner.remove_traits(list(TRAIT_MASQUERADE, TRAIT_FAKEGENES), TRAIT_STATUS_EFFECT(id))
 
 	// Handle organs
 	var/obj/item/organ/internal/heart/vampheart = carbon_owner.get_organ_slot(ORGAN_SLOT_HEART)
