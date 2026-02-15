@@ -12,7 +12,7 @@ GLOBAL_LIST_EMPTY(all_vampires)
 **/
 /datum/antagonist/vampire/proc/check_start_society()
 
-	if(SSvsociety.can_fire)
+	if(SSvsociety.can_fire || !CONFIG_GET(flag/allow_vampire_prince))
 		return
 
 	if(length(GLOB.all_vampires) >= 3)
@@ -29,7 +29,7 @@ GLOBAL_LIST_EMPTY(all_vampires)
 	if(!SSvsociety.can_fire)
 		return
 
-	if(length(GLOB.all_vampires) < 3)
+	if(length(GLOB.all_vampires) < 3 || !CONFIG_GET(flag/allow_vampire_prince))
 		SSvsociety.can_fire = FALSE
 		message_admins("Vampire Society has paused, as there are only [length(GLOB.all_vampires)] vampires active.")
 		log_game("Vampire Society has paused, as there are only [length(GLOB.all_vampires)] vampires active.")
@@ -50,7 +50,8 @@ GLOBAL_LIST_EMPTY(all_vampires)
 	for(var/datum/antagonist/vampire as anything in GLOB.all_vampires)
 		to_chat(vampire.owner.current, span_narsiesmall("[full_name], also known as [owner.name || owner.current.real_name || owner.current.name], has claimed the role of Prince!"))
 
-	grant_power(new /datum/action/cooldown/vampire/targeted/scourgify)
+	if(CONFIG_GET(flag/allow_vampire_scourge))
+		grant_power(new /datum/action/cooldown/vampire/targeted/scourgify)
 
 	var/datum/objective/vampire/prince/prince_objective = new()
 	objectives += prince_objective
