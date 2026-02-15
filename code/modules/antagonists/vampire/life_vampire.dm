@@ -77,8 +77,13 @@
 	var/vitaecost_multiplier = 0.5 // Coffin makes it cheaper
 	var/healing_multiplier = 1
 
+	if(carbon_owner.on_fire)
+		healing_multiplier = 0
+	else if(HAS_TRAIT(carbon_owner, TRAIT_SLIME_HYDROPHOBIA))
+		healing_multiplier = 0.75
+
 	var/brute_heal = min(carbon_owner.getBruteLoss(), actual_regen)
-	var/burn_heal = min(carbon_owner.getFireLoss(), actual_regen) * 0.5
+	var/burn_heal = min(carbon_owner.getFireLoss(), actual_regen) * (HAS_TRAIT(carbon_owner, TRAIT_NOFIRE) ? 0.3 : 0.5) // if they have nofire, they get less innate burn healing as a compromise
 
 	if(length(carbon_owner.all_wounds))
 		var/datum/wound/bloodiest_wound
