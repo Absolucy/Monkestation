@@ -79,7 +79,9 @@
 		var/turf/target_turf = get_turf(target)
 		var/is_dark = min(GET_SIMPLE_LUMCOUNT(our_turf), GET_SIMPLE_LUMCOUNT(target_turf)) <= SHADOW_SPECIES_DIM_LIGHT
 
-		for(var/mob/living/watcher in oviewers(silent_feed ? FEED_SILENT_NOTICE_RANGE : FEED_LOUD_NOTICE_RANGE, owner) - target)
+		var/notice_range = silent_feed ? FEED_SILENT_NOTICE_RANGE : FEED_LOUD_NOTICE_RANGE
+		var/list/potential_watchers = oviewers(notice_range, target) | oviewers(notice_range, owner)
+		for(var/mob/living/watcher in potential_watchers - target)
 			if(!vampiredatum_power.is_masq_watcher(watcher))
 				continue
 			if(is_dark && !watcher.Adjacent(owner) && !watcher.Adjacent(target))
@@ -87,25 +89,6 @@
 
 			if(!watcher.incapacitated(IGNORE_RESTRAINTS))
 				watcher.face_atom(owner)
-			watcher.do_alert_animation(watcher)
-			to_chat(watcher, span_warning("[owner] is biting [target]'s neck!"), type = MESSAGE_TYPE_WARNING)
-			playsound(watcher, 'sound/machines/chime.ogg', 50, FALSE, -5)
-
-			owner.balloon_alert(owner, "feed noticed!")
-			if(!masquerade_breached)
-				masquerade_breached = TRUE
-				vampiredatum_power.give_masquerade_infraction()
-
-		//from the victim's POV
-		for(var/mob/living/watcher in oviewers(silent_feed ? FEED_SILENT_NOTICE_RANGE : FEED_LOUD_NOTICE_RANGE, target))
-			if(!vampiredatum_power.is_masq_watcher(watcher))
-				continue
-			if(is_dark && !watcher.Adjacent(owner) && !watcher.Adjacent(target))
-				continue
-
-			if(!watcher.incapacitated(IGNORE_RESTRAINTS))
-				watcher.face_atom(owner)
-
 			watcher.do_alert_animation(watcher)
 			to_chat(watcher, span_warning("[owner] is biting [target]'s neck!"), type = MESSAGE_TYPE_WARNING)
 			playsound(watcher, 'sound/machines/chime.ogg', 50, FALSE, -5)
