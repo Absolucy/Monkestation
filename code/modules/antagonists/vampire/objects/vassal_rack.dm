@@ -185,7 +185,7 @@
 			return
 
 		// If the victim is mindshielded or an antagonist, they choose to accept or refuse vassilization.
-		if(!wants_vassalization && (HAS_TRAIT(living_target, TRAIT_MINDSHIELD) || length(living_target.mind.antag_datums)))
+		if(!wants_vassalization && (HAS_TRAIT(living_target, TRAIT_MINDSHIELD) || is_special_character(living_target)))
 			balloon_alert(living_vampire, "has external loyalties! more persuasion required!")
 			if(!ask_for_vassalization(living_vampire, living_target))
 				balloon_alert(living_vampire, "refused persuasion!")
@@ -195,7 +195,7 @@
 		balloon_alert(living_vampire, "ready for communion!")
 		return
 
-	if(wants_vassalization || !(HAS_TRAIT(living_target, TRAIT_MINDSHIELD) || length(living_target.mind.antag_datums)))
+	if(wants_vassalization || !(HAS_TRAIT(living_target, TRAIT_MINDSHIELD) || is_special_character(living_target)))
 		living_vampire.balloon_alert_to_viewers("smears blood...", "paints bloody marks...")
 		if(!do_after(living_vampire, 5 SECONDS, living_target, interaction_key = DOAFTER_SOURCE_PERSUASION_RACK))
 			balloon_alert(living_vampire, "interrupted!")
