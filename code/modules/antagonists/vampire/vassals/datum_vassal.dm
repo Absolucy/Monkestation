@@ -247,4 +247,4 @@
 /datum/antagonist/vassal/proc/grant_power(datum/action/cooldown/vampire/power)
 	powers += power
 	power.Grant(owner.current)
-	log_game("[key_name(owner.current)] has received \"[power]\" as a vassal")
+	log_vampire_power("[key_name(owner.current)] has received \"[power]\" as a vassal")

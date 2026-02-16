@@ -8,7 +8,7 @@
 	powers += power
 
 	power.Grant(owner.current)
-	log_game("[key_name(owner.current)] has purchased: [power].")
+	log_vampire_power("[key_name(owner.current)] has purchased: [power].")
 	update_static_data_for_all_viewers()
 	return TRUE
 
