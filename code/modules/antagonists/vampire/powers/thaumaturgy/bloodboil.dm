@@ -16,12 +16,21 @@
 	prefire_message = "Whom will you afflict?"
 
 	var/powerlevel = 1
+	/// How much burn damage is done to the victim per second.
+	var/burn_damage = 8
+	/// How much blood is taken from the victim per second.
+	var/blood_loss = 8
+	/// How long the blood boil effect lasts.
+	var/effect_duration = 8 SECONDS
 
 /datum/action/cooldown/vampire/targeted/bloodboil/two
 	cooldown_time = 30 SECONDS
 	vitaecost = 45
 	target_range = 10
 	powerlevel = 2
+	burn_damage = 9
+	blood_loss = 10
+	effect_duration = 10 SECONDS
 
 /datum/action/cooldown/vampire/targeted/bloodboil/check_valid_target(mob/living/carbon/target)
 	. = ..()
@@ -55,7 +64,7 @@
 
 	owner.whisper("Potestas Vitae...", forced = "[src]")
 
-	if(target.apply_status_effect(/datum/status_effect/bloodboil, owner, powerlevel))
+	if(target.apply_status_effect(/datum/status_effect/bloodboil, owner, effect_duration, burn_damage, blood_loss))
 		to_chat(owner, span_warning("You cause [target]'s blood to boil inside [target.p_their()] body!"))
 		owner.log_message("used [name] (level [powerlevel]) on [key_name(target)]", LOG_ATTACK)
 		target.log_message("was hit by [key_name(owner)] with [name] (level [powerlevel])", LOG_VICTIM, log_globally = FALSE)
@@ -71,17 +80,22 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	processing_speed = STATUS_EFFECT_PRIORITY
 	alert_type = /atom/movable/screen/alert/status_effect/bloodboil
-	var/power = 1
+	/// How much burn damage is dealt per second.
+	var/burn_damage = 8
+	/// How much blood is lost per second.
+	var/blood_loss = 8
+	/// The vampire that casted blood boil.
 	var/mob/living/caster
 
 /datum/status_effect/bloodboil/Destroy()
 	caster = null
 	return ..()
 
-/datum/status_effect/bloodboil/on_creation(mob/living/new_owner, mob/living/caster, power = 1)
-	src.duration = (2 * power + 2) SECONDS
+/datum/status_effect/bloodboil/on_creation(mob/living/new_owner, mob/living/caster, duration, burn_damage, blood_loss)
 	src.caster = caster
-	src.power = power
+	src.duration = duration
+	src.burn_damage = burn_damage
+	src.blood_loss = blood_loss
 	return ..()
 
 /datum/status_effect/bloodboil/on_apply()
@@ -90,9 +104,6 @@
 	return TRUE
 
 /datum/status_effect/bloodboil/tick(seconds_between_ticks)
-	var/burn_damage = 4 + (power * 2)
-	var/blood_loss = 2 * power + 2
-
 	var/multiplier = 1
 	// if their blood is also being drained, halve the damage.
 	if(owner.has_status_effect(/datum/status_effect/blood_drain))
