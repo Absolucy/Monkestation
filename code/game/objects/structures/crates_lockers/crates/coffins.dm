@@ -42,7 +42,7 @@
 	return FALSE
 
 /obj/structure/closet/crate/coffin/after_close(mob/living/user, force)
-	if(user.loc != src)
+	if(!user || user.loc != src)
 		return
 	var/datum/antagonist/vampire/vampire = IS_VAMPIRE(user)
 	if(!vampire)
