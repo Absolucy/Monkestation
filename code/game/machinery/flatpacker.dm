@@ -221,12 +221,10 @@
 			if(busy)
 				return FALSE
 			start_build()
-			SStgui.update_uis(src)
 			return TRUE
 
 		if("ejectBoard")
-			inserted_board?.forceMove(drop_location())
-			SStgui.update_uis(src)
+			inserted_board.forceMove(drop_location())
 			return TRUE
 
 		if("eject")
@@ -236,7 +234,6 @@
 				return FALSE
 
 			materials.retrieve_sheets(amount, ejecting, drop_location())
-			SStgui.update_uis(src)
 			return TRUE
 
 /obj/machinery/flatpacker/Destroy()
