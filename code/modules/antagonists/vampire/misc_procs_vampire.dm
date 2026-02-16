@@ -384,6 +384,8 @@
 		return FALSE
 	if(HAS_MIND_TRAIT(watcher, TRAIT_VAMPIRE_ALIGNED))
 		return FALSE
+	if((FACTION_VAMPIRE in watcher.faction) || (REF(owner.current) in watcher.faction))
+		return FALSE
 	if(watcher.mind.has_antag_datum_in_list(weirdo_antags))
 		return FALSE
 	if(isanimal_or_basicmob(watcher) || HAS_TRAIT(watcher, TRAIT_GHOST_CRITTER))
