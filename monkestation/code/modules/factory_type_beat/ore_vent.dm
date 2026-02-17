@@ -112,8 +112,7 @@
 	if(QDELETED(progress_bar))
 		progress_bar = new(null, src, 1, src)
 		progress_bar.pixel_z = -24
-	var/progress = (time_remaining != 0) ? 1 - (time_remaining / wave_timers) : 0
-	progress_bar.update()
+	progress_bar.update((time_remaining != 0) ? 1 - (time_remaining / wave_timers) : 0)
 
 /obj/structure/ore_vent/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
