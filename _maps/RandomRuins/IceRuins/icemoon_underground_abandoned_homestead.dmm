@@ -8,7 +8,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "dy" = (
 /obj/item/grown/log,
 /obj/item/grown/log,
@@ -27,7 +27,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "ht" = (
 /obj/structure/flora/tree/dead/style_random,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -51,7 +51,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "nq" = (
 /obj/item/grown/log{
 	pixel_y = -6
@@ -63,7 +63,7 @@
 /area/icemoon/surface/outdoors/nospawn)
 "ol" = (
 /turf/closed/wall/mineral/wood,
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "pU" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
@@ -71,7 +71,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "qd" = (
 /mob/living/basic/tree,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -96,7 +96,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "uG" = (
 /obj/item/grown/log,
 /obj/item/grown/log{
@@ -114,7 +114,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "vk" = (
 /obj/structure/railing{
 	color = "#8a7453";
@@ -136,7 +136,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "wl" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -146,10 +146,10 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "wN" = (
 /turf/open/openspace/icemoon/keep_below,
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "ym" = (
 /obj/structure/chair/wood{
 	dir = 4
@@ -157,7 +157,7 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "yO" = (
 /obj/structure/fluff/fokoff_sign{
 	name = "Homestead Sign";
@@ -173,13 +173,13 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Cv" = (
 /obj/structure/bookcase/random/religion,
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Ea" = (
 /obj/structure/table/wood{
 	pixel_x = -3;
@@ -195,7 +195,7 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "El" = (
 /obj/structure/table{
 	color = "#f2ffbd"
@@ -204,7 +204,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Ez" = (
 /obj/structure/railing{
 	color = "#8a7453"
@@ -232,14 +232,14 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Hy" = (
 /obj/structure/barricade/wooden/crude/snow,
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/wood{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "HF" = (
 /obj/effect/decal/cleanable/blood/gibs,
 /obj/effect/decal/cleanable/blood/innards,
@@ -251,7 +251,7 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Iz" = (
 /obj/structure/fireplace{
 	pixel_x = -21
@@ -263,7 +263,7 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Mf" = (
 /obj/structure/railing{
 	color = "#8a7453"
@@ -277,11 +277,11 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "NP" = (
 /obj/item/wallframe/picture,
 /turf/closed/wall/mineral/wood,
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Of" = (
 /obj/structure/closet/cabinet{
 	name = "Pantry"
@@ -295,12 +295,12 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "QI" = (
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Rf" = (
 /obj/structure/railing{
 	color = "#8a7453";
@@ -319,7 +319,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Sv" = (
 /turf/open/genturf,
 /area/icemoon/underground/unexplored/rivers)
@@ -348,7 +348,7 @@
 /turf/open/floor/wood{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "VV" = (
 /obj/structure/bonfire,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -360,7 +360,7 @@
 /turf/open/floor/stone{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 "Zg" = (
 /obj/effect/turf_decal/siding/wood,
 /obj/effect/turf_decal/siding/wood{
@@ -370,7 +370,7 @@
 /turf/open/floor/wood/large{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
-/area/ruin/powered/shuttle)
+/area/ruin/powered)
 
 (1,1,1) = {"
 Sv
