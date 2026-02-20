@@ -32,8 +32,8 @@
 	// Clan specific stuff
 	if(my_clan)
 		my_clan.handle_clan_life()
-	else
-		INVOKE_ASYNC(src, PROC_REF(provide_clan_selector))
+	else if(!(locate(/datum/action/cooldown/vampire/clanselect) in powers))
+		grant_power(new /datum/action/cooldown/vampire/clanselect)
 
 	// Set our body's blood_volume to mimick our vampire one (if we aren't using the Masquerade power)
 	update_hud()
