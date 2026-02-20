@@ -367,7 +367,7 @@ GLOBAL_LIST_EMPTY_TYPED(dead_oozeling_cores, /obj/item/organ/internal/brain/slim
 		var/datum/antagonist/changeling/target_ling = brainmob.mind?.has_antag_datum(/datum/antagonist/changeling)
 
 		// TODO: convert these to use a signal or some shit ~Lucy
-		if(target_ling)
+		if(target_ling && !IS_VAMPIRE(brainmob))
 			if(target_ling.oozeling_revives > 0)
 				target_ling.oozeling_revives--
 				to_chat(brainmob, span_changeling("You begin gathering your energy. You will revive in 30 seconds."))

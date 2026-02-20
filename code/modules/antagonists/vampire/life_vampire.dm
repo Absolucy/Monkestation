@@ -64,6 +64,10 @@
 	if(current.has_status_effect(/datum/status_effect/silver_bullet))
 		return FALSE
 
+	// oh god why
+	if(HAS_TRAIT_FROM(current, TRAIT_DEATHCOMA, CHANGELING_TRAIT))
+		return FALSE
+
 	var/actual_regen = vampire_regen_rate + additional_regen
 
 	// Heal clone and brain damage
