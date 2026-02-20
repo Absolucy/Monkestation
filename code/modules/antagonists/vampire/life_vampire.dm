@@ -4,6 +4,7 @@
 
 	// Weirdness shield
 	if(isbrain(owner?.current))
+		update_hud()
 		return
 	if(QDELETED(owner))
 		INVOKE_ASYNC(src, PROC_REF(handle_death))
