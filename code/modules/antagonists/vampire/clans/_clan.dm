@@ -69,6 +69,8 @@
 
 	vampiredatum.update_static_data_for_all_viewers()
 
+	log_vampire_power("[key_name(vampiredatum.owner.current)] has joined the [name].")
+
 /datum/vampire_clan/proc/on_apply()
 	for(var/datum/discipline/disciple as anything in vampiredatum.owned_disciplines)
 		disciple.apply_discipline_quirks(vampiredatum)
