@@ -96,6 +96,9 @@
 	/// How much damage the vampire heals each life tick. Increases per rank up
 	var/vampire_regen_rate = 0.3
 
+	/// Minimum cooldown when reviving.
+	COOLDOWN_DECLARE(revive_cooldown)
+
 	/// How much more punch/kick damage the vampire gets per rank.
 	var/extra_damage_per_rank = VAMPIRE_UNARMED_DMG_INCREASE_ON_RANKUP
 

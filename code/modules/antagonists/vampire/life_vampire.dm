@@ -200,8 +200,8 @@
 		organ.Remove(carbon_user)
 		organ.forceMove(carbon_user.drop_location())
 
-	// Don't Revive if staked
-	if(!check_if_staked() && carbon_user.stat == DEAD)
+	// Don't Revive if staked or being staked
+	if(carbon_user.stat == DEAD && COOLDOWN_FINISHED(src, revive_cooldown) && !check_if_staked() && !HAS_TRAIT(carbon_user, TRAIT_BEINGSTAKED))
 		carbon_user.revive()
 		// Heal suffocation
 		carbon_user.setOxyLoss(0)
@@ -215,6 +215,7 @@
 	if(source.stat != DEAD || is_oozeling_core(source.get_organ_slot(ORGAN_SLOT_BRAIN))) // weirdness shield
 		return
 
+	COOLDOWN_START(src, revive_cooldown, 25 SECONDS) // ensure we take at minimum 25 seconds to revive.
 	INVOKE_ASYNC(src, PROC_REF(handle_death))
 
 /datum/antagonist/vampire/proc/handle_death()
