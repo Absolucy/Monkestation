@@ -62,6 +62,9 @@
 	// Must have eyes unobstructed
 	var/mob/living/carbon/carbon_owner = owner
 	if((carbon_owner.is_eyes_covered() && level_current <= 2) || !isturf(carbon_owner.loc))
+		// stupid workaround for a weird edge case with prescription glasses
+		if(HAS_TRAIT(carbon_owner, TRAIT_NEARSIGHTED_CORRECTED) && !carbon_owner.is_eyes_covered(~ITEM_SLOT_EYES))
+			return TRUE
 		owner.balloon_alert(owner, "your eyes are concealed from sight.")
 		return FALSE
 	return TRUE
