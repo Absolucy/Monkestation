@@ -170,6 +170,10 @@
 	if(length_char(command)  > 7)
 		to_chat(owner, span_warning("Command too long!"))
 		return FALSE
+	if(copytext(command, 1, 5) == "kill" || copytext(command, 1, 7) == "murder" || copytext(command, 1, 8) == "suicide" || copytext(command, 1, 4) == "die")
+		owner.balloon_alert(owner, "that won't work!")
+		to_chat(owner, span_warning(" * Remember, victims will be pacified for the duration of the command!"))
+		return FALSE
 
 	return command
 
