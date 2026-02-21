@@ -69,6 +69,10 @@
 	if(HAS_TRAIT_FROM(current, TRAIT_DEATHCOMA, CHANGELING_TRAIT))
 		return FALSE
 
+	// wet slimes can't heal
+	if(isoozeling(current) && (locate(/datum/status_effect/fire_handler/wet_stacks) in current.status_effects))
+		return FALSE
+
 	var/actual_regen = vampire_regen_rate + additional_regen
 
 	// Heal clone and brain damage
