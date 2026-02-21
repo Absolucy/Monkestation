@@ -17,6 +17,7 @@
 	cooldown_time = 60 SECONDS
 	target_range = 10
 	prefire_message = "Who will you summon to your presence?"
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_summon.dmi'
 
 	/// Maximum duration of the summon effect
 	var/summon_duration = 30 SECONDS

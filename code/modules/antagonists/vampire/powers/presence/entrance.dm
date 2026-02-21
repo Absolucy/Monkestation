@@ -18,6 +18,7 @@
 	cooldown_time = 60 SECONDS
 	target_range = 7
 	prefire_message = "Who will you entrance?"
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_entrance.dmi'
 
 /datum/action/cooldown/vampire/targeted/entrance/check_valid_target(atom/target_atom)
 	. = ..()

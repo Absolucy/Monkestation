@@ -25,6 +25,7 @@
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you submit to your will?"
 	level_current = 1
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_mesmerize.dmi'
 
 	/// Reference to the target
 	var/datum/weakref/target_ref

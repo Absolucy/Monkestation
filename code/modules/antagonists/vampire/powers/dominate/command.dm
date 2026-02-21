@@ -22,6 +22,7 @@
 	target_range = 3
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you subvert to your will?"
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_command.dmi'
 
 	/// How long the command is in effect.
 	var/power_time = 60 SECONDS

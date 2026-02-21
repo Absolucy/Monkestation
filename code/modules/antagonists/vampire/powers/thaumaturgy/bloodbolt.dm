@@ -12,6 +12,7 @@
 	target_range = 80 // Sniper :)
 	power_activates_immediately = FALSE
 	prefire_message = "Select your target."
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_bloodbolt.dmi'
 
 /datum/action/cooldown/vampire/targeted/bloodbolt/fire_targeted_power(atom/target_atom)
 	. = ..()

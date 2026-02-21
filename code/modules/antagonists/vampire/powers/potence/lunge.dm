@@ -14,6 +14,7 @@
 	vitaecost = 45
 	cooldown_time = 10 SECONDS
 	power_activates_immediately = FALSE
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_lunge.dmi'
 
 	var/instant = FALSE
 	var/knockdown_bonus = 1

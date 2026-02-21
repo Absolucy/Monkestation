@@ -24,6 +24,7 @@
 	target_range = 1
 	prefire_message = "Select a target."
 	power_activates_immediately = FALSE
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_feed.dmi'
 	/// Amount of blood taken, reset after each Feed. Used for logging.
 	var/blood_taken = 0
 	/// The amount of Blood a target has since our last feed, this loops and lets us not spam alerts of low blood.

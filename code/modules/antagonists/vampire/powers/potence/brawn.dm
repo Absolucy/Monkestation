@@ -14,6 +14,7 @@
 	power_activates_immediately = TRUE
 	prefire_message = "Select a target."
 	level_current = 1
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_strength.dmi'
 
 	/// Only changed by the '/brawn/brash' subtype; acts as a general purpose damage multipler.
 	var/damage_coefficient = 1.25

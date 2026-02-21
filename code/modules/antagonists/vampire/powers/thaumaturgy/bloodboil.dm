@@ -14,6 +14,7 @@
 	target_range = 7
 	power_activates_immediately = FALSE
 	prefire_message = "Whom will you afflict?"
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_bloodboil.dmi'
 
 	var/powerlevel = 1
 	/// How much burn damage is done to the victim per second.

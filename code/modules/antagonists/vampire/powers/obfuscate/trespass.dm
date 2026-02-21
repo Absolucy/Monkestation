@@ -10,6 +10,7 @@
 	vitaecost = 30
 	cooldown_time = 8 SECONDS
 	prefire_message = "Select a destination."
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_trespass.dmi'
 	//target_range = 2
 	var/turf/target_turf // We need to decide where we're going based on where we clicked. It's not actually the tile we clicked.
 	level_current = 1

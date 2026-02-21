@@ -13,6 +13,7 @@
 	target_range = 7
 	power_activates_immediately = FALSE
 	prefire_message = "Select your target."
+	ranged_mousepointer = 'icons/effects/mouse_pointers/vampire_blooddrain.dmi'
 
 	var/datum/status_effect/blood_drain/active_effect
 
