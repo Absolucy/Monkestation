@@ -203,10 +203,10 @@
 		if(!IS_VASSAL(feed_target))
 			feed_time /= 4
 
+		feed_target.playsound_local(null, 'sound/vampires/mesmerize.ogg', 100, FALSE, pressure_affected = FALSE)
 		feed_target.Stun(feed_time, TRUE)
 		feed_target.become_blind(REF(src))
 		ADD_TRAIT(feed_target, TRAIT_DEAF, REF(src))
-		feed_target.playsound_local(null, 'sound/vampires/mesmerize.ogg', 100, FALSE, pressure_affected = FALSE)
 
 		to_chat(feed_target, span_hypnophrase("You suddenly fall into a deep trance..."), type = MESSAGE_TYPE_WARNING)
 		owner.balloon_alert(owner, "subdued! starting feed...")
