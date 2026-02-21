@@ -134,7 +134,7 @@
 	if(owner.Adjacent(source_vampire))
 		to_chat(owner, span_awe("You have arrived before [source_vampire]..."))
 		to_chat(source_vampire, span_notice("[owner] has arrived before you."))
-		// Brief stun when arriving so we don’t look weird with the movespeed
+		// Brief stun when arriving so we don't look weird with the movespeed
 		owner.Immobilize(2 SECONDS)
 		qdel(src)
 		return
