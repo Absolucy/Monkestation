@@ -174,3 +174,10 @@
   - rscadd: ai core displays have an internal camera for AIs to use
   TheColorCyan:
   - rscadd: throwing things now plays throw animation
+2026-09-26:
+  TheColorCyan:
+  - qol: (vinylspiders) adds lobby job estimations to statpanel, so you can see what
+      jobs others are prioritizing
+  notghosti:
+  - bugfix: ' Borer egg outside of host now deals 50 damage as intended, instead of
+      all but 50 of your health at high health pools'
