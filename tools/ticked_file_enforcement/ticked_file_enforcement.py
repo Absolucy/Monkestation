@@ -69,6 +69,10 @@ with open(file_reference, 'r') as file:
             break
         elif not reading:
             continue
+        # PAW EDIT START
+        elif line == "// PAW EDIT START" or line == "// PAW EDIT END":
+            continue
+        # PAW EDIT END
 
         lines.append(line)
 
