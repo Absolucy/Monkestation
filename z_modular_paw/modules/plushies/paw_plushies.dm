@@ -1,7 +1,7 @@
 /obj/item/toy/plush/paw
 	icon = 'z_modular_paw/modules/plushies/plushies.dmi'
 
-/obj/item/toy/plush/paw/admin/ech0plasm
+/obj/item/toy/plush/paw/admin/spence
 	name = "Dr Spencie Plushie"
 	desc = "A plushie depicting a marketable doctor. The tag reads: \"my tamagotchi suit sensor dangles from my wallet chain, it jingles when i skank.\""
 	icon_state = "fumo"
@@ -9,7 +9,7 @@
 	pet_message = "Spencie grumbles \"something something suit sensors...\""
 	squeak_override = list('sound/surgery/scalpel2.ogg' = 1)
 
-/obj/item/toy/plush/paw/admin/ech0plasm/click_alt(mob/living/user)
+/obj/item/toy/plush/paw/admin/spence/click_alt(mob/living/user)
 	switch(icon_state)
 		if("fumo")
 			icon_state = "doll"
@@ -17,16 +17,15 @@
 		if("doll")
 			icon_state = "fumo"
 			return
-	to_chat(user, span_notice("In an feat of stuffing engineering, the [src] reconfigures itself into a new form."))
 	update_appearance()
 
-/datum/loadout_item/plushies/ech0plasm
-	name = "ech0plasm Plushie"
-	item_path = /obj/item/toy/plush/paw/admin/ech0plasm
+/datum/loadout_item/plushies/spence
+	name = "spence Plushie"
+	item_path = /obj/item/toy/plush/paw/admin/spence
 
-/datum/store_item/plushies/ech0plasm
-	name = "ech0plasm Plushie"
-	item_path = /obj/item/toy/plush/paw/admin/ech0plasm
+/datum/store_item/plushies/spence
+	name = "spence Plushie"
+	item_path = /obj/item/toy/plush/paw/admin/spence
 	item_cost = 50000
 
 /obj/item/toy/plush/paw/plushiematter
