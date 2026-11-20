@@ -52,7 +52,8 @@
 		cutter.do_attack_animation(loc)
 		var/obj/item/weapon = cutter.get_active_held_item()
 		if(weapon?.hitsound)
-			playsound(loc, weapon.hitsound, vol = 50, vary = TRUE, pressure_affected = FALSE)
+			playsound(loc, weapon.hitsound, vol = 100, vary = TRUE, extrarange = 5, falloff_distance = 5, pressure_affected = FALSE, use_reverb = TRUE)
+			playsound(loc, 'sound/items/weapons/moonblade_hit.ogg', vol = 75, vary = TRUE, extrarange = 5, falloff_distance = 10, pressure_affected = FALSE, use_reverb = TRUE) // yes I'm reusing the heretic moon sound until I get a better one
 
 	do_cognitohazard_thing()
 
