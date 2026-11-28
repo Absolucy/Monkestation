@@ -38,6 +38,8 @@
 ## Merger hooks, run tools/hooks/install.bat or install.sh to set up
 *.dmm text eol=lf merge=dmm
 *.dmi binary merge=dmi
+# PAW EDIT ADDITION
+tgstation.dme merge=union
 
 # Avoids DME conflicts :3
 tgstation.dme merge=union
